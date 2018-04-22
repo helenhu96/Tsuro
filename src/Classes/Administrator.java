@@ -218,7 +218,7 @@ public class Administrator {
 
 
     public static void main(String[] args) {
-        Administrator admin = new Administrator();
+/*        Administrator admin = new Administrator();
         admin.initializeDrawPile();
         admin.addPlayer(new SPlayer("Green"));
         Tile tile1 = new Tile(new int[]{0, 5, 1, 4, 2, 7, 3, 6});
@@ -266,7 +266,20 @@ public class Administrator {
         System.out.println("There should be no winners:");
         System.out.println(winner1);
         System.out.println("First active player should be yellow:");
-        System.out.println(admin.activePlayers.get(0).getColor());
+        System.out.println(admin.activePlayers.get(0).getColor());*/
+
+        Administrator admin = new Administrator();
+        SPlayer player1 = new SPlayer("Green");
+        SPlayer player2 = new SPlayer("Red");
+        admin.addPlayer(player1);
+        admin.addPlayer(player2);
+        admin.board.updateTokensNext(player1, new Integer[]{0, 0, 1});
+        admin.board.updateTokensNext(player2, new Integer[]{0, 0, 7});
+        Tile tile1 = new Tile(new int[]{0, 7, 1, 2, 3, 4, 5, 6});
+
+        List<SPlayer> winner = admin.playATurn(tile1);
+
+
 
     }
 
