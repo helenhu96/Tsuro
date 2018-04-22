@@ -21,8 +21,7 @@ public class Tile {
 
     public Tile(int[] points) {
         if (points.length!=8) {
-            System.err.println("Wrong arg size for tile constructor");
-            System.exit(-1);
+            throw new java.lang.IllegalArgumentException("Bad argument for Tile constructor");
         }
 
         this.rotations = new ArrayList<>();
@@ -111,9 +110,7 @@ public class Tile {
             if (pairs.get(i)[0]==curr) return pairs.get(i)[1];
             if (pairs.get(i)[1]==curr) return pairs.get(i)[0];
         }
-        System.err.println("Given point does not exist on tile");
-        System.exit(-1);
-        return -1;
+        throw new java.lang.IllegalArgumentException("Given point does not exist on tile");
     }
 
 
