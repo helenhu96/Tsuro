@@ -1,5 +1,6 @@
 package Classes;
 import java.util.*;
+import java.io.*;
 
 public class Administrator {
     private List<SPlayer> activePlayers;
@@ -25,58 +26,29 @@ public class Administrator {
     //adds every tile to the drawPile
     public void initializeDrawPile() {
         if (!drawPile.isEmpty()) drawPile.clear();
-        String text = "((0 1) (2 3) (4 5) (6 7))"+
-                "((0 1) (2 4) (3 6) (5 7))"+
-                "((0 6) (1 5) (2 4) (3 7))"+
-                "((0 5) (1 4) (2 7) (3 6))"+
-                "((0 2) (1 4) (3 7) (5 6))"+
-                "((0 4) (1 7) (2 3) (5 6))"+
-                "((0 1) (2 6) (3 7) (4 5))"+
-                "((0 2) (1 6) (3 7) (4 5))"+
-                "((0 4) (1 5) (2 6) (3 7))"+
-                "((0 1) (2 7) (3 4) (5 6))"+
-                "((0 2) (1 7) (3 4) (5 6))"+
-                "((0 3) (1 5) (2 7) (4 6))"+
-                "((0 4) (1 3) (2 7) (5 6))"+
-                "((0 3) (1 7) (2 6) (4 5))"+
-                "((0 1) (2 5) (3 6) (4 7))"+
-                "((0 3) (1 6) (2 5) (4 7))"+
-                "((0 1) (2 7) (3 5) (4 6))"+
-                "((0 7) (1 6) (2 3) (4 5))"+
-                "((0 7) (1 2) (3 4) (5 6))"+
-                "((0 2) (1 4) (3 6) (5 7))"+
-                "((0 7) (1 3) (2 5) (4 6))"+
-                "((0 7) (1 5) (2 6) (3 4))"+
-                "((0 4) (1 5) (2 7) (3 6))"+
-                "((0 1) (2 4) (3 5) (6 7))"+
-                "((0 2) (1 7) (3 5) (4 6))"+
-                "((0 7) (1 5) (2 3) (4 6))"+
-                "((0 4) (1 3) (2 6) (5 7))"+
-                "((0 6) (1 3) (2 5) (4 7))"+
-                "((0 1) (2 7) (3 6) (4 5))"+
-                "((0 3) (1 2) (4 6) (5 7))"+
-                "((0 3) (1 5) (2 6) (4 7))"+
-                "((0 7) (1 6) (2 5) (3 4))"+
-                "((0 2) (1 3) (4 6) (5 7))"+
-                "((0 5) (1 6) (2 7) (3 4))"+
-                "((0 5) (1 3) (2 6) (4 7))";
 
-        text = text.replace('(',' ');
-        text = text.replace(')',' ');
+        try {
+            File file = new File("./tiles.txt");
+            BufferedReader br = new BufferedReader(new FileReader(file));
 
-        String delims = "[ ]+";
-        String[] everything = text.split(delims);
+            String line;
 
-        int index = 1;
+            while ((line = br.readLine()) != null) {
+                line = line.replace('(', ' ');
+                line = line.replace(')', ' ');
+                String[] nums = line.split("[ ]+");
 
-        for (int i = 0; i < 35; i++){
-            int[] my_array = new int[8];
-            for (int j = 0; j < 8; j++){
-                my_array[j] = Integer.parseInt(everything[index]);
-                index++;
+                int[] my_array = new int[8];
+                for (int i = 1; i < nums.length; i++) {
+                    my_array[i-1] = Integer.parseInt(nums[i]);
+                }
+                Tile new_tile = new Tile(my_array);
+                drawPile.add(new_tile);
             }
-            Tile new_tile = new Tile(my_array);
-            drawPile.add(new_tile);
+
+        }
+        catch(IOException e){
+            System.err.println("IOException occurred!");
         }
     }
 
@@ -218,7 +190,8 @@ public class Administrator {
 
 
     public static void main(String[] args) {
-/*        Administrator admin = new Administrator();
+        /*
+        Administrator admin = new Administrator();
         admin.initializeDrawPile();
         admin.addPlayer(new SPlayer("Green"));
         Tile tile1 = new Tile(new int[]{0, 5, 1, 4, 2, 7, 3, 6});
@@ -266,7 +239,9 @@ public class Administrator {
         System.out.println("There should be no winners:");
         System.out.println(winner1);
         System.out.println("First active player should be yellow:");
-        System.out.println(admin.activePlayers.get(0).getColor());*/
+        System.out.println(admin.activePlayers.get(0).getColor());
+        */
+
 
         Administrator admin = new Administrator();
         SPlayer player1 = new SPlayer("Green");
@@ -278,6 +253,9 @@ public class Administrator {
         Tile tile1 = new Tile(new int[]{0, 7, 1, 2, 3, 4, 5, 6});
 
         List<SPlayer> winner = admin.playATurn(tile1);
+
+
+
 
 
 
