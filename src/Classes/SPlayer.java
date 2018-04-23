@@ -24,15 +24,10 @@ public class SPlayer {
     }
 
 
-
     //returns true if successfully receives tile, returns false if
     //player already has 3 tiles
-    public boolean receiveTile(Tile tile) {
-        if (handTiles.size()>=3) {
-            return false;
-        }
+    public void receiveTile(Tile tile) {
         handTiles.add(tile);
-        return true;
     }
 
     //removes given tile from player's hand. returns false if player has no such tile
