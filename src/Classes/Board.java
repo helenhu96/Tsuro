@@ -4,11 +4,11 @@ import java.util.*;
 
 public class Board {
     private Tile[][] tiles;
-    private Map<SPlayer, Integer[]> tokensNext;
+    private Map<SPlayer, Integer[]> playerToPosition;
 
     public Board() {
         this.tiles = new Tile[6][6];
-        this.tokensNext = new HashMap<>();
+        this.playerToPosition = new HashMap<>();
     }
 
     public Tile getTile(int y, int x) {
@@ -21,14 +21,14 @@ public class Board {
     }
 
     //updates token's next position
-    public void updateTokensNext(SPlayer player, Integer[] newPos) {
-        tokensNext.put(player, newPos.clone());
+    public void updatePlayerPosition(SPlayer player, Integer[] newPos) {
+        playerToPosition.put(player, newPos.clone());
         return;
     }
 
     //returns copy of token's next position
-    public Integer[] getTokensNext(SPlayer player) {
-        return tokensNext.get(player).clone();
+    public Integer[] getPlayerPosition(SPlayer player) {
+        return playerToPosition.get(player).clone();
     }
 
     //flip the position across to the next adjacent block
