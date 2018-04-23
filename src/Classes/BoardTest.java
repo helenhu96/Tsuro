@@ -8,6 +8,7 @@ public class BoardTest {
 
     @Test
     public void updatePlayerPosition() {
+        Board board = new Board();
     }
 
     @Test
