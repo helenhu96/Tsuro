@@ -38,6 +38,12 @@ public class PlayerPosition {
         return spot;
     }
 
+    public void setSpot(int s) {
+        if (spot<0 || spot>7)
+            throw new java.lang.IllegalArgumentException("Illegal input");
+        spot = s;
+    }
+
     public boolean isOutOfBound() {
         return outOfBound;
     }
