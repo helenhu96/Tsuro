@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Board {
     private Tile[][] tiles;
-    private Map<SPlayer, Integer[]> playerToPosition;
+    private Map<SPlayer, PlayerPosition> playerToPosition;
 
     public Board() {
         this.tiles = new Tile[6][6];
@@ -21,64 +21,64 @@ public class Board {
     }
 
     //updates token's next position
-    public void updatePlayerPosition(SPlayer player, Integer[] newPos) {
-        playerToPosition.put(player, newPos.clone());
+    public void updatePlayerPosition(SPlayer player, PlayerPosition newPos) {
+        playerToPosition.put(player, new PlayerPosition(newPos));
         return;
     }
 
     //returns copy of token's next position
-    public Integer[] getPlayerPosition(SPlayer player) {
-        return playerToPosition.get(player).clone();
+    public PlayerPosition getPlayerPosition(SPlayer player) {
+        return new PlayerPosition(playerToPosition.get(player));
     }
 
     //flip the position across to the next adjacent block
-    public Integer[] flip(Integer[] position) {
+    public PlayerPosition flip(PlayerPosition position) {
         if (isBorder(position)) return null;
         //move up
-        if (position[2] == 0)
-            return new Integer[]{position[0]-1, position[1], 5};
-        if (position[2] == 1)
-            return new Integer[]{position[0]-1, position[1], 4};
+        if (position.getSpot() == 0)
+            return new PlayerPosition(position.getY()-1, position.getX(), 5);
+        if (position.getSpot() == 1)
+            return new PlayerPosition(position.getY()-1, position.getX(), 4);
         //move right
-        if (position[2] == 2)
-            return new Integer[]{position[0], position[1]+1, 7};
-        if (position[2] == 3)
-            return new Integer[]{position[0], position[1]+1, 6};
+        if (position.getSpot() == 2)
+            return new PlayerPosition(position.getY(), position.getX()+1, 7);
+        if (position.getSpot() == 3)
+            return new PlayerPosition(position.getY(), position.getX()+1, 6);
         //move down
-        if (position[2] == 4)
-            return new Integer[]{position[0]+1, position[1], 1};
-        if (position[2] == 5)
-            return new Integer[]{position[0]+1, position[1], 0};
+        if (position.getSpot() == 4)
+            return new PlayerPosition(position.getY()+1, position.getX(), 1);
+        if (position.getSpot() == 5)
+            return new PlayerPosition(position.getY()+1, position.getX(), 0);
         //move left
-        if (position[2] == 6)
-            return new Integer[]{position[0], position[1]-1, 3};
-        if (position[2] == 7)
-            return new Integer[]{position[0], position[1]-1, 2};
+        if (position.getSpot() == 6)
+            return new PlayerPosition(position.getY(), position.getX()-1, 3);
+        if (position.getSpot() == 7)
+            return new PlayerPosition(position.getY(), position.getX()-1, 2);
 
         return null;
     }
 
 
     //returns true if a point is at a border
-    public boolean isBorder(Integer[] position) {
+    public boolean isBorder(PlayerPosition position) {
         //is on top border
-        if (position[0] == 0 ) {
-            if (position[2] == 0 || position[2] == 1) return true;
+        if (position.getY() == 0 ) {
+            if (position.getSpot() == 0 || position.getSpot() == 1) return true;
         }
 
         //is on right border
-        if (position[1] == 5 ) {
-            if (position[2] == 2 || position[2] == 3) return true;
+        if (position.getX() == 5 ) {
+            if (position.getSpot() == 2 || position.getSpot() == 3) return true;
         }
 
         //is on bottom border
-        if (position[0] == 5 ) {
-            if (position[2] == 4 || position[2] == 5) return true;
+        if (position.getY() == 5 ) {
+            if (position.getSpot() == 4 || position.getSpot() == 5) return true;
         }
 
         //is on left border
-        if (position[1] == 0 ) {
-            if (position[2] == 6 || position[2] == 7) return true;
+        if (position.getX() == 0 ) {
+            if (position.getSpot() == 6 || position.getSpot() == 7) return true;
         }
 
         return false;
