@@ -77,4 +77,23 @@ public class SPlayerTest {
         assertEquals(0, testPlayer.numHandTiles());
 
     }
+
+    @Test
+    public void equals() {
+        SPlayer testPlayer = new SPlayer("Green");
+        Tile tile1 = new Tile(new int[]{0,1,2,3,4,5,6,7});
+        Tile tile2 = new Tile(new int[]{4,1,2,3,5,7,0,6});
+        testPlayer.receiveTile(tile1);
+        testPlayer.receiveTile(tile2);
+
+        SPlayer anotherPlayer = new SPlayer("Green");
+        Tile tile3 = new Tile(new int[]{0,1,2,3,4,5,6,7});
+        Tile tile4 = new Tile(new int[]{4,1,2,3,5,7,0,6});
+        anotherPlayer.receiveTile(tile3);
+        anotherPlayer.receiveTile(tile4);
+
+
+        assertTrue(testPlayer.equals(anotherPlayer));
+
+    }
 }

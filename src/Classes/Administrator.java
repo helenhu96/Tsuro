@@ -16,6 +16,15 @@ public class Administrator {
         playerWithDragonTile = null;
     }
 
+    public Administrator(List<SPlayer> activePlayers, Board board, DrawPile drawPile,
+                         List<SPlayer> deadPlayers, SPlayer playerWithDragonTile) {
+        this.activePlayers = activePlayers;
+        this.board = board;
+        this.drawPile = drawPile;
+        this.deadPlayers = deadPlayers;
+        this.playerWithDragonTile = playerWithDragonTile;
+    }
+
     public void addPlayer(SPlayer player) {
         activePlayers.add(player);
     }
@@ -132,8 +141,6 @@ public class Administrator {
             if (playerWithDragonTile == currPlayer) {
                 playerWithDragonTile = findDragonSuccessor(currPlayer, activePlayers);
             }
-            //remove currPlayer from activePlayers list
-            activePlayers.remove(0);
         }
         else {
             //player is still in the game, draw a tile
@@ -148,6 +155,9 @@ public class Administrator {
             }
             survived = true;
         }
+
+        //remove currPlayer from activePlayers list
+        activePlayers.remove(0);
 
         //move all other players if they are affected
         Iterator<SPlayer> iter = activePlayers.iterator();
@@ -256,6 +266,40 @@ public class Administrator {
         return null;
     }
 
+    //update a player's position (mostly used for testing
+    public void setPlayerPosition(SPlayer player, PlayerPosition position) {
+        board.updatePlayerPosition(player, position);
+    }
+
+
+    public SPlayer getDragon() {
+        return playerWithDragonTile;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Administrator that = (Administrator) o;
+        boolean result = true;
+        if (!board.equals(that.board)) return false;
+        if (drawPile.size()!=that.drawPile.size()) return false;
+        if (playerWithDragonTile!=that.playerWithDragonTile) return false;
+        if (activePlayers.size() != that.activePlayers.size()) return false;
+        for (int i=0; i<activePlayers.size();i++) {
+            if (!activePlayers.get(i).equals(that.activePlayers.get(i)))
+                return false;
+        }
+
+        if (deadPlayers.size() != that.deadPlayers.size()) return false;
+        for (int i=0; i<activePlayers.size();i++) {
+            if (!activePlayers.get(i).equals(that.activePlayers.get(i)))
+                return false;
+        }
+
+        return true;
+    }
+
 
 
     public static void main(String[] args) {
@@ -324,6 +368,9 @@ public class Administrator {
 
 
     }
+
+
+
 
 
 }

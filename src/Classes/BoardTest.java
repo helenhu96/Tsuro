@@ -34,6 +34,26 @@ public class BoardTest {
         assertNull(board.flip(test));
     }
 
+    @Test
+    public void equals() {
+        SPlayer testPlayer = new SPlayer("Green");
+        Tile tile1 = new Tile(new int[]{0,1,2,3,4,5,6,7});
+        Tile tile2 = new Tile(new int[]{4,1,2,3,5,7,0,6});
+        Board testBoard = new Board();
+        testBoard.updatePlayerPosition(testPlayer, new PlayerPosition(1,2,3));
+        testBoard.placeTile(tile1, 3, 5);
+        testBoard.placeTile(tile2, 1, 2);
+
+        testBoard.updatePlayerPosition(testPlayer, new PlayerPosition(2, 2, 2));
+
+        Board expectedBoard = new Board();
+        expectedBoard.updatePlayerPosition(testPlayer, new PlayerPosition(2,2,2));
+        expectedBoard.placeTile(tile1,3,5);
+        expectedBoard.placeTile(tile2,1,2);
+
+        assertTrue(testBoard.equals(expectedBoard));
+    }
+
 
 
 }

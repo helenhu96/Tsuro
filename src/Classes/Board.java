@@ -84,4 +84,36 @@ public class Board {
         return false;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Board board = (Board) o;
+        if (playerToPosition.size() != board.playerToPosition.size())
+            return false;
+
+        for (int i=0; i<6; i++) {
+            for (int j=0; j<6; j++) {
+                if (tiles[i][j]== null && board.tiles[i][j]==null)
+                    continue;
+                else if (tiles[i][j]== null || board.tiles[i][j]==null)
+                    return false;
+                else if (!tiles[i][j].equals(board.tiles[i][j]))
+                    return false;
+            }
+        }
+
+        for (Map.Entry<SPlayer, PlayerPosition> entry : playerToPosition.entrySet()) {
+            SPlayer key = entry.getKey();
+            PlayerPosition value = entry.getValue();
+            if (board.playerToPosition.get(key) == null)
+                return false;
+            if (!board.playerToPosition.get(key).equals(value))
+                return false;
+        }
+        return true;
+
+    }
+
+
 }

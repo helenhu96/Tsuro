@@ -45,4 +45,21 @@ public class SPlayer {
     public int numHandTiles() {
         return handTiles.size();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SPlayer that = (SPlayer) o;
+        if (!color.equals(that.color)) return false;
+        if (this.numHandTiles()!=that.numHandTiles()) return false;
+        List<Tile> a = this.getHandTiles();
+        List<Tile> b = that.getHandTiles();
+        for (int i = 0; i < a.size(); i++) {
+            if (!a.get(i).equals(b.get(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
