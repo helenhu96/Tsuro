@@ -174,6 +174,11 @@ public class Administrator {
                     //if this player holds the dragon tile, pass it on to the next rightful player
                     if (playerWithDragonTile == player) {
                         playerWithDragonTile = findDragonSuccessor(player, activePlayers);
+                        //a rather hacky way to fix the issue of curr player eliminating player with dragon tile
+                        //and draw pile is empty
+                        if (playerWithDragonTile == null && survived && currPlayer.numHandTiles()<3) {
+                            playerWithDragonTile = currPlayer;
+                        }
                     }
                     //remove player from list of active players
                     iter.remove();
@@ -182,7 +187,9 @@ public class Administrator {
         }
 
         //if the player who just played a turn survived, add him to the back of the activePlayer list
-        if (survived) activePlayers.add(currPlayer);
+        if (survived) {
+            activePlayers.add(currPlayer);
+        }
 
         //add eliminated player's hand tiles to draw pile and then re-shuffle.
         for (SPlayer dead: toBeDead){
@@ -223,8 +230,11 @@ public class Administrator {
         PlayerPosition startingPosition = board.flip(position);
 
         //call moveAlongPath to see if token would reach end of board
-        if (board.isBorder(moveAlongPath(startingPosition, board))) return false;
-        return true;
+        boolean result = true;
+        board.placeTile(tile, position.getY(), position.getX());
+        if (board.isBorder(moveAlongPath(startingPosition, board))) result = false;
+        board.removeTile(position.getY(), position.getX());
+        return result;
     }
 
     //returns the furthest adjacent position a player can move to from given starting position

@@ -20,6 +20,12 @@ public class Board {
         tiles[y][x] = new Tile(tile);
     }
 
+    public Tile removeTile(int y, int x) {
+        Tile result = tiles[y][x];
+        tiles[y][x] = null;
+        return result;
+    }
+
     //updates token's next position
     public void updatePlayerPosition(SPlayer player, PlayerPosition newPos) {
         playerToPosition.put(player, new PlayerPosition(newPos));
