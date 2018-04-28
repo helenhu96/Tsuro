@@ -5,25 +5,32 @@ import java.io.*;
 public class Administrator {
     private List<SPlayer> activePlayers;
     private Board board;
-    private List<Tile> drawPile;
+    private DrawPile drawPile;
     private List<SPlayer> deadPlayers;
+    private SPlayer playerWithDragonTile;
 
     public Administrator() {
         activePlayers = new ArrayList<>();
         board = new Board();
-        drawPile = new ArrayList<>();
+        drawPile = new DrawPile();
         deadPlayers = new ArrayList<>();
+        playerWithDragonTile = null;
+    }
+
+    public Administrator(List<SPlayer> activePlayers, Board board, DrawPile drawPile,
+                         List<SPlayer> deadPlayers, SPlayer playerWithDragonTile) {
+        this.activePlayers = activePlayers;
+        this.board = board;
+        this.drawPile = drawPile;
+        this.deadPlayers = deadPlayers;
+        this.playerWithDragonTile = playerWithDragonTile;
     }
 
     public void addPlayer(SPlayer player) {
         activePlayers.add(player);
     }
 
-    public void addToDrawPile(Tile tile) {
-        drawPile.add(tile);
-    }
-
-    //adds every tile to the drawPile
+/*    //adds every tile to the drawPile
     public void initializeDrawPile() {
         if (!drawPile.isEmpty()) drawPile.clear();
 
@@ -50,26 +57,24 @@ public class Administrator {
         catch(IOException e){
             System.err.println("IOException occurred!");
         }
-    }
+    }*/
 
 
     public boolean legalPlay(SPlayer player, Board board, Tile tile) {
-        Tile tempTile = new Tile(tile);
-        //Check if this tile is one of the player's handTiles
+        //Check if given tile is one of the player's handTiles
         boolean hasTile = false;
         for (Tile t: player.getHandTiles()){
-            if (t.sameTile(tempTile)){
+            if (t.sameTile(tile)){
                 hasTile = true;
             }
         }
-
         if (!hasTile) return false;
 
-        //if tile is legal, return true
-        if (tileLegal(player, board, tempTile)) return true;
 
-        boolean result = true;
-        //else, loop through player's hand tiles and check if there are other legal moves. If so, return false
+        //if tile won't lead player to elimination, return true
+        if (tileLegal(player, board, tile)) return true;
+
+        //else, loop through player's hand tiles and check if there are other non-eliminating moves. If so, return false
         for (Tile currTile: player.getHandTiles()) {
             Tile tempHandTile = new Tile(currTile);
             for (int i=0; i<4; i++) {
@@ -78,7 +83,6 @@ public class Administrator {
                 tempHandTile.rotateClockwise();
             }
         }
-
         return true;
     }
 
@@ -88,55 +92,87 @@ public class Administrator {
         List<SPlayer> toBeDead = new ArrayList<>();
 
         //get current player
-        SPlayer currPlayer = activePlayers.remove(0);
-        Integer[] playerPosition = board.getTokensNext(currPlayer);
+        SPlayer currPlayer = activePlayers.get(0);
+        PlayerPosition playerPosition = board.getPlayerPosition(currPlayer);
 
         //place tile at current position
-        board.placeTile(tile, playerPosition[0], playerPosition[1]);
+        board.placeTile(tile, playerPosition.getY(), playerPosition.getX());
 
-        //move current player and check if he's eliminated
-        Integer[] finalPosition = moveAlongPath(playerPosition, board);
-        board.updateTokensNext(currPlayer, finalPosition);
+        //move current player and check if they're eliminated
+        PlayerPosition finalPosition = moveAlongPath(playerPosition, board);
+        board.updatePlayerPosition(currPlayer, finalPosition);
+
+
         boolean survived = false;
+
+        //curr player is eliminated
         if (board.isBorder(finalPosition)) {
+            //add currPlayer to buffer list
             toBeDead.add(currPlayer);
+            //if currPlayer has the dragon tile, find the next player who needs the dragon tile
+            if (playerWithDragonTile == currPlayer) {
+                playerWithDragonTile = findDragonSuccessor(currPlayer, activePlayers);
+            }
         }
         else {
             //player is still in the game, draw a tile
             if (drawPile.isEmpty()) {
-                System.out.println("Out of tiles in draw pile");
+                //if no one holds the dragon tile, currPlayer should get it
+                if (playerWithDragonTile == null) {
+                    playerWithDragonTile = currPlayer;
+                }
             }
             else {
-                currPlayer.receiveTile(drawPile.remove(0));
+                currPlayer.receiveTile(drawPile.drawATile());
             }
             survived = true;
         }
+
+        //remove currPlayer from activePlayers list
+        activePlayers.remove(0);
 
         //move all other players if they are affected
         Iterator<SPlayer> iter = activePlayers.iterator();
         while (iter.hasNext()) {
             SPlayer player = iter.next();
-            Integer[] pos = board.getTokensNext(player);
+            PlayerPosition position = board.getPlayerPosition(player);
             //if this player is on the affected tile, move them
-            if (pos[0].equals(playerPosition[0]) && pos[1].equals(playerPosition[1])) {
-                Integer[] fPos = moveAlongPath(pos, board);
-                board.updateTokensNext(player, fPos);
+            if (position.getY()== playerPosition.getY() && position.getX()==playerPosition.getX()) {
+                PlayerPosition fPosition = moveAlongPath(position, board);
+                board.updatePlayerPosition(player, fPosition);
                 //check if the player is now out of bound
-                if (board.isBorder(fPos)) {
+                if (board.isBorder(fPosition)) {
                     toBeDead.add(player);
+                    //if this player holds the dragon tile, pass it on to the next rightful player
+                    if (playerWithDragonTile == player) {
+                        playerWithDragonTile = findDragonSuccessor(player, activePlayers);
+                        //a rather hacky way to fix the issue of curr player eliminating player with dragon tile
+                        //and draw pile is empty
+                        if (playerWithDragonTile == null && survived && currPlayer.numHandTiles()<3) {
+                            playerWithDragonTile = currPlayer;
+                        }
+                    }
+                    //remove player from list of active players
                     iter.remove();
                 }
             }
         }
 
         //if the player who just played a turn survived, add him to the back of the activePlayer list
-        if (survived) activePlayers.add(currPlayer);
+        if (survived) {
+            activePlayers.add(currPlayer);
+        }
 
-        //add eliminated player's hand tiles to draw pile and then shuffle.
+        //add eliminated player's hand tiles to draw pile and then re-shuffle.
         for (SPlayer dead: toBeDead){
-            drawPile.addAll(dead.getHandTiles());
-            Collections.shuffle(drawPile);
+            drawPile.addTilesAndShuffle(dead.getHandTiles());
             dead.removeHandTiles();
+        }
+
+        //distribute tiles to players with under-full hands
+        while (playerWithDragonTile != null && !drawPile.isEmpty()) {
+            playerWithDragonTile.receiveTile(drawPile.drawATile());
+            playerWithDragonTile = findDragonSuccessor(playerWithDragonTile, activePlayers);
         }
 
         //add eliminated players to list of dead players
@@ -157,34 +193,93 @@ public class Administrator {
     //returns true if a tile doesn't lead player to edge of board
     public boolean tileLegal(SPlayer player, Board board, Tile tile) {
         //Check if placing this tile would make the token move to the border
-        Integer[] position = board.getTokensNext(player);
-        position[2] = tile.getConnected(position[2]);
+        PlayerPosition position = board.getPlayerPosition(player);
+        int nextSpot = tile.getConnected(position.getSpot());
+        position.setSpot(nextSpot);
         if (board.isBorder(position)) return false;
 
         //starting point is the point next to the one that the player would move to from the placed tile
-        Integer[] startingPoint = board.flip(position);
+        PlayerPosition startingPosition = board.flip(position);
 
         //call moveAlongPath to see if token would reach end of board
-        if (board.isBorder(moveAlongPath(startingPoint, board))) return false;
-        return true;
+        boolean result = true;
+        board.placeTile(tile, position.getY(), position.getX());
+        if (board.isBorder(moveAlongPath(startingPosition, board))) result = false;
+        board.removeTile(position.getY(), position.getX());
+        return result;
     }
 
     //returns the furthest adjacent position a player can move to from given starting position
     //return edge's coordinates if moved to edge
-    public Integer[] moveAlongPath(Integer[] startingPoint, Board board) {
-        Integer [] point = startingPoint.clone();
-        Tile curr = board.getTile(point[0], point[1]);
-        while (curr != null){
-            int next = curr.getConnected(point[2]);
-            point[2] = next;
+    public PlayerPosition moveAlongPath(PlayerPosition startingPosition, Board board) {
+        PlayerPosition position = new PlayerPosition(startingPosition);
+        Tile currTile = board.getTile(position.getY(), position.getX());
+        while (currTile != null){
+            int nextSpot = currTile.getConnected(position.getSpot());
+            position.setSpot(nextSpot);
             //if at edge, return edge coordinates
-            if (board.isBorder(point))
-                return point;
+            if (board.isBorder(position))
+                return position;
 
-            point = board.flip(point);
-            curr = board.getTile(point[0], point[1]);
+            position = board.flip(position);
+            currTile = board.getTile(position.getY(), position.getX());
         }
-        return point;
+        return position;
+    }
+
+    //given the current player who has the dragon tile, and the list of active players, return the next
+    //player who needs the dragon tile. If no other player needs the dragon tile, return null.
+    public SPlayer findDragonSuccessor(SPlayer currentDragon, List<SPlayer> listOfPlayers) {
+        //get index of current dragon tile holder
+        int currIndex = listOfPlayers.indexOf(currentDragon);
+
+        //first, look for the dragon successor in the list after the current holder
+        for (int i =  currIndex + 1;i<listOfPlayers.size(); i++) {
+            if (listOfPlayers.get(i).numHandTiles()<3)
+                return listOfPlayers.get(i);
+        }
+        //then, look for the dragon successor in the list before the current holder
+        for (int i = 0; i<currIndex; i++) {
+            if (listOfPlayers.get(i).numHandTiles()<3)
+                return listOfPlayers.get(i);
+        }
+
+        //otherwise, everyone has a full hand, no one needs the dragon
+        return null;
+    }
+
+    //update a player's position (mostly used for testing
+    public void setPlayerPosition(SPlayer player, PlayerPosition position) {
+        board.updatePlayerPosition(player, position);
+    }
+
+
+    public SPlayer getDragon() {
+        return playerWithDragonTile;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Administrator that = (Administrator) o;
+        boolean result = true;
+        if (!board.equals(that.board)) return false;
+        if (drawPile.size()!=that.drawPile.size()) return false;
+        if (playerWithDragonTile!=that.playerWithDragonTile) return false;
+        if (activePlayers.size() != that.activePlayers.size()) return false;
+        for (int i=0; i<activePlayers.size();i++) {
+            if (!activePlayers.get(i).equals(that.activePlayers.get(i)))
+                return false;
+        }
+
+        if (deadPlayers.size() != that.deadPlayers.size()) return false;
+        for (int i=0; i<activePlayers.size();i++) {
+            if (!activePlayers.get(i).equals(that.activePlayers.get(i)))
+                return false;
+        }
+
+        return true;
     }
 
 
@@ -240,7 +335,7 @@ public class Administrator {
         System.out.println(winner1);
         System.out.println("First active player should be yellow:");
         System.out.println(admin.activePlayers.get(0).getColor());
-        */
+
 
 
         Administrator admin = new Administrator();
@@ -252,7 +347,7 @@ public class Administrator {
         admin.board.updateTokensNext(player2, new Integer[]{0, 0, 7});
         Tile tile1 = new Tile(new int[]{0, 7, 1, 2, 3, 4, 5, 6});
 
-        List<SPlayer> winner = admin.playATurn(tile1);
+        List<SPlayer> winner = admin.playATurn(tile1);*/
 
 
 
@@ -260,6 +355,9 @@ public class Administrator {
 
 
     }
+
+
+
 
 
 }

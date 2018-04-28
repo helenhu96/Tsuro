@@ -6,16 +6,55 @@ import static org.junit.Assert.*;
 
 public class BoardTest {
 
+    public Board board = new Board();
     @Test
-    public void updatePlayerPosition() {
-        Board board = new Board();
+
+    public void isBorder() {
+        PlayerPosition test = new PlayerPosition(3, 2, 5);
+        assertFalse(board.isBorder(test));
+    }
+
+
+    @Test
+    public void isBorder1() {
+        PlayerPosition test = new PlayerPosition(0, 5, 1);
+        assertTrue(board.isBorder(test));
     }
 
     @Test
     public void flip() {
+        PlayerPosition test = new PlayerPosition(0, 5, 6);
+        PlayerPosition expected = new PlayerPosition(0, 4, 3);
+        test = board.flip(test);
+        assertEquals(expected, test);
     }
 
     @Test
-    public void isBorder() {
+    public void flip1() {
+        PlayerPosition test = new PlayerPosition(0, 5, 1);
+        assertNull(board.flip(test));
     }
+
+    @Test
+    public void equals() {
+        SPlayer testPlayer = new SPlayer("Green");
+        Tile tile1 = new Tile(new int[]{0,1,2,3,4,5,6,7});
+        Tile tile2 = new Tile(new int[]{4,1,2,3,5,7,0,6});
+        Board testBoard = new Board();
+        testBoard.updatePlayerPosition(testPlayer, new PlayerPosition(1,2,3));
+        testBoard.placeTile(tile1, 3, 5);
+        testBoard.placeTile(tile2, 1, 2);
+
+        testBoard.updatePlayerPosition(testPlayer, new PlayerPosition(2, 2, 2));
+
+        Board expectedBoard = new Board();
+        expectedBoard.updatePlayerPosition(testPlayer, new PlayerPosition(2,2,2));
+        expectedBoard.placeTile(tile1,3,5);
+        expectedBoard.placeTile(tile2,1,2);
+
+        assertTrue(testBoard.equals(expectedBoard));
+    }
+
+
+
 }

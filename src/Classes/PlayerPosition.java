@@ -1,12 +1,18 @@
 package Classes;
 
+import java.util.Objects;
+
 public class PlayerPosition {
     private int y;
     private int x;
     private int spot;
     private boolean outOfBound;
 
+
     public PlayerPosition(int y, int x, int spot) {
+        if (y<0 || y>5 || x<0 || x >5 || spot<0 || spot>7) {
+            throw new java.lang.IllegalArgumentException("Illegal input for PlayerPosition");
+        }
         this.y = y;
         this.x = x;
         this.spot = spot;
@@ -32,12 +38,29 @@ public class PlayerPosition {
         return spot;
     }
 
+    public void setSpot(int s) {
+        if (spot<0 || spot>7)
+            throw new java.lang.IllegalArgumentException("Illegal input");
+        spot = s;
+    }
+
     public boolean isOutOfBound() {
         return outOfBound;
     }
 
     public void setOutOfBound() {
         outOfBound = true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PlayerPosition that = (PlayerPosition) o;
+        return y == that.y &&
+                x == that.x &&
+                spot == that.spot &&
+                outOfBound == that.outOfBound;
     }
 
 }

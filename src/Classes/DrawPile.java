@@ -8,9 +8,12 @@ import java.io.*;
 public class DrawPile {
     private List<Tile> tiles;
 
-
     public DrawPile() {
         tiles = new ArrayList<>();
+    }
+
+
+    public void initialize() {
         try {
             File file = new File("./tiles.txt");
             BufferedReader br = new BufferedReader(new FileReader(file));

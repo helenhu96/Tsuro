@@ -13,6 +13,7 @@ public class DrawPileTest {
     @Test
     public void constructor() {
         DrawPile drawPile = new DrawPile();
+        drawPile.initialize();
 
         assertEquals(35, drawPile.size());
     }
@@ -20,6 +21,8 @@ public class DrawPileTest {
     @Test
     public void drawATile() {
         DrawPile drawPile = new DrawPile();
+        drawPile.initialize();
+
 
         drawPile.drawATile();
         drawPile.drawATile();
@@ -32,6 +35,8 @@ public class DrawPileTest {
     @Test
     public void addTilesAndShuffle() {
         DrawPile drawPile = new DrawPile();
+        drawPile.initialize();
+
         drawPile.drawATile();
         drawPile.drawATile();
 
