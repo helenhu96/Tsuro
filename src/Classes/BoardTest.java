@@ -35,6 +35,24 @@ public class BoardTest {
     }
 
     @Test
+    public void positionHasPlayer() {
+        PlayerPosition test = new PlayerPosition(0, 5, 1);
+        PlayerPosition test1 = new PlayerPosition(5, 2, 3);
+        board.updatePlayerPosition(new SPlayer("Green"), test);
+        board.updatePlayerPosition(new SPlayer("Red"), test1);
+
+        PlayerPosition expect = new PlayerPosition(0, 5, 1);
+        PlayerPosition expect1 = new PlayerPosition(5, 2, 3);
+
+        assertTrue(board.positionHasPlayer(expect));
+        assertTrue(board.positionHasPlayer(expect1));
+        assertFalse(board.positionHasPlayer(new PlayerPosition(0,0,1)));
+
+
+
+    }
+
+    @Test
     public void equals() {
         SPlayer testPlayer = new SPlayer("Green");
         Tile tile1 = new Tile(new int[]{0,1,2,3,4,5,6,7});
