@@ -282,9 +282,89 @@ public class Administrator {
         return true;
     }
 
+    static Map<Integer, Integer> createMap(int[] input){
+        Map<Integer,Integer> my_map = new HashMap<>();
+        for (int i = 0; i < 4; i++){
+            my_map.put(input[i*2], input[i*2+1]);
+            my_map.put(input[i*2+1], input[i*2]);
+        }
+        return my_map;
+    }
+
+    static boolean contains(List<int[]> parent, int[] child){
+        for (int[] pair: parent){
+            if (((pair[0] == child[0]) && (pair[1] == child[1])) || ((pair[0] == child[1]) && (pair[1] == child[0]))){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    static public int symmetry(Tile t){
+        Set<Map<Integer, Integer>> maps = new HashSet<>();
+
+        maps.add(createMap(new int[]{2,3,1,4,0,5,6,7}));
+        maps.add(createMap(new int[]{0,1,2,7,3,6,4,5}));
+        maps.add(createMap(new int[]{1,2,0,3,4,7,5,6}));
+        maps.add(createMap(new int[]{0,7,1,6,2,5,3,4}));
+
+        List<int[]> paths = t.getRotation(0);
+        int count = 0;
+
+        for (Map<Integer, Integer> m: maps){
+            boolean stillgood = true;
+
+            for (int[] pair: paths){
+                int a = pair[0];
+                int b = pair[1];
+                int dicA = m.get(a);
+                int dicB = m.get(b);
+                if (b != dicA && !contains(paths, new int[]{dicA, dicB}) && !contains(paths, new int[]{dicB, dicA})){
+                    stillgood = false;
+                    break;
+                }
+            }
+
+            if (stillgood){
+                count++;
+            }
+            continue;
+        }
+
+        return count;
+
+    }
+
 
 
     public static void main(String[] args) {
+        Tile test1 = new Tile(new int[]{0,3,1,7,2,6,4,5});
+        int ans1 = symmetry(test1);
+        System.out.println("Shoud return 0");
+        System.out.println(ans1);
+
+        Tile test2 = new Tile(new int[]{2,3,4,5,1,6,0,7});
+        int ans2 = symmetry(test2);
+        System.out.println("Shoud return 1");
+        System.out.println(ans2);
+
+        Tile test3 = new Tile(new int[]{0,1,2,6,3,7,4,5});
+        int ans3 = symmetry(test3);
+        System.out.println("Shoud return 2");
+        System.out.println(ans3);
+
+        Tile test4 = new Tile(new int[]{1,2,3,4,5,6,7,0});
+        int ans4 = symmetry(test4);
+        System.out.println("Shoud return 4");
+        System.out.println(ans4);
+
+
+
+
+
+
+
+
         /*
         Administrator admin = new Administrator();
         admin.initializeDrawPile();
