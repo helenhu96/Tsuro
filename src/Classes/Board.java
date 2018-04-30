@@ -32,10 +32,20 @@ public class Board {
         return;
     }
 
-    //returns copy of token's next position
+    //returns copy of player's position
     public PlayerPosition getPlayerPosition(SPlayer player) {
         return new PlayerPosition(playerToPosition.get(player));
     }
+
+    //returns copy of token's position
+    public PlayerPosition getPlayerPositionByColor(String color) {
+        for (Map.Entry<SPlayer, PlayerPosition> entry : playerToPosition.entrySet()) {
+            if (entry.getKey().getColor().equals(color))
+                new PlayerPosition(entry.getValue());
+        }
+        throw new java.lang.IllegalArgumentException("No such player");
+    }
+
 
     //flip the position across to the next adjacent block
     public PlayerPosition flip(PlayerPosition position) {
@@ -89,6 +99,15 @@ public class Board {
 
         return false;
     }
+
+    //checks if an existing position has a player already
+    public boolean positionHasPlayer(PlayerPosition position) {
+        for (PlayerPosition p: playerToPosition.values()) {
+            if (p.equals(position)) return true;
+        }
+        return false;
+    }
+
 
     @Override
     public boolean equals(Object o) {
