@@ -8,7 +8,7 @@ public class RandPlayerTest {
 
     @Test
     public void placePawn() {
-        HPlayer randP = new RandPlayer("Cathy");
+        MPlayer randP = new RandPlayer("Cathy");
         Board board = new Board();
         SPlayer testP = new SPlayer("Green");
         SPlayer testP2 = new SPlayer("Red");

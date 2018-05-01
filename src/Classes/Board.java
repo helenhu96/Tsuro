@@ -5,10 +5,12 @@ import java.util.*;
 public class Board {
     private Tile[][] tiles;
     private Map<SPlayer, PlayerPosition> playerToPosition;
+    private int numTiles;
 
     public Board() {
         this.tiles = new Tile[6][6];
         this.playerToPosition = new HashMap<>();
+        this.numTiles = 0;
     }
 
     public Tile getTile(int y, int x) {
@@ -17,13 +19,21 @@ public class Board {
     }
 
     public void placeTile(Tile tile, int y, int x) {
+        if(tiles[y][x]!=null) throw new java.lang.IllegalArgumentException("Position already has tile");
         tiles[y][x] = new Tile(tile);
+        numTiles++;
     }
 
     public Tile removeTile(int y, int x) {
+        if(tiles[y][x]==null) throw new java.lang.IllegalArgumentException("Position is empty");
         Tile result = tiles[y][x];
         tiles[y][x] = null;
+        numTiles--;
         return result;
+    }
+
+    public int getNumTiles(){
+        return numTiles;
     }
 
     //updates token's next position
@@ -41,7 +51,7 @@ public class Board {
     public PlayerPosition getPlayerPositionByColor(String color) {
         for (Map.Entry<SPlayer, PlayerPosition> entry : playerToPosition.entrySet()) {
             if (entry.getKey().getColor().equals(color))
-                new PlayerPosition(entry.getValue());
+                return new PlayerPosition(entry.getValue());
         }
         throw new java.lang.IllegalArgumentException("No such player");
     }
@@ -116,6 +126,8 @@ public class Board {
         Board board = (Board) o;
         if (playerToPosition.size() != board.playerToPosition.size())
             return false;
+
+        if (numTiles != board.numTiles) return false;
 
         for (int i=0; i<6; i++) {
             for (int j=0; j<6; j++) {

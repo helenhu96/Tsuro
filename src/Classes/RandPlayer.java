@@ -8,14 +8,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 
 
-class RandPlayer extends HPlayer {
-
-    public final static int UP = 0;
-    public final static int RIGHT = 1;
-    public final static int DOWN = 2;
-    public final static int LEFT = 3;
-
-
+class RandPlayer extends MPlayer {
 
 
     RandPlayer(String name) { super(name); }
@@ -28,30 +21,6 @@ class RandPlayer extends HPlayer {
         this.color = color;
     }
 
-    public PlayerPosition placePawn(Board board) {
-        PlayerPosition result = null;
-        do {
-            //returns a number between 0 to 3, representing four sides of the board
-            int side = ThreadLocalRandom.current().nextInt(UP, LEFT + 1);
-            int blockNum = ThreadLocalRandom.current().nextInt(0, 5 + 1);
-            int spotOffset = ThreadLocalRandom.current().nextInt(0, 1 + 1);
-            switch (side) {
-                case UP:
-                    result = new PlayerPosition(0, blockNum, 0+spotOffset);
-                    break;
-                case RIGHT:
-                    result = new PlayerPosition(blockNum, 5, 2+spotOffset);
-                    break;
-                case DOWN:
-                    result = new PlayerPosition(5, blockNum, 4+spotOffset);
-                    break;
-                case LEFT:
-                    result = new PlayerPosition(blockNum, 0, 6+spotOffset);
-                    break;
-            }
-        } while(board.positionHasPlayer(result));
-        return result;
-    }
 
     public Tile playTurn(Board board, List<Tile> tiles, int numTiles) {
         //randomize the tile order
@@ -99,21 +68,4 @@ class RandPlayer extends HPlayer {
         return result;
     }
 
-    //returns the furthest adjacent position a player can move to from given starting position
-    //return edge's coordinates if moved to edge
-    private PlayerPosition moveAlongPath(PlayerPosition startingPosition, Board board) {
-        PlayerPosition position = new PlayerPosition(startingPosition);
-        Tile currTile = board.getTile(position.getY(), position.getX());
-        while (currTile != null){
-            int nextSpot = currTile.getConnected(position.getSpot());
-            position.setSpot(nextSpot);
-            //if at edge, return edge coordinates
-            if (board.isBorder(position))
-                return position;
-
-            position = board.flip(position);
-            currTile = board.getTile(position.getY(), position.getX());
-        }
-        return position;
-    }
 }
