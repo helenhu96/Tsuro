@@ -105,15 +105,15 @@ abstract class MPlayer implements IPlayer {
 
     //returns true if a tile doesn't lead player to edge of board
     protected Tile rotateTileTillLegal(Board board, Tile tile) {
-
+        Tile t = new Tile(tile);
         for (int i = 0; i < 4; i++) {
 
             //Check if placing this tile would make the token move to the border
             PlayerPosition position = board.getPlayerPositionByColor(this.color);
-            int nextSpot = tile.getConnected(position.getSpot());
+            int nextSpot = t.getConnected(position.getSpot());
             position.setSpot(nextSpot);
             if (board.isBorder(position)){
-                tile.rotateClockwise();
+                t.rotateClockwise();
                 continue;
             }
 
@@ -122,12 +122,12 @@ abstract class MPlayer implements IPlayer {
 
             //call moveAlongPath to see if token would reach end of board
             boolean result = true;
-            board.placeTile(tile, position.getY(), position.getX());
+            board.placeTile(t, position.getY(), position.getX());
             if (board.isBorder(moveAlongPath(startingPosition, board))) result = false;
             board.removeTile(position.getY(), position.getX());
-            if (result) {return tile;}
+            if (result) {return t;}
             else {
-                tile.rotateClockwise();
+                t.rotateClockwise();
                 continue; }
         }
         return null;

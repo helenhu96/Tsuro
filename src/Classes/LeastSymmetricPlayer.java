@@ -36,7 +36,7 @@ class LeastSymmetricPlayer extends MPlayer {
 
 
         int[] array = new int[]{0,1,2,4};
-
+        //loop through all possible levels of symmetricity
         for (int i = 0; i < array.length; i++){
             List<Tile> target = scores.get(array[i]);
             if (target!=null) {
@@ -48,7 +48,8 @@ class LeastSymmetricPlayer extends MPlayer {
                 }
             }
         }
-        return null;
+
+        return tiles.get(0);
 
     }
 
