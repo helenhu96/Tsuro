@@ -18,19 +18,14 @@ public class RandPlayerTest {
         board.updatePlayerPosition(testP, new PlayerPosition(0, 0, 0));
         board.updatePlayerPosition(testP2, new PlayerPosition( 5, 3, 5));
         PlayerPosition test = randP.placePawn(board);
-        System.out.println(test.getY() + " " + test.getX()+" " + test.getSpot());
         assertTrue(board.isBorder(test));
         test = randP.placePawn(board);
-        System.out.println(test.getY() + " " + test.getX()+" " + test.getSpot());
         assertTrue(board.isBorder(test));
         test = randP.placePawn(board);
-        System.out.println(test.getY() + " " + test.getX()+" " + test.getSpot());
         assertTrue(board.isBorder(test));
         test = randP.placePawn(board);
-        System.out.println(test.getY() + " " + test.getX()+" " + test.getSpot());
         assertTrue(board.isBorder(test));
         test = randP.placePawn(board);
-        System.out.println(test.getY() + " " + test.getX()+" " + test.getSpot());
         assertTrue(board.isBorder(test));
     }
 

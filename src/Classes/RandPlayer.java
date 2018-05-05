@@ -1,8 +1,8 @@
 package Classes;
 
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+
 import java.util.concurrent.ThreadLocalRandom;
 
 
@@ -23,24 +23,27 @@ class RandPlayer extends MPlayer {
 
 
     public Tile playTurn(Board board, List<Tile> tiles, int numTiles) {
-        //randomize the tile order
-        Collections.shuffle(tiles);
-        //loop through each tile to find legal move
+        List<Tile> possibleMoves = new ArrayList<Tile>();
+        //loop through each tile and add legal moves to list
         for (int i=0; i<tiles.size(); i++) {
             Tile t = tiles.get(i);
-            int rotNum = ThreadLocalRandom.current().nextInt(0, 3+1);
-            //rotate tile a random number of times between 0 and 3
-            for (int r=0; r<rotNum; r++) t.rotateClockwise();
-            //if legal, return this tile
-            if (tileLegal(board, t)) return t;
-            //else, check the other 3 possible rotations
-            for (int r=0; r<3; r++) {
+            for (int r=0; r<4; r++) {
+                if (tileLegal(board, t)) possibleMoves.add(new Tile(t));
                 t.rotateClockwise();
-                if (tileLegal(board, t)) return t;
             }
         }
-        //no legal move, return first tile
-        return tiles.get(0);
+        if (possibleMoves.size()>0) {
+            int rand = ThreadLocalRandom.current().nextInt(0, possibleMoves.size());
+            return possibleMoves.get(rand);
+        }
+        //otherwise, no non-eliminating moves, return a random tile
+        int tileNum = ThreadLocalRandom.current().nextInt(0, tiles.size());
+        int rotNum = ThreadLocalRandom.current().nextInt(0, 3+1);
+
+        Tile ret = tiles.get(tileNum);
+        for (int i=0; i<rotNum; i++) ret.rotateClockwise();
+
+        return ret;
     }
 
     public void endGame(Board board, List<String> winnerColors) {
