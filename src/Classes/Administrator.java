@@ -8,6 +8,10 @@ public class Administrator {
     private DrawPile drawPile;
     private List<SPlayer> deadPlayers;
     private SPlayer playerWithDragonTile;
+    private int numPlayer;
+
+    private static final String[] COLORS =
+            new String[] {"Blue", "Red", "Green", "Orange", "Sienna", "Hotpink", "Darkgreen", "Purple"};
 
     public Administrator() {
         activePlayers = new ArrayList<>();
@@ -15,6 +19,7 @@ public class Administrator {
         drawPile = new DrawPile();
         deadPlayers = new ArrayList<>();
         playerWithDragonTile = null;
+        numPlayer = 0;
     }
 
     public Administrator(List<SPlayer> activePlayers, Board board, DrawPile drawPile,
@@ -24,11 +29,77 @@ public class Administrator {
         this.drawPile = drawPile;
         this.deadPlayers = deadPlayers;
         this.playerWithDragonTile = playerWithDragonTile;
+        numPlayer = 0;
     }
 
-    public void addPlayer(SPlayer player) {
-        activePlayers.add(player);
+    public void registerPlayer(IPlayer player){
+        if (numPlayer>7) {
+            System.err.println("Game is full");
+            return;
+        }
+        SPlayer splayer = new SPlayer(COLORS[numPlayer]);
+        splayer.associatePlayer(player);
+        activePlayers.add(splayer);
+        numPlayer++;
     }
+
+    public List<String> play(){
+
+
+        //initialize drawPile
+        drawPile.initialize();
+
+        //initialize players
+        for (int i=0; i<numPlayer; i++) {
+            SPlayer s = activePlayers.get(i);
+            s.getIplayer().initialize(COLORS[i], Arrays.asList(Arrays.copyOfRange(COLORS, 0, numPlayer)));
+            PlayerPosition pos = s.getIplayer().placePawn(board);
+            if (!board.isBorder(pos) || board.positionHasPlayer(pos)) {
+                //player cheated
+                System.out.println(s.getColor() + "cheated");
+                s.cheat();
+                pos = s.getIplayer().placePawn(board);
+            }
+            board.updatePlayerPosition(s, pos);
+            //every player starts with 3 tiles
+            for (int j=0; j<3; j++) {
+                s.receiveTile(drawPile.drawATile());
+            }
+        }
+
+        //play till we have a winner/winners
+        List<SPlayer> winners = null;
+
+        while (!activePlayers.isEmpty()) {
+            SPlayer currPlayer = activePlayers.get(0);
+            Tile t = currPlayer.getIplayer().playTurn(board, currPlayer.getHandTiles(), drawPile.size());
+            if (!legalPlay(currPlayer, board, t)) {
+                //player cheated
+                System.out.println(currPlayer.getColor() + "cheated");
+                currPlayer.cheat();
+                currPlayer.getIplayer().playTurn(board, currPlayer.getHandTiles(), drawPile.size());
+            }
+            currPlayer.removeTile(t);
+            winners = playATurn(t);
+            if (winners != null) break;
+        }
+
+        List<String> winningColors = new ArrayList<>();
+        for (SPlayer s : winners) {
+            winningColors.add(s.getColor());
+        }
+
+        for (SPlayer s : activePlayers) {
+            s.getIplayer().endGame(board, winningColors);
+        }
+
+        for (SPlayer s : deadPlayers) {
+            s.getIplayer().endGame(board, winningColors);
+        }
+
+        return winningColors;
+    }
+
 
 /*    //adds every tile to the drawPile
     public void initializeDrawPile() {
@@ -86,8 +157,25 @@ public class Administrator {
         return true;
     }
 
+    //if no tile on the board is the same as tile, return true; otherwise returns false
+    public boolean checkBoard(Tile tile){
+        for (int i = 0; i < 6; i++){
+            for (int j = 0; i < 6; j++){
+                Tile curr = board.getTile(i, j);
+                if (curr != null){
+                    if (tile.sameTile(curr)) return false;
+                }
+            }
+        }
+        return true;
+    }
+
     //returns the list of winners if game is over, otherwise returns null
     public List<SPlayer> playATurn(Tile tile) {
+
+        //check if the given tile is already on the board
+        if (!checkBoard(tile)) throw new java.lang.IllegalStateException("Tile already on the board!");
+
         //list of players that died in this turn
         List<SPlayer> toBeDead = new ArrayList<>();
 

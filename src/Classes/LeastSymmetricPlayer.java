@@ -12,14 +12,9 @@ class LeastSymmetricPlayer extends MPlayer {
 
     LeastSymmetricPlayer(String name) { super(name); }
 
-    public String getName(){return name;}
-
-    public void initialize(String color, List<String> colors) {
-        this.color = color;
-    }
-
 
     public Tile playTurn(Board board, List<Tile> tiles, int numTiles) {
+        if (state != PLAYING) throw new java.lang.IllegalStateException("Can't playTurn in this state!");
         Map<Integer, List<Tile>> scores = new HashMap<>();
 
         for (Tile t: tiles){
@@ -53,8 +48,5 @@ class LeastSymmetricPlayer extends MPlayer {
 
     }
 
-    public void endGame(Board board, List<String> winnerColors) {
-
-    }
 
 }

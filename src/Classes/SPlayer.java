@@ -4,14 +4,27 @@ import java.util.*;
 public class SPlayer {
     private String color;
     private List<Tile> handTiles;
+    private IPlayer iplayer;
 
     public SPlayer(String color) {
         this.color = color;
         handTiles = new ArrayList<>();
     }
 
+    public void associatePlayer(IPlayer iplayer){
+        this.iplayer = iplayer;
+    }
+
+    public IPlayer getIplayer() {
+        return iplayer;
+    }
+
     public String getColor() {
         return color;
+    }
+
+    public void cheat(){
+        iplayer = new RandPlayer(color);
     }
 
     //returns hand tiles
@@ -24,8 +37,7 @@ public class SPlayer {
     }
 
 
-    //returns true if successfully receives tile, returns false if
-    //player already has 3 tiles
+    // player receives tile
     public void receiveTile(Tile tile) {
         handTiles.add(tile);
     }

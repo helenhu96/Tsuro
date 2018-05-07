@@ -42,6 +42,15 @@ public class Board {
         return;
     }
 
+    //returns the set of colors of the players in this game
+    public Set<String> getPlayerColors(){
+        Set<String> colors = new HashSet<>();
+        for (SPlayer p: playerToPosition.keySet()){
+            colors.add(p.getColor());
+        }
+        return colors;
+    }
+
     //returns copy of player's position
     public PlayerPosition getPlayerPosition(SPlayer player) {
         return new PlayerPosition(playerToPosition.get(player));

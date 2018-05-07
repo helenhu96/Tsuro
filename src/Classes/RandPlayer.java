@@ -13,17 +13,11 @@ class RandPlayer extends MPlayer {
 
     RandPlayer(String name) { super(name); }
 
-    public String getName() {
-        return name;
-    }
-
-    public void initialize(String color, List<String> colors) {
-        this.color = color;
-    }
-
 
     public Tile playTurn(Board board, List<Tile> tiles, int numTiles) {
-        List<Tile> possibleMoves = new ArrayList<Tile>();
+        if (state != PLAYING) throw new java.lang.IllegalStateException("Can't playTurn in this state!");
+        if (tiles.size()>3) throw new java.lang.IllegalStateException("Can't have more than 3 tiles in hand");
+        List<Tile> possibleMoves = new ArrayList<>();
         //loop through each tile and add legal moves to list
         for (int i=0; i<tiles.size(); i++) {
             Tile t = tiles.get(i);
@@ -46,9 +40,7 @@ class RandPlayer extends MPlayer {
         return ret;
     }
 
-    public void endGame(Board board, List<String> winnerColors) {
 
-    }
 
 //private helper functions-----------------------------------------------------------------------------------
     

@@ -6,9 +6,13 @@ import java.util.concurrent.ThreadLocalRandom;
 abstract class MPlayer implements IPlayer {
     protected String name;
     protected String color;
-    MPlayer(String name) { this.name = name; }
+    protected int state;
+    protected MPlayer(String name) {
+        this.name = name;
+        state = UNINITIALIZED;
+    }
 
-    public String name() { return this.name; }
+    public String getName() { return this.name; }
 
 
     protected final static int UP = 0;
@@ -16,8 +20,34 @@ abstract class MPlayer implements IPlayer {
     protected final static int DOWN = 2;
     protected final static int LEFT = 3;
 
+    protected final static int UNINITIALIZED = 4;
+    protected final static int INITIALIZED = 5;
+    protected final static int PLAYING = 6;
+    protected final static int GAVEOVER = 7;
+    protected final static String[] COLOR_VALUES =
+            new String[] {"Blue", "Red", "Green", "Orange", "Sienna", "Hotpink", "Darkgreen", "Purple"};
+    protected final static Set<String> COLORS_SET= new HashSet<>(Arrays.asList(COLOR_VALUES));
+
+
+    public void initialize(String color, List<String> colors) {
+        if (state != UNINITIALIZED && state != GAVEOVER)
+            throw new java.lang.IllegalStateException("Can't call initialize in this state!");
+
+        if (!COLORS_SET.contains(color))
+            throw new java.lang.IllegalArgumentException("Can't initialize with this color!");
+
+        this.color = color;
+        state = INITIALIZED;
+    }
+
 
     public PlayerPosition placePawn(Board board) {
+        if (state != INITIALIZED) throw new java.lang.IllegalStateException("Can't call placePawn in this state");
+
+        if (board.getPlayerColors().contains(this.color)) {
+            throw new java.lang.IllegalStateException("Pawn already exists on board");
+        }
+
         PlayerPosition result = null;
         do {
             //returns a number between 0 to 3, representing four sides of the board
@@ -39,7 +69,12 @@ abstract class MPlayer implements IPlayer {
                     break;
             }
         } while(board.positionHasPlayer(result));
+        state = PLAYING;
         return result;
+    }
+
+    public void endGame(Board board, List<String> winnerColors) {
+        state = GAVEOVER;
     }
 
 
