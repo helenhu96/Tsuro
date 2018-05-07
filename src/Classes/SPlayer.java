@@ -39,6 +39,11 @@ public class SPlayer {
 
     // player receives tile
     public void receiveTile(Tile tile) {
+        for(Tile curr: handTiles){
+            if (curr.sameTile(tile)) throw new java.lang.IllegalStateException("Tile already exists in hand!");
+        }
+        if (handTiles.size() > 2) throw new java.lang.IllegalStateException("Already have 3 tiles!");
+
         handTiles.add(tile);
     }
 
