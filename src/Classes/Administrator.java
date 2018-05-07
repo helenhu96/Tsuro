@@ -160,7 +160,7 @@ public class Administrator {
     //if no tile on the board is the same as tile, return true; otherwise returns false
     public boolean checkBoard(Tile tile){
         for (int i = 0; i < 6; i++){
-            for (int j = 0; i < 6; j++){
+            for (int j = 0; j < 6; j++){
                 Tile curr = board.getTile(i, j);
                 if (curr != null){
                     if (tile.sameTile(curr)) return false;

@@ -11,8 +11,10 @@ class Main {
         LeastSymmetricPlayer p3 = new LeastSymmetricPlayer("G");
         RandPlayer p4 = new RandPlayer("O");
 
+        admin.registerPlayer(p1);
         admin.registerPlayer(p2);
         admin.registerPlayer(p3);
+        admin.registerPlayer(p4);
 
 
         List<String> winners = admin.play();
