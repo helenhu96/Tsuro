@@ -5,22 +5,30 @@ import java.util.List;
 
 class Main {
     public static void main(String argv[]) {
+        int rWins = 0;
+        int mWins = 0;
+        int lWins = 0;
+        for (int i=0; i<10000; i++) {
         Administrator admin = new Administrator();
         RandPlayer p1 = new RandPlayer("B");
         MostSymmetricPlayer p2 = new MostSymmetricPlayer("R");
         LeastSymmetricPlayer p3 = new LeastSymmetricPlayer("G");
-        RandPlayer p4 = new RandPlayer("O");
 
         admin.registerPlayer(p1);
         admin.registerPlayer(p2);
         admin.registerPlayer(p3);
-        admin.registerPlayer(p4);
-
 
         List<String> winners = admin.play();
 
+
         for (String s : winners) {
-            System.out.println(s);
+            if (s.equals("Blue")) rWins++;
+            if (s.equals("Red")) mWins++;
+            if (s.equals("Green")) lWins++;
+            }
         }
+        System.out.println("Random wins: " + rWins);
+        System.out.println("Most symmetric wins: " + mWins);
+        System.out.println("Least symmetric wins: " + lWins);
     }
 }

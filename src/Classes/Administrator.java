@@ -219,6 +219,11 @@ public class Administrator {
         //remove currPlayer from activePlayers list
         activePlayers.remove(0);
 
+        //if the player who just played a turn survived, add him to the back of the activePlayer list
+        if (survived) {
+            activePlayers.add(currPlayer);
+        }
+
         //move all other players if they are affected
         Iterator<SPlayer> iter = activePlayers.iterator();
         while (iter.hasNext()) {
@@ -234,11 +239,11 @@ public class Administrator {
                     //if this player holds the dragon tile, pass it on to the next rightful player
                     if (playerWithDragonTile == player) {
                         playerWithDragonTile = findDragonSuccessor(player, activePlayers);
-                        //a rather hacky way to fix the issue of curr player eliminating player with dragon tile
-                        //and draw pile is empty
-                        if (playerWithDragonTile == null && survived && currPlayer.numHandTiles()<3) {
-                            playerWithDragonTile = currPlayer;
-                        }
+//                        //a rather hacky way to fix the issue of curr player eliminating player with dragon tile
+//                        //and draw pile is empty
+//                        if (playerWithDragonTile == null && survived && currPlayer.numHandTiles()<3) {
+//                            playerWithDragonTile = currPlayer;
+//                        }
                     }
                     //remove player from list of active players
                     iter.remove();
@@ -246,10 +251,7 @@ public class Administrator {
             }
         }
 
-        //if the player who just played a turn survived, add him to the back of the activePlayer list
-        if (survived) {
-            activePlayers.add(currPlayer);
-        }
+
 
         //add eliminated player's hand tiles to draw pile and then re-shuffle.
         for (SPlayer dead: toBeDead){

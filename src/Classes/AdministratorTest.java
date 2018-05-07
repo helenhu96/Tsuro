@@ -14,7 +14,6 @@ public class AdministratorTest {
         board.updatePlayerPosition(player1, new PlayerPosition(3,1, 6));
         Tile tile = new Tile(new int[]{0,5,1,7,2,3,4,6});
         tile.rotateClockwise();
-        board.placeTile(tile, 3, 1);
         List<SPlayer> activePlayers = new ArrayList<>();
         activePlayers.add(player1);
         player1.receiveTile(tile);
@@ -296,7 +295,6 @@ public class AdministratorTest {
         board.updatePlayerPosition(player1, new PlayerPosition(3,1, 6));
         Tile tile = new Tile(new int[]{0,5,1,7,2,3,4,6});
         tile.rotateClockwise();
-        board.placeTile(tile, 3, 1);
         List<SPlayer> activePlayers = new ArrayList<>();
         activePlayers.add(player1);
 
@@ -342,15 +340,14 @@ public class AdministratorTest {
         Tile tile3 = new Tile(new int[]{0,5,1,4,2,6,3,7});
         Tile tile2 = new Tile(new int[]{0,3,1,7,2,6,4,5});
         Tile tile1 = new Tile(new int[]{0,2,1,3,4,6,5,7});
-        Tile tile4 = new Tile(new int[]{0,5,1,4,2,6,3,7});
-        Tile tile5 = new Tile(new int[]{0,3,1,7,2,6,4,5});
-        Tile tile6 = new Tile(new int[]{0,2,1,3,4,6,5,7});
+        Tile tile4 = new Tile(new int[]{0,5,2,3,4,6,1,7});
+        Tile tile5 = new Tile(new int[]{0,1,2,3,4,5,6,7});
+        Tile tile6 = new Tile(new int[]{0,1,2,3,4,6,5,7});
         player1.receiveTile(tile3);
         player1.receiveTile(tile2);
         player2.receiveTile(tile1);
         player2.receiveTile(tile4);
-        player2.receiveTile(tile5);
-        player3.receiveTile(tile6);
+        player3.receiveTile(tile5);
         player3.receiveTile(tile6);
 
 
@@ -376,7 +373,7 @@ public class AdministratorTest {
         assertEquals(3, player2.numHandTiles());
         assertEquals(3, player3.numHandTiles());
 
-        assertEquals(1, drawPile.size());
+        assertEquals(0, drawPile.size());
 
         assertNull(admin.getDragon());
     }
