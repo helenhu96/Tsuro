@@ -77,6 +77,14 @@ abstract class MPlayer implements IPlayer {
         state = GAVEOVER;
     }
 
+    public void setState(String state) {
+        if (state.equals("UNINITIALIZED")) this.state = UNINITIALIZED;
+        else if (state.equals("INITIALIZED")) this.state = INITIALIZED;
+        else if (state.equals("PLAYING")) this.state = PLAYING;
+        else if (state.equals("GAMVEOVER")) this.state = GAVEOVER;
+    }
+
+
 
 
     //protected helper functions-----------------------------------------------------------------------------------
