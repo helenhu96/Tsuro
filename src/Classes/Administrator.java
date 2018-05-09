@@ -56,7 +56,7 @@ public class Administrator {
             PlayerPosition pos = s.getIplayer().placePawn(board);
             if (!board.isBorder(pos) || board.positionHasPlayer(pos)) {
                 //player cheated
-                System.out.println(s.getColor() + "cheated");
+                System.out.println(s.getColor() + " cheated.");
                 s.cheat();
                 pos = s.getIplayer().placePawn(board);
             }
@@ -77,6 +77,7 @@ public class Administrator {
                 //player cheated
                 System.out.println(currPlayer.getColor() + "cheated");
                 currPlayer.cheat();
+                ((RandPlayer) currPlayer.getIplayer()).setState("PLAYING");
                 currPlayer.getIplayer().playTurn(board, currPlayer.getHandTiles(), drawPile.size());
             }
             currPlayer.removeTile(t);

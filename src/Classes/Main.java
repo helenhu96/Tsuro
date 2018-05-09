@@ -8,11 +8,11 @@ class Main {
         int rWins = 0;
         int mWins = 0;
         int lWins = 0;
-        for (int i=0; i<10000; i++) {
+        for (int i=0; i<1; i++) {
         Administrator admin = new Administrator();
-        RandPlayer p1 = new RandPlayer("B");
-        MostSymmetricPlayer p2 = new MostSymmetricPlayer("R");
-        LeastSymmetricPlayer p3 = new LeastSymmetricPlayer("G");
+        MPlayer p1 = new CrappyPlayer("B");
+        MPlayer p2 = new MostSymmetricPlayer("R");
+        MPlayer p3 = new LeastSymmetricPlayer("G");
 
         admin.registerPlayer(p1);
         admin.registerPlayer(p2);

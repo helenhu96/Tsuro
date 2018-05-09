@@ -24,7 +24,9 @@ public class SPlayer {
     }
 
     public void cheat(){
-        iplayer = new RandPlayer(color);
+        String name = iplayer.getName();
+        this.iplayer = new RandPlayer(name);
+        this.iplayer.initialize(color, null);
     }
 
     //returns hand tiles

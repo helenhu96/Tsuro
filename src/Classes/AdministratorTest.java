@@ -1,11 +1,18 @@
 package Classes;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.*;
 
 import static org.junit.Assert.*;
 
 public class AdministratorTest {
+
+
 
     @Test
     public void legalPlay_play_is_legal() {
@@ -425,7 +432,50 @@ public class AdministratorTest {
         assertEquals(expectedBoard, board);
     }
 
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
 
+    @Before
+    public void setUpStreams() {
+        System.setOut(new PrintStream(outContent));
+        System.setErr(new PrintStream(errContent));
+    }
+
+    @After
+    public void restoreStreams() {
+        System.setOut(System.out);
+        System.setErr(System.err);
+    }
+
+    @Test
+    public void playCheat() {
+        Administrator admin = new Administrator();
+        MPlayer p1 = new CrappyPlayer("B");
+        MPlayer p2 = new MostSymmetricPlayer("R");
+        MPlayer p3 = new LeastSymmetricPlayer("G");
+
+        admin.registerPlayer(p1);
+        admin.registerPlayer(p2);
+        admin.registerPlayer(p3);
+
+        admin.play();
+        assertEquals("Blue cheated.\n", outContent.toString());
+    }
+
+    @Test
+    public void playersAllCheat() {
+        Administrator admin = new Administrator();
+        MPlayer p1 = new CrappyPlayer("B");
+        MPlayer p2 = new CrappyPlayer("R");
+        MPlayer p3 = new CrappyPlayer("G");
+
+        admin.registerPlayer(p1);
+        admin.registerPlayer(p2);
+        admin.registerPlayer(p3);
+
+        admin.play();
+        assertEquals("Blue cheated.\nRed cheated.\nGreen cheated.\n", outContent.toString());
+    }
 
 
 }
