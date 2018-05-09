@@ -2,6 +2,9 @@ package Classes;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public class MPlayerTest {
@@ -129,5 +132,39 @@ public class MPlayerTest {
         Tile actual = m.rotateTileTillLegal(board, new Tile(new int[]{0,5,1,4,2,7,3,6}));
         assertNull(actual);
     }
+
+    @Test
+    public void sequenceContractTest() {
+        MPlayer p = new RandPlayer("R");
+        p.initialize("Blue", null);
+        try {
+            p.playTurn(null, null, 0);
+            //fail the test if no expection thrown
+            assertFalse(true);
+
+        }
+        catch (java.lang.IllegalStateException e){
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void sequenceContractTest_1() {
+        MPlayer p = new RandPlayer("R");
+        p.initialize("Blue", null);
+        Board board = new Board();
+        p.placePawn(board);
+
+        try {
+            p.placePawn(board);
+            //fail the test if no expection thrown
+            assertFalse(true);
+
+        }
+        catch (java.lang.IllegalStateException e){
+            assertTrue(true);
+        }
+    }
+
 
 }
