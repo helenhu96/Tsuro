@@ -6,7 +6,7 @@ import java.util.*;
 public class Tile {
     //List of possible rotations of tile
     private List<List<int[]>> rotations;
-    //int in the range of [0, 1, 2, 4], each representing a different direction
+    //int in the range of [0, 1, 2, 3], each representing a different direction
     private int orientation;
 
     public Tile(){
