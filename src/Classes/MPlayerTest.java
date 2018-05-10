@@ -13,25 +13,35 @@ public class MPlayerTest {
     public void placePawn() {
         Board board = new Board();
         MPlayer p = new RandPlayer("R");
+        p.initialize("Green", null);
         PlayerPosition pos = p.placePawn(board);
         assertTrue(board.isBorder(pos));
     }
 
     @Test
     public void placePawn2() {
-        Board board = new Board();
-        MPlayer r = new RandPlayer("R");
-        PlayerPosition pos = r.placePawn(board);
-        MPlayer g = new RandPlayer("G");
-        PlayerPosition pos2 = g.placePawn(board);
-        MPlayer b = new RandPlayer("B");
-        PlayerPosition pos3 = b.placePawn(board);
-        assertNotEquals(pos, pos2);
-        assertNotEquals(pos, pos3);
-        assertNotEquals(pos2, pos3);
-        assertTrue(board.isBorder(pos));
-        assertTrue(board.isBorder(pos2));
-        assertTrue(board.isBorder(pos3));
+        for (int i=0; i<10000; i++) {
+            Board board = new Board();
+            MPlayer r = new RandPlayer("R");
+            r.initialize("Hotpink", null);
+            PlayerPosition pos = r.placePawn(board);
+            board.updatePlayerPosition(new SPlayer("Hotpink"), pos);
+            MPlayer g = new RandPlayer("G");
+            g.initialize("Green", null);
+            PlayerPosition pos2 = g.placePawn(board);
+            board.updatePlayerPosition(new SPlayer("Green"), pos2);
+            MPlayer b = new RandPlayer("B");
+            b.initialize("Red", null);
+            PlayerPosition pos3 = b.placePawn(board);
+            board.updatePlayerPosition(new SPlayer("Red"), pos3);
+            assertNotEquals(pos, pos2);
+            assertNotEquals(pos, pos3);
+            assertNotEquals(pos2, pos3);
+            assertTrue(board.isBorder(pos));
+            assertTrue(board.isBorder(pos2));
+            assertTrue(board.isBorder(pos3));
+        }
+
     }
 
     @Test

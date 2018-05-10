@@ -283,19 +283,13 @@ public class Administrator {
 
     //returns true if a tile doesn't lead player to edge of board
     public boolean tileLegal(SPlayer player, Board board, Tile tile) {
-        //Check if placing this tile would make the token move to the border
+        //get position of player
         PlayerPosition position = board.getPlayerPosition(player);
-        int nextSpot = tile.getConnected(position.getSpot());
-        position.setSpot(nextSpot);
-        if (board.isBorder(position)) return false;
-
-        //starting point is the point next to the one that the player would move to from the placed tile
-        PlayerPosition startingPosition = board.flip(position);
 
         //call moveAlongPath to see if token would reach end of board
         boolean result = true;
         board.placeTile(tile, position.getY(), position.getX());
-        if (board.isBorder(moveAlongPath(startingPosition, board))) result = false;
+        if (board.isBorder(moveAlongPath(position, board))) result = false;
         board.removeTile(position.getY(), position.getX());
         return result;
     }
