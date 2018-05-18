@@ -14,7 +14,7 @@ abstract class MPlayer implements IPlayer {
         state = State.UNINITIALIZED;
     }
 
-    public String getName() { return this.name; }
+
 
 
     protected final static int UP = 0;
@@ -23,14 +23,14 @@ abstract class MPlayer implements IPlayer {
     protected final static int LEFT = 3;
 
 
-//    protected final static int UNINITIALIZED = 4;
-//    protected final static int INITIALIZED = 5;
-//    protected final static int PLAYING = 6;
-//    protected final static int GAVEOVER = 7;
-    protected final static String[] COLOR_VALUES =
-            new String[] {"Blue", "Red", "Green", "Orange", "Sienna", "Hotpink", "Darkgreen", "Purple"};
     protected final static Set<String> COLORS_SET= new HashSet<>(Arrays.asList(COLOR_VALUES));
 
+
+    public String getName() { return this.name; }
+
+    public String getColor() {
+        return this.color;
+    }
 
     public void initialize(String color, List<String> colors) {
         Preconditions.checkState(state == State.UNINITIALIZED, "Expect State Uninitialized, actual state " + state);

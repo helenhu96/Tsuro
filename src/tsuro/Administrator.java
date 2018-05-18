@@ -38,21 +38,20 @@ public class Administrator {
             System.err.println("Game is full");
             return;
         }
-        SPlayer splayer = new SPlayer(COLORS[numPlayer]);
+        String color = COLORS[numPlayer];
+        SPlayer splayer = new SPlayer(color);
         splayer.associatePlayer(player);
+        player.initialize(color, Lists.newArrayList(COLORS));
         activePlayers.add(splayer);
         numPlayer++;
     }
 
-    private void setupGame() throws Exception{
+    public void setupGame() throws Exception{
         //initialize drawPile
         drawPile.initialize();
-
         //initialize players
-        for (int i=0; i<numPlayer; i++) {
+        for (int i=0; i<activePlayers.size(); i++) {
             SPlayer s = activePlayers.get(i);
-            //should not need defensive deep copy
-            s.getIplayer().initialize(COLORS[i], Lists.newArrayList(COLORS));
             initializePlayerPosition(s);
             initializePlayerHand(s);
         }
@@ -80,7 +79,6 @@ public class Administrator {
         }
     }
 
-    //TODO: handle exception
     public List<String> play() throws Exception {
         setupGame();
 
@@ -396,44 +394,17 @@ public class Administrator {
         return this.playerWithDragonTile;
     }
 
+    // for testing only
+    public SPlayer getSPlayer(int index) {
+        return activePlayers.get(index);
+    }
+
+    public DrawPile getDrawPile() {
+        return this.drawPile;
+    }
+
     public static void main(String[] args) throws Exception{
-        SPlayer player1 = new SPlayer("Green");
-        SPlayer player2 = new SPlayer("Red");
-        Board board = new Board();
-        board.updatePlayerPosition(player1, new PlayerPosition(0,0,1));
-        board.updatePlayerPosition(player2, new PlayerPosition(0,0,7));
-        Tile tile1 = new Tile(new int[]{0, 7, 1, 2, 3, 4, 5, 6});
 
-
-        List<SPlayer> activePlayers = new ArrayList<>();
-        activePlayers.add(player1);
-        activePlayers.add(player2);
-        List<SPlayer> deadPlayers = new ArrayList<>();
-        DrawPile drawPile = new DrawPile();
-        drawPile.initialize();
-        player1.receiveTile(drawPile.drawATile());
-        player1.receiveTile(drawPile.drawATile());
-        player2.receiveTile(drawPile.drawATile());
-        player2.receiveTile(drawPile.drawATile());
-        Administrator admin = new Administrator(activePlayers, board, drawPile, deadPlayers, player2);
-        drawPile.giveDragon();
-        assertEquals(admin.getPlayerWithDragonTileDragon(), player2);
-        assertFalse(drawPile.hasDrogon());
-
-
-        List<SPlayer> winners = admin.playATurn(drawPile, activePlayers, deadPlayers, board, tile1);
-        assertEquals(1, winners.size());
-        assertEquals(player1, winners.get(0));
-
-
-
-        assertTrue(drawPile.hasDrogon());
-        assertEquals(1, activePlayers.size());
-        assertEquals(player1, activePlayers.get(0));
-        assertEquals(1, deadPlayers.size());
-        assertEquals(player2, deadPlayers.get(0));
-        assertEquals(0, player2.numHandTiles());
-        assertEquals(null, admin.getPlayerWithDragonTileDragon());
 
     }
 

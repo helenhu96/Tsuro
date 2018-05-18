@@ -10,6 +10,10 @@ public interface IPlayer {
         PLAYING,
     }
 
+    final static String[] COLOR_VALUES =
+            new String[] {"Blue", "Red", "Green", "Orange", "Sienna", "Hotpink", "Darkgreen", "Purple"};
+    State state = State.UNINITIALIZED;
+
     /**
      * return player's name
       */

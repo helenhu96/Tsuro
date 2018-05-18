@@ -12,6 +12,19 @@ import static org.junit.Assert.*;
 
 public class AdministratorTest {
 
+    @Test
+    public void setup_game() throws Exception{
+        MPlayer player1 = new RandPlayer("Green");
+        Administrator admin = new Administrator();
+        admin.registerPlayer(player1);
+        SPlayer splayer1 = admin.getSPlayer(0);
+        Board board = new Board();
+        board.updatePlayerPosition(splayer1, new PlayerPosition(3,1, 6));
+        admin.setupGame();
+        assertEquals(32, admin.getDrawPile().size());
+        assertEquals(3, splayer1.numHandTiles());
+
+    }
 
     @Test
     public void legalPlay_play_is_legal() throws Exception{
@@ -216,66 +229,68 @@ public class AdministratorTest {
         assertNull(admin.getPlayerWithDragonTileDragon());
 
     }
-//
-//    @Test  //player who has the dragon tile dies, dragon tile gets passed on to the next rightful successor
-//    public void playATurnDragonDies() {
-//        SPlayer player1 = new SPlayer("Green");
-//        SPlayer player2 = new SPlayer("Red");
-//        SPlayer player3 = new SPlayer("Blue");
-//
-//        Board board = new Board();
-//        board.updatePlayerPosition(player1, new PlayerPosition(5,0,0));
-//        board.updatePlayerPosition(player2, new PlayerPosition(3,1,0));
-//        board.updatePlayerPosition(player3, new PlayerPosition(3,1,3));
-//
-//        board.updatePlayerPosition(player1, new PlayerPosition(5, 0, 0));
-//        board.placeTileForTesting(new Tile(new int[]{0,5,1,2,3,6,4,7}), 4, 0);
-//        board.placeTileForTesting(new Tile(new int[]{0,7,1,2,3,4,5,6}), 4, 1);
-//        board.placeTileForTesting(new Tile(new int[]{0,6,1,2,3,4,5,7}), 5, 1);
-//
-//        Tile tile3 = new Tile(new int[]{0,5,1,4,2,6,3,7});
-//        Tile tile2 = new Tile(new int[]{0,3,1,7,2,6,4,5});
-//        Tile tile1 = new Tile(new int[]{0,2,1,3,4,6,5,7});
-//        Tile tile4 = new Tile(new int[]{0,5,2,3,4,6,1,7});
-//        Tile tile5 = new Tile(new int[]{0,1,2,3,4,5,6,7});
-//        Tile tile6 = new Tile(new int[]{0,1,2,3,4,6,5,7});
-//        player1.receiveTile(tile3);
-//        player1.receiveTile(tile2);
-//        player2.receiveTile(tile1);
-//        player2.receiveTile(tile4);
-//        player3.receiveTile(tile5);
-//        player3.receiveTile(tile6);
-//
-//
-//        List<SPlayer> activePlayers = new ArrayList<>();
-//        activePlayers.add(player1);
-//        activePlayers.add(player2);
-//        activePlayers.add(player3);
-//
-//        List<SPlayer> deadPlayers = new ArrayList<>();
-//        DrawPile drawPile = new DrawPile();
-//
-//        Administrator admin = new Administrator(activePlayers, board, drawPile, deadPlayers, player1);
-//        List<SPlayer> winners = admin.playATurn(drawPile, activePlayers, deadPlayers, board, tile3);
-//
-//        assertNull(winners);
-//        assertEquals(2, activePlayers.size());
-//        assertEquals(player2, activePlayers.get(0));
-//        assertEquals(player3, activePlayers.get(1));
-//        assertEquals(1, deadPlayers.size());
-//        assertEquals(player1, deadPlayers.get(0));
-//
-//        assertEquals(0, player1.numHandTiles());
-//        assertEquals(3, player2.numHandTiles());
-//        assertEquals(3, player3.numHandTiles());
-//
-//        assertEquals(0, drawPile.size());
-//
-//        assertNull(admin.getDragon());
-//    }
-//
+
+    @Test  //player who has the dragon tile dies, dragon tile gets passed on to the next rightful successor
+    public void playATurnDragonDies() throws Exception {
+        SPlayer player1 = new SPlayer("Green");
+        SPlayer player2 = new SPlayer("Red");
+        SPlayer player3 = new SPlayer("Blue");
+
+        Board board = new Board();
+        board.updatePlayerPosition(player1, new PlayerPosition(5, 0, 0));
+        board.updatePlayerPosition(player2, new PlayerPosition(3, 1, 0));
+        board.updatePlayerPosition(player3, new PlayerPosition(3, 1, 3));
+
+        board.updatePlayerPosition(player1, new PlayerPosition(5, 0, 0));
+        board.placeTile(new Tile(new int[]{0, 5, 1, 2, 3, 6, 4, 7}), 4, 0);
+        board.placeTile(new Tile(new int[]{0, 7, 1, 2, 3, 4, 5, 6}), 4, 1);
+        board.placeTile(new Tile(new int[]{0, 6, 1, 2, 3, 4, 5, 7}), 5, 1);
+
+        Tile tile3 = new Tile(new int[]{0, 5, 1, 4, 2, 6, 3, 7});
+        Tile tile2 = new Tile(new int[]{0, 3, 1, 7, 2, 6, 4, 5});
+        Tile tile1 = new Tile(new int[]{0, 2, 1, 3, 4, 6, 5, 7});
+        Tile tile4 = new Tile(new int[]{0, 5, 2, 3, 4, 6, 1, 7});
+        Tile tile5 = new Tile(new int[]{0, 1, 2, 3, 4, 5, 6, 7});
+        Tile tile6 = new Tile(new int[]{0, 1, 2, 3, 4, 6, 5, 7});
+        player1.receiveTile(tile3);
+        player1.receiveTile(tile2);
+        player2.receiveTile(tile1);
+        player2.receiveTile(tile4);
+        player3.receiveTile(tile5);
+        player3.receiveTile(tile6);
+
+
+        List<SPlayer> activePlayers = new ArrayList<>();
+        activePlayers.add(player1);
+        activePlayers.add(player2);
+        activePlayers.add(player3);
+
+        List<SPlayer> deadPlayers = new ArrayList<>();
+        DrawPile drawPile = new DrawPile();
+
+        Administrator admin = new Administrator(activePlayers, board, drawPile, deadPlayers, player1);
+        List<SPlayer> winners = admin.playATurn(drawPile, activePlayers, deadPlayers, board, tile3);
+
+        assertNull(winners);
+        assertEquals(2, activePlayers.size());
+        assertEquals(player2, activePlayers.get(0));
+        assertEquals(player3, activePlayers.get(1));
+        assertEquals(1, deadPlayers.size());
+        assertEquals(player1, deadPlayers.get(0));
+
+        assertEquals(0, player1.numHandTiles());
+        assertEquals(3, player2.numHandTiles());
+        assertEquals(3, player3.numHandTiles());
+
+        assertEquals(0, drawPile.size());
+
+        assertNull(admin.getPlayerWithDragonTileDragon());
+    }
+
+
+
     @Test  //current player eliminates player with dragon tile
-    public void playATurn_Player_Eliminate_Dragon() throws Exception{
+    public void playATurn_Player_Eliminate_Dragon() throws Exception {
         SPlayer player1 = new SPlayer("Green");
         SPlayer player2 = new SPlayer("Red");
         Board board = new Board();
