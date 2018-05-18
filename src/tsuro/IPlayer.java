@@ -1,9 +1,18 @@
-package Classes;
+package tsuro;
 
 import java.util.*;
 
 public interface IPlayer {
-    // Returns the player's name
+
+    enum State {
+        UNINITIALIZED,
+        INITIALIZED,
+        PLAYING,
+    }
+
+    /**
+     * return player's name
+      */
     String getName();
 
     // Called to indicate a game is starting.
@@ -12,9 +21,11 @@ public interface IPlayer {
     // colors, in the order that the game will be played.
     void initialize(String color, List<String> colors);
 
-    // Called at the first step in a game; indicates where
-    // the player wishes to place their pawn. The pawn must
-    // be placed along the edge in an unoccupied space.
+    /**
+     * Called at the first step in a game; indicates where
+     * the player wishes to place their pawn. The pawn must
+     * be placed along the edge in an unoccupied space.
+     */
     PlayerPosition placePawn(Board board);
 
     // Called to ask the player to make a move. The tiles

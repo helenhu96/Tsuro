@@ -1,5 +1,9 @@
-package Classes;
+package tsuro;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 
 //Tiles have one field: a list of number pairs, each representing two connected points on the tile
@@ -19,6 +23,7 @@ public class Tile {
         this.orientation = 0;
     }
 
+    //TODO: do we need a list for that??
     public Tile(int[] points) {
         if (points.length!=8) {
             throw new java.lang.IllegalArgumentException("Bad argument for Tile constructor");
@@ -114,30 +119,55 @@ public class Tile {
     }
 
 
+    public static List<Tile> getAllLegalTiles() {
+        List<Tile> tiles = new ArrayList<>();
+        try {
+            File file = new File("./tiles.txt");
+            BufferedReader br = new BufferedReader(new FileReader(file));
 
-/*    public static void main(String argv[]) {
-        Tile testTile = new Tile(new int[]{0,5,1,3,2,6,4,7});
+            String line;
 
-        Tile original = new Tile(testTile);
-        System.out.println("Original tile:");
-        testTile.print();
-        testTile.rotateClockwise();
-        System.out.println("After 1 rotate()");
-        testTile.print();
-        System.out.println("Still the same tile? : " + original.sameTile(testTile));
+            while ((line = br.readLine()) != null) {
+                line = line.replace('(', ' ');
+                line = line.replace(')', ' ');
+                String[] nums = line.split("[ ]+");
 
-        System.out.println("After 3 rotate()");
+                int[] my_array = new int[8];
+                for (int i = 1; i < nums.length; i++) {
+                    my_array[i-1] = Integer.parseInt(nums[i]);
+                }
+                Tile new_tile = new Tile(my_array);
+                tiles.add(new_tile);
+            }
+            Collections.shuffle(tiles);
+        }
+        catch(IOException e){
+            System.err.println("IOException occurred!");
+        }
+        return tiles;
+    }
 
-        testTile.rotateClockwise();
-        testTile.rotateClockwise();
-        testTile.rotateClockwise();
-        testTile.print();
-        System.out.println("Still the same tile? : " + original.sameTile(testTile));
+    //todo: consider rotation
+    public boolean isLegalTile(){
+        Tile copyTile = new Tile(this);
+        List<Tile> tiles = getAllLegalTiles();
+        for (int i=0; i<4; i++) {
+            if (tiles.contains(copyTile)) {
+                return true;
+            }
+            copyTile.rotateClockwise();
+        }
+        return false;
+    }
 
-        Tile diffTile = new Tile(new int[]{0,1,2,3,4,5,6,7});
+    public static void main(String argv[]) {
+        List<Tile> tiles = getAllLegalTiles();
+        int i=0;
+        for (Tile tile: tiles) {
+            i= i+1;
+            System.out.println(i);
+        }
 
-        System.out.println("Should return false : " + original.sameTile(diffTile));*//*
-
-    }*/
+    }
 }
 

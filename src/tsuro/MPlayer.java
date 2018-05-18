@@ -1,4 +1,6 @@
-package Classes;
+package tsuro;
+
+import com.google.common.base.Preconditions;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -6,10 +8,10 @@ import java.util.concurrent.ThreadLocalRandom;
 abstract class MPlayer implements IPlayer {
     protected String name;
     protected String color;
-    protected int state;
+    protected State state;
     protected MPlayer(String name) {
         this.name = name;
-        state = UNINITIALIZED;
+        state = State.UNINITIALIZED;
     }
 
     public String getName() { return this.name; }
@@ -20,29 +22,28 @@ abstract class MPlayer implements IPlayer {
     protected final static int DOWN = 2;
     protected final static int LEFT = 3;
 
-    protected final static int UNINITIALIZED = 4;
-    protected final static int INITIALIZED = 5;
-    protected final static int PLAYING = 6;
-    protected final static int GAVEOVER = 7;
+
+//    protected final static int UNINITIALIZED = 4;
+//    protected final static int INITIALIZED = 5;
+//    protected final static int PLAYING = 6;
+//    protected final static int GAVEOVER = 7;
     protected final static String[] COLOR_VALUES =
             new String[] {"Blue", "Red", "Green", "Orange", "Sienna", "Hotpink", "Darkgreen", "Purple"};
     protected final static Set<String> COLORS_SET= new HashSet<>(Arrays.asList(COLOR_VALUES));
 
 
     public void initialize(String color, List<String> colors) {
-        if (state != UNINITIALIZED && state != GAVEOVER)
-            throw new java.lang.IllegalStateException("Can't call initialize in this state!");
-
-        if (!COLORS_SET.contains(color))
-            throw new java.lang.IllegalArgumentException("Can't initialize with this color!");
-
+        Preconditions.checkState(state == State.UNINITIALIZED, "Expect State Uninitialized, actual state " + state);
+        if (!COLORS_SET.contains(color)) {
+            throw new IllegalArgumentException("Can't initialize with this color!");
+        }
         this.color = color;
-        state = INITIALIZED;
+        state = State.INITIALIZED;
     }
 
 
     public PlayerPosition placePawn(Board board) {
-        if (state != INITIALIZED) throw new java.lang.IllegalStateException("Can't call placePawn in this state");
+        Preconditions.checkState(state == State.INITIALIZED, "Expect State Initialized, actual state " + state);
 
         if (board.getPlayerColors().contains(this.color)) {
             throw new java.lang.IllegalStateException("Pawn already exists on board");
@@ -69,19 +70,16 @@ abstract class MPlayer implements IPlayer {
                     break;
             }
         } while(board.positionHasPlayer(result));
-        state = PLAYING;
+        state = State.PLAYING;
         return result;
     }
 
     public void endGame(Board board, List<String> winnerColors) {
-        state = GAVEOVER;
+        state = State.UNINITIALIZED;
     }
 
-    public void setState(String state) {
-        if (state.equals("UNINITIALIZED")) this.state = UNINITIALIZED;
-        else if (state.equals("INITIALIZED")) this.state = INITIALIZED;
-        else if (state.equals("PLAYING")) this.state = PLAYING;
-        else if (state.equals("GAMVEOVER")) this.state = GAVEOVER;
+    public void setState(State s) {
+        this.state = s;
     }
 
 

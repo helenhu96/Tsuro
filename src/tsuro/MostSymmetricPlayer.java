@@ -1,20 +1,21 @@
-package Classes;
+package tsuro;
 
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 
-class LeastSymmetricPlayer extends MPlayer {
+class MostSymmetricPlayer extends MPlayer {
 
     public final static int UP = 0;
     public final static int RIGHT = 1;
     public final static int DOWN = 2;
     public final static int LEFT = 3;
 
-    LeastSymmetricPlayer(String name) { super(name); }
+    MostSymmetricPlayer(String name) { super(name); }
 
 
     public Tile playTurn(Board board, List<Tile> tiles, int numTiles) {
-        if (state != PLAYING) throw new java.lang.IllegalStateException("Can't playTurn in this state!");
+        if (state != State.PLAYING) {
+            throw new IllegalStateException("Can't playTurn in this state!");
+        }
         Map<Integer, List<Tile>> scores = new HashMap<>();
 
         for (Tile t: tiles){
@@ -30,11 +31,11 @@ class LeastSymmetricPlayer extends MPlayer {
         }
 
 
-        int[] array = new int[]{0,1,2,4};
-        //loop through all possible levels of symmetricity
-        for (int i = 0; i < array.length; i++){
+        int[] array = new int[]{4,2,1,0};
+
+        for (int i = 0; i <array.length; i++){
             List<Tile> target = scores.get(array[i]);
-            if (target!=null) {
+            if (target != null) {
                 for (int j=0; j<target.size(); j++){
                     Tile result = rotateTileTillLegal(board, target.get(j));
                     if (result != null){
@@ -43,10 +44,7 @@ class LeastSymmetricPlayer extends MPlayer {
                 }
             }
         }
-
         return tiles.get(0);
-
     }
-
 
 }

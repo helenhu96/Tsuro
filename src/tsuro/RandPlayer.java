@@ -1,12 +1,8 @@
-package Classes;
-
+package tsuro;
 
 import java.util.*;
-
 import java.util.concurrent.ThreadLocalRandom;
-
-
-
+import com.google.common.base.Preconditions;
 
 class RandPlayer extends MPlayer {
 
@@ -15,8 +11,8 @@ class RandPlayer extends MPlayer {
 
 
     public Tile playTurn(Board board, List<Tile> tiles, int numTiles) {
-        if (state != PLAYING) throw new java.lang.IllegalStateException("Can't playTurn in this state!");
-        if (tiles.size()>3) throw new java.lang.IllegalStateException("Can't have more than 3 tiles in hand");
+        Preconditions.checkState(state == State.PLAYING, "Expect State Playing, actual state " + state);
+        Preconditions.checkArgument(tiles.size()<= Administrator.HAND_SIZE, "Can't have more than 3 tiles in hand");
         List<Tile> possibleMoves = new ArrayList<>();
         //loop through each tile and add legal moves to list
         for (int i=0; i<tiles.size(); i++) {
@@ -35,8 +31,9 @@ class RandPlayer extends MPlayer {
         int rotNum = ThreadLocalRandom.current().nextInt(0, 3+1);
 
         Tile ret = tiles.get(tileNum);
-        for (int i=0; i<rotNum; i++) ret.rotateClockwise();
-
+        for (int i=0; i<rotNum; i++) {
+            ret.rotateClockwise();
+        }
         return ret;
     }
 

@@ -1,4 +1,4 @@
-package Classes;
+package tsuro;
 
 import org.junit.Test;
 
@@ -8,7 +8,6 @@ public class BoardTest {
 
     public Board board = new Board();
     @Test
-
     public void isBorder() {
         PlayerPosition test = new PlayerPosition(3, 2, 5);
         assertFalse(board.isBorder(test));

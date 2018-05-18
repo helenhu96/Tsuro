@@ -1,4 +1,4 @@
-package Classes;
+package tsuro;
 
 import java.util.List;
 
@@ -8,10 +8,12 @@ class CrappyPlayer extends MPlayer {
 
     @Override
     public PlayerPosition placePawn(Board board) {
-        if (state != INITIALIZED) throw new java.lang.IllegalStateException("Can't call placePawn in this state");
+        if (state != State.INITIALIZED) {
+            throw new IllegalStateException("Can't call placePawn in this state");
+        }
 
         //return invalid position
-        state = PLAYING;
+        state = State.PLAYING;
         return new PlayerPosition(3,4,5);
     }
 

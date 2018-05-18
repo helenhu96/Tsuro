@@ -1,4 +1,4 @@
-package Classes;
+package tsuro;
 
 import java.util.*;
 
@@ -6,9 +6,10 @@ public class Board {
     private Tile[][] tiles;
     private Map<SPlayer, PlayerPosition> playerToPosition;
     private int numTiles;
+    private static int boardsize = 6;
 
     public Board() {
-        this.tiles = new Tile[6][6];
+        this.tiles = new Tile[boardsize][boardsize];
         this.playerToPosition = new HashMap<>();
         this.numTiles = 0;
     }
@@ -19,10 +20,13 @@ public class Board {
     }
 
     public void placeTile(Tile tile, int y, int x) {
-        if(tiles[y][x]!=null) throw new java.lang.IllegalArgumentException("Position already has tile");
+        if(tiles[y][x]!=null) {
+            throw new java.lang.IllegalArgumentException("Position already has tile");
+        }
         tiles[y][x] = new Tile(tile);
         numTiles++;
     }
+
 
     public Tile removeTile(int y, int x) {
         if(tiles[y][x]==null) throw new java.lang.IllegalArgumentException("Position is empty");
@@ -127,6 +131,19 @@ public class Board {
         return false;
     }
 
+    public SPlayer getPlayerByPosition(PlayerPosition position) {
+        for (SPlayer splayer: playerToPosition.keySet()) {
+            if (position.equals(playerToPosition.get(splayer))) {
+                return splayer;
+            }
+        }
+        return null;
+    }
+
+    //TODO:fill this in
+//    public boolean legalplay(Tile tile) {
+//
+//    }
 
     @Override
     public boolean equals(Object o) {

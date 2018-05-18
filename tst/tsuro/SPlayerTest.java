@@ -1,4 +1,4 @@
-package Classes;
+package tsuro;
 
 import org.junit.Test;
 import java.util.*;

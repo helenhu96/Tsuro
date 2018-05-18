@@ -1,10 +1,10 @@
-package Classes;
+package tsuro;
 
 
 import java.util.List;
 
 class Main {
-    public static void main(String argv[]) {
+    public static void main(String argv[]) throws Exception {
         int rWins = 0;
         int mWins = 0;
         int lWins = 0;

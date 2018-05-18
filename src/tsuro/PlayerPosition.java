@@ -1,6 +1,4 @@
-package Classes;
-
-import java.util.Objects;
+package tsuro;
 
 public class PlayerPosition {
     private int y;

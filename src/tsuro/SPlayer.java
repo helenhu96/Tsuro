@@ -1,14 +1,15 @@
-package Classes;
+package tsuro;
 
 import java.util.*;
 public class SPlayer {
     private String color;
     private List<Tile> handTiles;
     private IPlayer iplayer;
-
+    private boolean alive;
     public SPlayer(String color) {
         this.color = color;
-        handTiles = new ArrayList<>();
+        this.handTiles = new ArrayList<>();
+        this.alive = true;
     }
 
     public void associatePlayer(IPlayer iplayer){
@@ -23,8 +24,8 @@ public class SPlayer {
         return color;
     }
 
-    public void cheat(){
-        String name = iplayer.getName();
+    public void dealWithCheater(){
+        String name = iplayer.getName() + "replaced";
         this.iplayer = new RandPlayer(name);
         this.iplayer.initialize(color, null);
     }
@@ -42,9 +43,13 @@ public class SPlayer {
     // player receives tile
     public void receiveTile(Tile tile) {
         for(Tile curr: handTiles){
-            if (curr.sameTile(tile)) throw new java.lang.IllegalStateException("Tile already exists in hand!");
+            if (curr.sameTile(tile)) {
+                throw new java.lang.IllegalStateException("Tile already exists in hand!");
+            }
         }
-        if (handTiles.size() > 2) throw new java.lang.IllegalStateException("Already have 3 tiles!");
+        if (handTiles.size() > 2) {
+            throw new java.lang.IllegalStateException("Already have 3 tiles!");
+        }
 
         handTiles.add(tile);
     }
@@ -63,6 +68,18 @@ public class SPlayer {
     //returns number of tiles a player has
     public int numHandTiles() {
         return handTiles.size();
+    }
+
+    public boolean isHandFull() {
+        return this.handTiles.size() == 3;
+    }
+
+    public void setDead() {
+        this.alive = false;
+    }
+
+    public boolean isAlive() {
+        return this.alive;
     }
 
     @Override

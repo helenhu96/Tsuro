@@ -1,4 +1,4 @@
-package Classes;
+package tsuro;
 
 import org.junit.Test;
 import java.util.*;
@@ -11,19 +11,17 @@ public class DrawPileTest {
 
 
     @Test
-    public void constructor() {
+    public void testConstructor() {
         DrawPile drawPile = new DrawPile();
         drawPile.initialize();
-
         assertEquals(35, drawPile.size());
     }
 
     @Test
-    public void drawATile() {
+    public void testDrawATile() throws Exception{
         DrawPile drawPile = new DrawPile();
         drawPile.initialize();
-
-
+        System.out.println(drawPile.size());
         drawPile.drawATile();
         drawPile.drawATile();
         drawPile.drawATile();
@@ -33,7 +31,7 @@ public class DrawPileTest {
 
 
     @Test
-    public void addTilesAndShuffle() {
+    public void addTilesAndShuffle() throws Exception{
         DrawPile drawPile = new DrawPile();
         drawPile.initialize();
 
