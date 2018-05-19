@@ -40,7 +40,7 @@ public class SPlayer {
     }
 
 
-    // player receives tile
+    // player gets tile
     public void receiveTile(Tile tile) {
         for(Tile curr: handTiles){
             if (curr.sameTile(tile)) {
@@ -68,6 +68,15 @@ public class SPlayer {
     //returns number of tiles a player has
     public int numHandTiles() {
         return handTiles.size();
+    }
+
+    public boolean hasTile(Tile tile) {
+        for (Tile t: this.handTiles) {
+            if (tile.sameTile(t)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean isHandFull() {

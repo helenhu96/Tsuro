@@ -86,6 +86,9 @@ public class Tile {
 
     //checks if given tile is the same as this tile
     public boolean sameTile(Tile tile) {
+        if (tile == null) {
+            return false;
+        }
         for (int i=0; i<rotations.size(); i++) {
             List<int[]> a = this.rotations.get(i);
             List<int[]> b = tile.rotations.get(i);
@@ -99,6 +102,8 @@ public class Tile {
         return true;
     }
 
+
+    //TODO: fix this
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

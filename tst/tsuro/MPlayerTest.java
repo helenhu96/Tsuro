@@ -44,7 +44,6 @@ public class MPlayerTest {
 
 
 
-
     @Test
     public void rotateTileTillLegal() {
         Board board = new Board();

@@ -48,11 +48,34 @@ public class BoardTest {
         assertTrue(board.positionHasPlayer(expect1));
         assertFalse(board.positionHasPlayer(new PlayerPosition(0,0,1)));
 
+    }
 
-
+    @Test
+    public void test_legal_play_1() {
+        SPlayer player1 = new SPlayer("Green");
+        Board board = new Board();
+        board.updatePlayerPosition(player1, new PlayerPosition(0,0, 7));
+        Tile tile1 = new Tile(new int[]{0, 7, 1, 2, 3, 4, 5, 6});
+        Tile tile2 = new Tile(new int[]{0, 5, 1, 4, 2, 7, 3, 6});
+        player1.receiveTile(tile1);
+        player1.receiveTile(tile2);
+        Administrator admin = new Administrator();
+        assertFalse(board.tileLegal(player1, tile1));
+        assertFalse(admin.legalPlay(player1, board, tile1));
     }
 
 
+    @Test //if all tiles in hand kill the player
+    public void test_legal_play_2() {
+        SPlayer player1 = new SPlayer("Green");
+        Board board = new Board();
+        board.updatePlayerPosition(player1, new PlayerPosition(0,0, 7));
+        Tile tile1 = new Tile(new int[]{0, 7, 1, 2, 3, 4, 5, 6});
+        player1.receiveTile(tile1);
+        Administrator admin = new Administrator();
+        assertTrue(board.tileLegal(player1, tile1));
+        assertTrue(admin.legalPlay(player1, board, tile1));
+    }
 
 
 }

@@ -3,8 +3,6 @@ import com.google.common.collect.Lists;
 
 import java.util.*;
 
-import static org.junit.Assert.*;
-
 public class Administrator {
     private static final String[] COLORS =
         new String[] {"Blue", "Red", "Green", "Orange", "Sienna", "Hotpink", "Darkgreen", "Purple"};
@@ -83,11 +81,11 @@ public class Administrator {
         setupGame();
 
         //play till we have a winner/winners
-        while (!winners.isEmpty()) {
+        while (winners.isEmpty()) {
             SPlayer currPlayer = activePlayers.get(0);
             Tile t = currPlayer.getIplayer().playTurn(board, currPlayer.getHandTiles(), drawPile.size());
             //handle illegal play
-            if (!legalPlay(currPlayer, board, t)) {
+            if (!this.legalPlay(currPlayer, board, t)) {
                 System.out.println(currPlayer.getColor() + "cheated");
                 currPlayer.dealWithCheater();
                 ((RandPlayer) currPlayer.getIplayer()).setState(IPlayer.State.PLAYING);
@@ -114,7 +112,6 @@ public class Administrator {
     }
 
 
-    //TODO: fix legalplay
     /**
      * Description of the method
      *
@@ -124,59 +121,45 @@ public class Administrator {
      * @return Description of return value
      */
     public boolean legalPlay(SPlayer player, Board board, Tile tile) {
-        //Check if given tile is one of the player's handTiles
-        boolean hasTile = false;
-        for (Tile t: player.getHandTiles()){
-            if (t.sameTile(tile)){
-                hasTile = true;
-            }
+        // check if the player is alive
+        if (!player.isAlive()) {
+            return false;
         }
 
-        if (!hasTile) {
+        // check if given tile is one of the player's handTiles
+        if (!player.hasTile(tile)){
+            return false;
+        }
+
+        //check if the given tile is already on the board
+        if (checkTileOnBoard(tile)) {
             return false;
         }
 
         //if tile won't lead player to elimination, return true
-        if (tileLegal(player, board, tile)) {
-            return true;
-        }
-
-        //else, loop through player's hand tiles and check if there are other non-eliminating moves. If so, return false
-        for (Tile currTile: player.getHandTiles()) {
-            Tile tempHandTile = new Tile(currTile);
-            for (int i=0; i<4; i++) {
-                if (tileLegal(player, board, tempHandTile)) {
-                    return false;
-                }
-                tempHandTile.rotateClockwise();
-            }
-        }
-
-        //check if the given tile is already on the board
-        if (!checkIfTileIsOnBoard(tile)) {
+        if (!board.tileLegal(player, tile)) {
             return false;
         }
-
         return true;
     }
 
     //if no tile on the board is the same as tile, return true; otherwise returns false
-    public boolean checkIfTileIsOnBoard(Tile tile) {
+    public boolean checkTileOnBoard(Tile tile) {
         for (int i = 0; i < 6; i++){
             for (int j = 0; j < 6; j++){
                 Tile curr = board.getTile(i, j);
                 if (curr != null){
                     if (tile.sameTile(curr)) {
-                        return false;
+                        return true;
                     }
                 }
             }
         }
-        return true;
+        return false;
     }
 
-    private void moveSplayer(SPlayer splayer, List<SPlayer> playersDiedThisTurn) {
-        PlayerPosition finalPosition = moveAlongPath(splayer, board);
+    private void moveSPlayer(SPlayer splayer, List<SPlayer> playersDiedThisTurn) {
+        PlayerPosition finalPosition = board.moveAlongPath(splayer);
 
         this.setPlayerPosition(splayer, finalPosition);
 
@@ -191,22 +174,20 @@ public class Administrator {
 
         //list of players that died in this turn
         List<SPlayer> playersDiedThisTurn = new ArrayList<>();
-
         //get current player
         SPlayer currentPlayer = activePlayers.get(0);
         PlayerPosition playerPosition = board.getPlayerPosition(currentPlayer);
-
         //place tile at current position
         board.placeTile(tile, playerPosition.getY(), playerPosition.getX());
 
         //move splayers and check if they're eliminated
         for (SPlayer splayer: activePlayers) {
-            moveSplayer(splayer, playersDiedThisTurn);
+            moveSPlayer(splayer, playersDiedThisTurn);
         }
 
         //return eliminated player's hand tiles to draw pile and then re-shuffle.
         handleDeadPlayers(playersDiedThisTurn, pile);
-        List<SPlayer> winners = getwinners(board, activePlayers, playersDiedThisTurn);
+        List<SPlayer> winners = getWinners(board, activePlayers, playersDiedThisTurn);
 
         if (winners.size() != 0) {
             return winners;
@@ -219,16 +200,15 @@ public class Administrator {
             drawOrder.addAll(activePlayers.subList(0, index));
         }
 
-        //reshuffle order of active players
+        //reorder order of active players
         activePlayers = reorderPlayers(activePlayers, currentPlayer);
-        SPlayer currentDrawer = drawOrder.get(0);
 
+        SPlayer currentDrawer = drawOrder.get(0);
         drawTiles(pile, currentDrawer, drawOrder);
         //add eliminated players to list of dead players
         deadPlayers.addAll(playersDiedThisTurn);
-
         //check if there are any players left
-        return getwinners(board, activePlayers, playersDiedThisTurn);
+        return getWinners(board, activePlayers, playersDiedThisTurn);
     }
 
     public void handleDeadPlayers(List<SPlayer> playersDiedThisTurn, DrawPile pile) {
@@ -246,7 +226,7 @@ public class Administrator {
 
     public void drawTiles(DrawPile pile, SPlayer currentDrawer, List<SPlayer> drawOrder) {
         //distribute tiles to players with under-full hands
-        while (!stopdrawing(pile, activePlayers)) {
+        while (!stopDrawing(pile, activePlayers)) {
             // if current player is the dragon owner, return the dragon to pile first
             if (playerWithDragonTile == currentDrawer) {
                 pile = returnDragon(pile);
@@ -297,7 +277,7 @@ public class Administrator {
 
     // checks whether we should stop drawing from deck
     // stops when the pile is empty or all players has 3 cards in hand
-    public boolean stopdrawing(DrawPile pile, List<SPlayer> activePlayers) {
+    public boolean stopDrawing(DrawPile pile, List<SPlayer> activePlayers) {
         if (pile.isEmpty()) {
             return true;
         }
@@ -310,7 +290,7 @@ public class Administrator {
     }
 
     //return winners if game over, empty list if game is still on
-    public List<SPlayer> getwinners(Board board, List<SPlayer> activePlayers, List<SPlayer> toBeDead) {
+    public List<SPlayer> getWinners(Board board, List<SPlayer> activePlayers, List<SPlayer> toBeDead) {
         List<SPlayer> winners = new ArrayList<>();
         if (board.getNumTiles()==35) {
             winners = activePlayers;
@@ -322,42 +302,8 @@ public class Administrator {
         return winners;
     }
 
-    //returns true if a tile doesn't lead player to edge of board
-    public boolean tileLegal(SPlayer player, Board board, Tile tile) {
-        //get position of player
-        PlayerPosition position = board.getPlayerPosition(player);
 
-        //call moveAlongPath to see if token would reach end of board
-        boolean result = true;
-        board.placeTile(tile, position.getY(), position.getX());
-        if (board.isBorder(moveAlongPath(player, board))) {
-            result = false;
-        }
-        board.removeTile(position.getY(), position.getX());
-        return result;
-    }
-
-    //returns the furthest adjacent position a player can move to from given starting position
-    //return edge's coordinates if moved to edge
-    public PlayerPosition moveAlongPath(SPlayer splayer,  Board board) {
-
-
-        PlayerPosition position = board.getPlayerPosition(splayer);
-        Tile currTile = board.getTile(position.getY(), position.getX());
-        while (currTile != null){
-            int nextSpot = currTile.getConnected(position.getSpot());
-            position.setSpot(nextSpot);
-            //if at edge, return edge coordinates
-            if (board.isBorder(position))
-                return position;
-
-            position = board.flip(position);
-            currTile = board.getTile(position.getY(), position.getX());
-        }
-
-        return position;
-    }
-
+    //TODO: find out if we need this???
     //given the current player who has the dragon tile, and the list of active players, return the next
     //player who needs the dragon tile. If no other player needs the dragon tile, return null.
     public SPlayer findDragonSuccessor(SPlayer currentDragon, List<SPlayer> listOfPlayers) {
@@ -374,7 +320,6 @@ public class Administrator {
             if (listOfPlayers.get(i).numHandTiles()<3)
                 return listOfPlayers.get(i);
         }
-
         //otherwise, everyone has a full hand, no one needs the dragon
         return null;
     }
@@ -389,19 +334,29 @@ public class Administrator {
         return this.playerWithDragonTile;
     }
 
+    public SPlayer getSPlayerFromColor(String color) throws IllegalArgumentException{
+        try {
+            for (SPlayer splayer: activePlayers) {
+                if (splayer.getColor().equals(color)) {
+                    return splayer;
+                }
+            }
+        }
+         catch (Exception e) {
+            throw e;
+         }
+         return null;
+    }
+
     // for testing only
     public SPlayer getSPlayer(int index) {
         return activePlayers.get(index);
     }
-
     public DrawPile getDrawPile() {
         return this.drawPile;
     }
 
-    public static void main(String[] args) throws Exception{
 
-
-    }
 
 }
 

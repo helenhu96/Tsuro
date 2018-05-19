@@ -26,6 +26,7 @@ public class AdministratorTest {
 
     }
 
+
     @Test
     public void legalPlay_play_is_legal() throws Exception{
         SPlayer player1 = new SPlayer("Green");

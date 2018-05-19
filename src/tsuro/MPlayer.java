@@ -13,7 +13,8 @@ abstract class MPlayer implements IPlayer {
         this.name = name;
         state = State.UNINITIALIZED;
     }
-
+    final static String[] COLOR_VALUES =
+            new String[] {"Blue", "Red", "Green", "Orange", "Sienna", "Hotpink", "Darkgreen", "Purple"};
 
 
 
@@ -74,6 +75,7 @@ abstract class MPlayer implements IPlayer {
         return result;
     }
 
+
     public void endGame(Board board, List<String> winnerColors) {
         state = State.UNINITIALIZED;
     }
@@ -88,7 +90,12 @@ abstract class MPlayer implements IPlayer {
     //protected helper functions-----------------------------------------------------------------------------------
 
 
-    //returns true if a tile doesn't lead player to edge of board
+    /**
+     *
+     * @param board
+     * @param tile
+     * @return returns true if a tile doesn't lead player to edge of board
+     */
     protected Tile rotateTileTillLegal(Board board, Tile tile) {
         Tile t = new Tile(tile);
         for (int i = 0; i < 4; i++) {
@@ -109,8 +116,12 @@ abstract class MPlayer implements IPlayer {
         return null;
     }
 
-    //returns the furthest adjacent position a player can move to from given starting position
-    //return edge's coordinates if moved to edge
+    /**
+     *
+     * @param startingPosition
+     * @param board
+     * @return returns the furthest adjacent position a player can move to from given starting position
+     */
     protected PlayerPosition moveAlongPath(PlayerPosition startingPosition, Board board) {
         PlayerPosition position = new PlayerPosition(startingPosition);
         Tile currTile = board.getTile(position.getY(), position.getX());
@@ -126,6 +137,7 @@ abstract class MPlayer implements IPlayer {
         }
         return position;
     }
+
 
 
 }

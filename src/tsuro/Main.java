@@ -8,18 +8,18 @@ class Main {
         int rWins = 0;
         int mWins = 0;
         int lWins = 0;
-        for (int i=0; i<1000; i++) {
+        for (int i=0; i<20; i++) {
         Administrator admin = new Administrator();
-        MPlayer p1 = new RandPlayer("B");
-        MPlayer p2 = new MostSymmetricPlayer("R");
-        MPlayer p3 = new LeastSymmetricPlayer("G");
+        MPlayer p1 = new RandPlayer("Blue");
+        MPlayer p2 = new MostSymmetricPlayer("Red");
+        MPlayer p3 = new LeastSymmetricPlayer("Green");
 
         admin.registerPlayer(p1);
         admin.registerPlayer(p2);
         admin.registerPlayer(p3);
 
         List<String> winners = admin.play();
-
+        System.out.println(winners);
 
         for (String s : winners) {
             if (s.equals("Blue")) rWins++;

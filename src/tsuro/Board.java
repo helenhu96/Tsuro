@@ -23,7 +23,7 @@ public class Board {
 
     public void placeTile(Tile tile, int y, int x) {
         if(tiles[y][x]!=null) {
-            throw new java.lang.IllegalArgumentException("Position already has tile");
+            throw new IllegalArgumentException("Position already has tile");
         }
         tiles[y][x] = new Tile(tile);
         numTiles++;
@@ -31,7 +31,9 @@ public class Board {
 
 
     public Tile removeTile(int y, int x) {
-        if(tiles[y][x]==null) throw new java.lang.IllegalArgumentException("Position is empty");
+        if(tiles[y][x]==null) {
+            throw new IllegalArgumentException("Position is empty");
+        }
         Tile result = tiles[y][x];
         tiles[y][x] = null;
         numTiles--;
@@ -68,7 +70,7 @@ public class Board {
             if (entry.getKey().getColor().equals(color))
                 return new PlayerPosition(entry.getValue());
         }
-        throw new java.lang.IllegalArgumentException("No such player");
+        throw new IllegalArgumentException("No such player");
     }
 
 
@@ -156,10 +158,59 @@ public class Board {
         return null;
     }
 
-    //TODO:fill this in
-//    public boolean legalplay(Tile tile) {
-//
-//    }
+    /**
+     *
+     * @param player
+     * @param tile
+     * @return whether the tile is a legal move
+     */
+    public boolean tileLegal(SPlayer player, Tile tile) {
+        if (!tileKillsPlayer(player, tile)) {
+            return true;
+        }
+        // if the tile kills the player
+        for (Tile currTile: player.getHandTiles()) {
+            Tile tempHandTile = new Tile(currTile);
+            for (int i=0; i<4; i++) {
+                if (!tileKillsPlayer(player, tempHandTile)) {
+                    return false;
+                }
+                tempHandTile.rotateClockwise();
+            }
+        }
+        return true;
+    }
 
+    /**
+     *
+     * @param player
+     * @param tile
+     * @return whether the tile kills the player
+     */
+    private boolean tileKillsPlayer(SPlayer player, Tile tile) {
+        PlayerPosition position = this.getPlayerPosition(player);
+        boolean result = false;
+        this.placeTile(tile, position.getY(), position.getX());
+        if (this.isBorder(moveAlongPath(player))) {
+            result = true;
+        }
+        this.removeTile(position.getY(), position.getX());
+        return result;
+    }
 
+    public PlayerPosition moveAlongPath(SPlayer splayer) {
+        PlayerPosition position = this.getPlayerPosition(splayer);
+        Tile currTile = this.getTile(position.getY(), position.getX());
+        while (currTile != null){
+            int nextSpot = currTile.getConnected(position.getSpot());
+            position.setSpot(nextSpot);
+            //if at edge, return edge coordinates
+            if (this.isBorder(position))
+                return position;
+
+            position = this.flip(position);
+            currTile = this.getTile(position.getY(), position.getX());
+        }
+        return position;
+    }
 }

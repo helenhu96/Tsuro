@@ -10,9 +10,6 @@ public interface IPlayer {
         PLAYING,
     }
 
-    final static String[] COLOR_VALUES =
-            new String[] {"Blue", "Red", "Green", "Orange", "Sienna", "Hotpink", "Darkgreen", "Purple"};
-    State state = State.UNINITIALIZED;
 
     /**
      * return player's name
@@ -32,15 +29,31 @@ public interface IPlayer {
      */
     PlayerPosition placePawn(Board board);
 
-    // Called to ask the player to make a move. The tiles
-    // are the ones the player has, the number is the
-    // count of tiles that are not yet handed out to players.
-    // The result is the tile the player should place,
-    // suitably rotated.
+    /**
+     *
+     * @param board
+     * @param tiles
+     * @param numTiles
+     * @return the tile the player should place, suitably rotated
+     * Called to ask the player to make a move. The tiles
+     * are the ones the player has, the number is the
+     * count of tiles that are not yet handed out to players.
+     */
     Tile playTurn(Board board, List<Tile> tiles, int numTiles);
 
-    // Called to inform the player of the final board
-    // state and which players won the game.
+    /**
+     *
+     * @param board
+     * @param winnerColors
+     * Called to inform the player of the final board state and which players won the game
+     */
     void endGame(Board board, List<String> winnerColors);
 
+
+    /**
+     *
+     * @param color
+     * @return whether the color is valid
+     */
+    //boolean isColorValid(String color);
 }
