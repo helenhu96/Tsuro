@@ -111,10 +111,9 @@ public class AdministratorTest {
 
         List<SPlayer> winners = admin.playATurn(drawPile, activePlayers, deadPlayers, board, tile1);
 
-        assertEquals(board.getPlayerPosition(player2), new PlayerPosition(0,0,0));
+        assertTrue(board.getPlayerPosition(player2).equals(new PlayerPosition(0,0,0)));
         assertEquals(1, winners.size());
         assertEquals(player1, winners.get(0));
-
         assertEquals(1, activePlayers.size());
         assertEquals(player1, activePlayers.get(0));
         assertEquals(1, player1.numHandTiles());
@@ -230,6 +229,7 @@ public class AdministratorTest {
 
     }
 
+    //TODO: fix this
     @Test  //player who has the dragon tile dies, dragon tile gets passed on to the next rightful successor
     public void playATurnDragonDies() throws Exception {
         SPlayer player1 = new SPlayer("Green");
@@ -258,7 +258,6 @@ public class AdministratorTest {
         player2.receiveTile(tile4);
         player3.receiveTile(tile5);
         player3.receiveTile(tile6);
-
 
         List<SPlayer> activePlayers = new ArrayList<>();
         activePlayers.add(player1);

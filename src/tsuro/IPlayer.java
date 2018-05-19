@@ -42,4 +42,5 @@ public interface IPlayer {
     // Called to inform the player of the final board
     // state and which players won the game.
     void endGame(Board board, List<String> winnerColors);
+
 }

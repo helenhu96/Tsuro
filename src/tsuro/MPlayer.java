@@ -88,62 +88,6 @@ abstract class MPlayer implements IPlayer {
     //protected helper functions-----------------------------------------------------------------------------------
 
 
-    // Every map is a possible symmetry axis. The key is an integer indicating a position on a tile, the value is the symmetric position
-    // follow that symmetry axis. The input is an array of the pairing of symmetric positions.
-    static protected Map<Integer, Integer> createMap(int[] input){
-        Map<Integer,Integer> my_map = new HashMap<>();
-        for (int i = 0; i < 4; i++){
-            my_map.put(input[i*2], input[i*2+1]);
-            my_map.put(input[i*2+1], input[i*2]);
-        }
-        return my_map;
-    }
-
-    static protected boolean contains(List<int[]> parent, int[] child){
-        for (int[] pair: parent){
-            if (((pair[0] == child[0]) && (pair[1] == child[1])) || ((pair[0] == child[1]) && (pair[1] == child[0]))){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    // Determines how symmetric a tile is by looking at how many symmetric axes the given tile has.
-    // Given a tile, returns an integer of either 0, 1, 2 or 4. Bigger number indicates higher symmetry.
-    static public int symmetry(Tile t){
-        Set<Map<Integer, Integer>> maps = new HashSet<>();
-
-        maps.add(createMap(new int[]{2,3,1,4,0,5,6,7}));
-        maps.add(createMap(new int[]{0,1,2,7,3,6,4,5}));
-        maps.add(createMap(new int[]{1,2,0,3,4,7,5,6}));
-        maps.add(createMap(new int[]{0,7,1,6,2,5,3,4}));
-
-        List<int[]> paths = t.getRotation(0);
-        int count = 0;
-
-        for (Map<Integer, Integer> m: maps){
-            boolean stillgood = true;
-
-            for (int[] pair: paths){
-                int a = pair[0];
-                int b = pair[1];
-                int dicA = m.get(a);
-                int dicB = m.get(b);
-                if (b != dicA && !contains(paths, new int[]{dicA, dicB}) && !contains(paths, new int[]{dicB, dicA})){
-                    stillgood = false;
-                    break;
-                }
-            }
-
-            if (stillgood){
-                count++;
-            }
-            continue;
-        }
-
-        return count;
-    }
-
     //returns true if a tile doesn't lead player to edge of board
     protected Tile rotateTileTillLegal(Board board, Tile tile) {
         Tile t = new Tile(tile);

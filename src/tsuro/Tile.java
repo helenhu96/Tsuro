@@ -12,6 +12,7 @@ public class Tile {
     private List<List<int[]>> rotations;
     //int in the range of [0, 1, 2, 3], each representing a different direction
     private int orientation;
+    private int SymmetryScore;
 
     public Tile(){
         this.rotations = new ArrayList<>();
@@ -160,14 +161,58 @@ public class Tile {
         return false;
     }
 
-    public static void main(String argv[]) {
-        List<Tile> tiles = getAllLegalTiles();
-        int i=0;
-        for (Tile tile: tiles) {
-            i= i+1;
-            System.out.println(i);
-        }
 
+    static protected Map<Integer, Integer> createMap(int[] input){
+        Map<Integer,Integer> my_map = new HashMap<>();
+        for (int i = 0; i < 4; i++){
+            my_map.put(input[i*2], input[i*2+1]);
+            my_map.put(input[i*2+1], input[i*2]);
+        }
+        return my_map;
+    }
+
+    static protected boolean contains(List<int[]> parent, int[] child){
+        for (int[] pair: parent){
+            if (((pair[0] == child[0]) && (pair[1] == child[1])) || ((pair[0] == child[1]) && (pair[1] == child[0]))){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //TODO: implement this and test this
+    public int getSymmtryScore(){
+        Set<Map<Integer, Integer>> maps = new HashSet<>();
+        maps.add(createMap(new int[]{2,3,1,4,0,5,6,7}));
+        maps.add(createMap(new int[]{0,1,2,7,3,6,4,5}));
+        maps.add(createMap(new int[]{1,2,0,3,4,7,5,6}));
+        maps.add(createMap(new int[]{0,7,1,6,2,5,3,4}));
+        List<int[]> paths = this.getRotation(0);
+        int count = 0;
+        for (Map<Integer, Integer> m: maps){
+            boolean stillgood = true;
+            for (int[] pair: paths){
+                int a = pair[0];
+                int b = pair[1];
+                int dicA = m.get(a);
+                int dicB = m.get(b);
+                if (b != dicA && !contains(paths, new int[]{dicA, dicB}) && !contains(paths, new int[]{dicB, dicA})){
+                    stillgood = false;
+                    break;
+                }
+            }
+            if (stillgood){
+                count++;
+            }
+        }
+        return count;
+    }
+
+
+
+    public static void main(String argv[]) {
+        Tile tile = new Tile(new int[]{0, 5, 1, 3, 2, 6,4, 7});
+        System.out.println(tile.getSymmtryScore());
     }
 }
 

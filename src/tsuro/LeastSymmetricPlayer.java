@@ -22,7 +22,7 @@ class LeastSymmetricPlayer extends MPlayer {
         Map<Integer, List<Tile>> scores = new HashMap<>();
 
         for (Tile t: hand){
-            int score = symmetry(t);
+            int score = t.getSymmtryScore();
 
             if (!scores.containsKey(score)){
                 List<Tile> newList = new ArrayList<>();
@@ -32,7 +32,6 @@ class LeastSymmetricPlayer extends MPlayer {
                 scores.get(score).add(t);
             }
         }
-
 
         int[] array = new int[]{0,1,2,4};
         //loop through all possible levels of symmetricity

@@ -2,6 +2,8 @@ package tsuro;
 
 import java.util.*;
 
+import static org.junit.Assert.assertEquals;
+
 public class Board {
     private Tile[][] tiles;
     private Map<SPlayer, PlayerPosition> playerToPosition;
@@ -73,26 +75,30 @@ public class Board {
     //flip the position across to the next adjacent block
     public PlayerPosition flip(PlayerPosition position) {
         if (isBorder(position)) return null;
+        int spot = position.getSpot();
+        int y = position.getY();
+        int x = position.getX();
+
         //move up
-        if (position.getSpot() == 0)
-            return new PlayerPosition(position.getY()-1, position.getX(), 5);
-        if (position.getSpot() == 1)
-            return new PlayerPosition(position.getY()-1, position.getX(), 4);
+        if (spot == 0)
+            return new PlayerPosition(y - 1, x, 5);
+        if (spot == 1)
+            return new PlayerPosition(y-1, x, 4);
         //move right
-        if (position.getSpot() == 2)
-            return new PlayerPosition(position.getY(), position.getX()+1, 7);
-        if (position.getSpot() == 3)
-            return new PlayerPosition(position.getY(), position.getX()+1, 6);
+        if (spot == 2)
+            return new PlayerPosition(y, x + 1, 7);
+        if (spot == 3)
+            return new PlayerPosition(y , x + 1, 6);
         //move down
-        if (position.getSpot() == 4)
-            return new PlayerPosition(position.getY()+1, position.getX(), 1);
-        if (position.getSpot() == 5)
-            return new PlayerPosition(position.getY()+1, position.getX(), 0);
+        if (spot == 4)
+            return new PlayerPosition(y + 1, x, 1);
+        if (spot == 5)
+            return new PlayerPosition(y + 1, x, 0);
         //move left
-        if (position.getSpot() == 6)
-            return new PlayerPosition(position.getY(), position.getX()-1, 3);
-        if (position.getSpot() == 7)
-            return new PlayerPosition(position.getY(), position.getX()-1, 2);
+        if (spot == 6)
+            return new PlayerPosition(y, x - 1, 3);
+        if (spot == 7)
+            return new PlayerPosition(y, x - 1, 2);
 
         return null;
     }
@@ -101,23 +107,33 @@ public class Board {
     //returns true if a point is at a border
     public boolean isBorder(PlayerPosition position) {
         //is on top border
-        if (position.getY() == 0 ) {
-            if (position.getSpot() == 0 || position.getSpot() == 1) return true;
+        int y = position.getY();
+        int x = position.getX();
+        int spot = position.getSpot();
+        if (y == 0) {
+            if (spot == 0 || spot == 1) {
+                return true;
+            }
         }
-
         //is on right border
-        if (position.getX() == 5 ) {
-            if (position.getSpot() == 2 || position.getSpot() == 3) return true;
+        if (x == 5 ) {
+            if (spot == 2 || spot == 3) {
+                return true;
+            }
         }
 
         //is on bottom border
-        if (position.getY() == 5 ) {
-            if (position.getSpot() == 4 || position.getSpot() == 5) return true;
+        if (y == 5 ) {
+            if (spot == 4 || spot == 5) {
+                return true;
+            }
         }
 
         //is on left border
-        if (position.getX() == 0 ) {
-            if (position.getSpot() == 6 || position.getSpot() == 7) return true;
+        if (x == 0 ) {
+            if (spot == 6 || spot == 7) {
+                return true;
+            }
         }
 
         return false;
@@ -144,39 +160,6 @@ public class Board {
 //    public boolean legalplay(Tile tile) {
 //
 //    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Board board = (Board) o;
-        if (playerToPosition.size() != board.playerToPosition.size())
-            return false;
-
-        if (numTiles != board.numTiles) return false;
-
-        for (int i=0; i<6; i++) {
-            for (int j=0; j<6; j++) {
-                if (tiles[i][j]== null && board.tiles[i][j]==null)
-                    continue;
-                else if (tiles[i][j]== null || board.tiles[i][j]==null)
-                    return false;
-                else if (!tiles[i][j].equals(board.tiles[i][j]))
-                    return false;
-            }
-        }
-
-        for (Map.Entry<SPlayer, PlayerPosition> entry : playerToPosition.entrySet()) {
-            SPlayer key = entry.getKey();
-            PlayerPosition value = entry.getValue();
-            if (board.playerToPosition.get(key) == null)
-                return false;
-            if (!board.playerToPosition.get(key).equals(value))
-                return false;
-        }
-        return true;
-
-    }
 
 
 }

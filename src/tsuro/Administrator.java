@@ -211,8 +211,6 @@ public class Administrator {
         if (winners.size() != 0) {
             return winners;
         }
-
-
         List<SPlayer> drawOrder = activePlayers;
         if (playerWithDragonTile != null) {
             // if some player has dragon tile, change the order of drawing
@@ -243,7 +241,6 @@ public class Administrator {
             dead.removeHandTiles();
             deadPlayers.add(dead);
             dead.setDead();
-
         }
     }
 
@@ -268,8 +265,6 @@ public class Administrator {
             currentDrawer = getNextDrawer(drawOrder, currentDrawer);
         }
     }
-
-
 
 
     public List<SPlayer> reorderPlayers(List<SPlayer> activePlayers, SPlayer currentPlayer) {

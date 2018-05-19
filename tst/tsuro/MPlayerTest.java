@@ -41,78 +41,9 @@ public class MPlayerTest {
 
     }
 
-    @Test
-    public void symmetry4() {
-        MPlayer p = new LeastSymmetricPlayer("R");
-        Tile sym4 = new Tile(new int[]{0,1,2,3,4,5,6,7});
-        assertEquals(4, p.symmetry(sym4));
-    }
-
-    @Test
-    public void symmetry4_1() {
-        MPlayer p = new LeastSymmetricPlayer("R");
-        Tile sym4 = new Tile(new int[]{0,5,1,4,2,7,3,6});
-        assertEquals(4, p.symmetry(sym4));
-    }
-
-    @Test
-    public void symmetry4_2() {
-        MPlayer p = new LeastSymmetricPlayer("R");
-        Tile sym4 = new Tile(new int[]{0,3,1,6,2,5,4,7});
-        assertEquals(4, p.symmetry(sym4));
-    }
-
-
-    @Test
-    public void symmetry2() {
-        MPlayer p = new LeastSymmetricPlayer("R");
-        Tile sym2 = new Tile(new int[]{0,1,2,6,3,7,4,5});
-        assertEquals(2, p.symmetry(sym2));
-    }
-
-    @Test
-    public void symmetry2_1() {
-        MPlayer p = new LeastSymmetricPlayer("R");
-        Tile sym2 = new Tile(new int[]{0,3,1,5,2,6,4,7});
-        assertEquals(2, p.symmetry(sym2));
-    }
-
-    @Test
-    public void symmetry2_2() {
-        MPlayer p = new LeastSymmetricPlayer("R");
-        Tile sym2 = new Tile(new int[]{0,4,1,2,3,7,5,6});
-        assertEquals(2, p.symmetry(sym2));
-    }
-
-    @Test
-    public void symmetry2_3() {
-        MPlayer p = new LeastSymmetricPlayer("R");
-        Tile sym2 = new Tile(new int[]{0,2,1,3,4,6,5,7});
-        assertEquals(2, p.symmetry(sym2));
-    }
-
-    @Test
-    public void symmetry1() {
-        MPlayer p = new LeastSymmetricPlayer("R");
-        Tile sym1 = new Tile(new int[]{2,3,4,5,1,6,0,7});
-        assertEquals(1, p.symmetry(sym1));
-    }
-
-    @Test
-    public void symmetry1_1() {
-        MPlayer p = new LeastSymmetricPlayer("R");
-        Tile sym1 = new Tile(new int[]{0,5,1,6,2,7,3,4});
-        assertEquals(1, p.symmetry(sym1));
-    }
 
 
 
-    @Test
-    public void symmetry0() {
-        MPlayer p = new LeastSymmetricPlayer("R");
-        Tile sym0 = new Tile(new int[]{0,3,1,7,2,6,4,5});
-        assertEquals(0, p.symmetry(sym0));
-    }
 
     @Test
     public void rotateTileTillLegal() {

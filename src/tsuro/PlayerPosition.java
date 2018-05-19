@@ -50,15 +50,9 @@ public class PlayerPosition {
         outOfBound = true;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        PlayerPosition that = (PlayerPosition) o;
-        return y == that.y &&
-                x == that.x &&
-                spot == that.spot &&
-                outOfBound == that.outOfBound;
+
+    public boolean equals(PlayerPosition p) {
+        return (this.getX() == p.getX() && this.getY() == p.getY() && this.getSpot() == p.getSpot());
     }
 
 }
