@@ -181,7 +181,7 @@ public class Tile {
     }
 
     //TODO: implement this and test this
-    public int getSymmtryScore(){
+    public int getSymmetryScore(){
         Set<Map<Integer, Integer>> maps = new HashSet<>();
         maps.add(createMap(new int[]{2,3,1,4,0,5,6,7}));
         maps.add(createMap(new int[]{0,1,2,7,3,6,4,5}));
@@ -209,10 +209,6 @@ public class Tile {
     }
 
 
-
-    public static void main(String argv[]) {
-        Tile tile = new Tile(new int[]{0, 5, 1, 3, 2, 6,4, 7});
-        System.out.println(tile.getSymmtryScore());
-    }
+    
 }
 

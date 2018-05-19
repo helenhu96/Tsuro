@@ -153,21 +153,21 @@ public class TileTest {
     public void symmetry4() {
         MPlayer p = new LeastSymmetricPlayer("R");
         Tile sym4 = new Tile(new int[]{0,1,2,3,4,5,6,7});
-        assertEquals(4, sym4.getSymmtryScore());
+        assertEquals(4, sym4.getSymmetryScore());
     }
 
     @Test
     public void symmetry4_1() {
         MPlayer p = new LeastSymmetricPlayer("R");
         Tile sym4 = new Tile(new int[]{0,5,1,4,2,7,3,6});
-        assertEquals(4, sym4.getSymmtryScore());
+        assertEquals(4, sym4.getSymmetryScore());
     }
 
     @Test
     public void symmetry4_2() {
         MPlayer p = new LeastSymmetricPlayer("R");
         Tile sym4 = new Tile(new int[]{0,3,1,6,2,5,4,7});
-        assertEquals(4, sym4.getSymmtryScore());
+        assertEquals(4, sym4.getSymmetryScore());
     }
 
 
@@ -175,42 +175,42 @@ public class TileTest {
     public void symmetry2() {
         MPlayer p = new LeastSymmetricPlayer("R");
         Tile sym2 = new Tile(new int[]{0,1,2,6,3,7,4,5});
-        assertEquals(2, sym2.getSymmtryScore());
+        assertEquals(2, sym2.getSymmetryScore());
     }
 
     @Test
     public void symmetry2_1() {
         MPlayer p = new LeastSymmetricPlayer("R");
         Tile sym2 = new Tile(new int[]{0,3,1,5,2,6,4,7});
-        assertEquals(2, sym2.getSymmtryScore());
+        assertEquals(2, sym2.getSymmetryScore());
     }
 
     @Test
     public void symmetry2_2() {
         MPlayer p = new LeastSymmetricPlayer("R");
         Tile sym2 = new Tile(new int[]{0,4,1,2,3,7,5,6});
-        assertEquals(2, sym2.getSymmtryScore());
+        assertEquals(2, sym2.getSymmetryScore());
     }
 
     @Test
     public void symmetry2_3() {
         MPlayer p = new LeastSymmetricPlayer("R");
         Tile sym2 = new Tile(new int[]{0,2,1,3,4,6,5,7});
-        assertEquals(2, sym2.getSymmtryScore());
+        assertEquals(2, sym2.getSymmetryScore());
     }
 
     @Test
     public void symmetry1() {
         MPlayer p = new LeastSymmetricPlayer("R");
         Tile sym1 = new Tile(new int[]{2,3,4,5,1,6,0,7});
-        assertEquals(1, sym1.getSymmtryScore());
+        assertEquals(1, sym1.getSymmetryScore());
     }
 
     @Test
     public void symmetry1_1() {
         MPlayer p = new LeastSymmetricPlayer("R");
         Tile sym1 = new Tile(new int[]{0,5,1,6,2,7,3,4});
-        assertEquals(1, sym1.getSymmtryScore());
+        assertEquals(1, sym1.getSymmetryScore());
     }
 
 
@@ -219,7 +219,7 @@ public class TileTest {
     public void symmetry0() {
         MPlayer p = new LeastSymmetricPlayer("R");
         Tile sym0 = new Tile(new int[]{0,3,1,7,2,6,4,5});
-        assertEquals(0, sym0.getSymmtryScore());
+        assertEquals(0, sym0.getSymmetryScore());
     }
 
 

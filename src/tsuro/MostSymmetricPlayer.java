@@ -19,7 +19,7 @@ class MostSymmetricPlayer extends MPlayer {
         Map<Integer, List<Tile>> scores = new HashMap<>();
 
         for (Tile t: tiles){
-            int score = t.getSymmtryScore();
+            int score = t.getSymmetryScore();
 
             if (!scores.containsKey(score)){
                 List<Tile> newList = new ArrayList<>();

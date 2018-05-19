@@ -3,7 +3,6 @@ package tsuro;
 import java.util.*;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
 
 
 class LeastSymmetricPlayer extends MPlayer {
@@ -22,7 +21,7 @@ class LeastSymmetricPlayer extends MPlayer {
         Map<Integer, List<Tile>> scores = new HashMap<>();
 
         for (Tile t: hand){
-            int score = t.getSymmtryScore();
+            int score = t.getSymmetryScore();
 
             if (!scores.containsKey(score)){
                 List<Tile> newList = new ArrayList<>();
