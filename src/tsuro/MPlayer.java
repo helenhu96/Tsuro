@@ -90,12 +90,7 @@ abstract class MPlayer implements IPlayer {
     //protected helper functions-----------------------------------------------------------------------------------
 
 
-    /**
-     *
-     * @param board
-     * @param tile
-     * @return returns true if a tile doesn't lead player to edge of board
-     */
+    //TODO: consider moving this to board class and remove continue
     protected Tile rotateTileTillLegal(Board board, Tile tile) {
         Tile t = new Tile(tile);
         for (int i = 0; i < 4; i++) {

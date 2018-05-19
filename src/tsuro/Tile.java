@@ -1,84 +1,75 @@
 package tsuro;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
-//Tiles have one field: a list of number pairs, each representing two connected points on the tile
-public class Tile {
+@XmlRootElement
+public class Tile{
     //List of possible rotations of tile
-    private List<List<int[]>> rotations;
+    private List<int[]> path;
     //int in the range of [0, 1, 2, 3], each representing a different direction
     private int orientation;
     private int SymmetryScore;
 
+
+
     public Tile(){
-        this.rotations = new ArrayList<>();
+        this.path = new ArrayList<>();
         this.orientation = 0;
     }
 
-    public Tile(List<List<int[]>> rotations) {
-        this.rotations = rotations;
-        this.orientation = 0;
-    }
-
-    //TODO: do we need a list for that??
+    //TODO: consider removing rotations and calculate at getconnected directly
     public Tile(int[] points) {
         if (points.length!=8) {
             throw new java.lang.IllegalArgumentException("Bad argument for Tile constructor");
         }
 
-        this.rotations = new ArrayList<>();
-        for (int i=0; i<4; i++) {
-            List<int[]> list = new ArrayList<>();
-            list.add(new int[]{(points[0]+2*i)%8, (points[1]+2*i)%8});
-            list.add(new int[]{(points[2]+2*i)%8, (points[3]+2*i)%8});
-            list.add(new int[]{(points[4]+2*i)%8, (points[5]+2*i)%8});
-            list.add(new int[]{(points[6]+2*i)%8, (points[7]+2*i)%8});
-            this.rotations.add(list);
-        }
-
+        this.path = new ArrayList<>();
+//        for (int i=0; i<4; i++) {
+//            List<int[]> list = new ArrayList<>();
+//            list.add(new int[]{(points[0]+2*i)%8, (points[1]+2*i)%8});
+//            list.add(new int[]{(points[2]+2*i)%8, (points[3]+2*i)%8});
+//            list.add(new int[]{(points[4]+2*i)%8, (points[5]+2*i)%8});
+//            list.add(new int[]{(points[6]+2*i)%8, (points[7]+2*i)%8});
+//            this.rotations.add(list);
+//        }
+        path.add(new int[]{points[0], points[1]});
+        path.add(new int[]{points[2], points[3]});
+        path.add(new int[]{points[4], points[5]});
+        path.add(new int[]{points[6], points[7]});
         this.orientation = 0;
+        //encodeTile(points);
+
     }
 
-    public Tile(Tile tile) {
-        this.rotations = new ArrayList<>();
-        for (int i=0; i<tile.rotations.size(); i++) {
-            List<int[]> list = new ArrayList<>();
-            for (int[] a : tile.rotations.get(i)) {
-                list.add(a.clone());
-            }
-            this.rotations.add(list);
-        }
 
+    //copy tile
+    public Tile(Tile tile) {
+        this.path = new ArrayList<>();
+        for (int[] a : tile.path) {
+            this.path.add(a.clone());
+        }
         this.orientation = tile.orientation;
     }
 
     public void rotateClockwise() {
-        this.orientation = (this.orientation+1)%4;
-    }
-
-    public List<int[]> getRotation(int r) {
-        if (r<0 || r>3) {
-            System.out.println("Rotation invalid");
-            return new ArrayList<>();
+        this.orientation = (this.orientation + 1) % 4;
+        for (int[] pair: path) {
+            int a = (pair[0] + 2) % 8;
+            int b = (pair[1] + 2) % 8;
+            pair[0] = Math.min(a, b);
+            pair[1] = Math.max(a, b);
         }
-        return rotations.get(r);
+        path.sort((int[] a, int[] b) -> Integer.compare(a[0], b[0]));
     }
 
-    public void print() {
-        for (int i = 0; i < 4; i++){
-            System.out.println(rotations.get(orientation).get(i)[0] + " , " + rotations.get(orientation).get(i)[1]);
-        }
-        System.out.println("orientation is " + this.orientation);
+    public List<int[]> getPath() {
+        return this.path;
     }
 
-    //returns paths under current orientation
-    public List<int[]> getPaths() {
-        return rotations.get(orientation);
-    }
 
     public int getOrientation() {
         return this.orientation;
@@ -86,28 +77,28 @@ public class Tile {
 
     //checks if given tile is the same as this tile
     public boolean sameTile(Tile tile) {
-        if (tile == null) {
-            return false;
-        }
-        for (int i=0; i<rotations.size(); i++) {
-            List<int[]> a = this.rotations.get(i);
-            List<int[]> b = tile.rotations.get(i);
-            for (int j=0; j<a.size(); j++) {
-                if (a.get(j)[0] != b.get(j)[0] ||
-                        a.get(j)[1] != b.get(j)[1])
-                    return false;
+        Tile cloned = new Tile(tile);
+        for (int i = 0; i < 4; i++) {
+            if (arePathsIdentical(cloned)) {
+                return true;
             }
+            cloned.rotateClockwise();
         }
+        return false;
+    }
 
+    private boolean arePathsIdentical(Tile tile) {
+        List<int[]> a = this.path;
+        List<int[]> b = tile.path;
+        for (int j=0; j< 4 ; j++) {
+            if (a.get(j)[0] != b.get(j)[0] || a.get(j)[1] != b.get(j)[1])
+                return false;
+        }
         return true;
     }
 
-
-    //TODO: fix this
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
         Tile tile = (Tile) o;
         return orientation == tile.orientation &&
                 sameTile(tile);
@@ -116,12 +107,15 @@ public class Tile {
 
     //returns the endpoint connected to the given endpoint
     public int getConnected(int curr) {
-        List<int[]> pairs = this.rotations.get(orientation);
-        for (int i=0; i<pairs.size(); i++) {
-            if (pairs.get(i)[0]==curr) return pairs.get(i)[1];
-            if (pairs.get(i)[1]==curr) return pairs.get(i)[0];
+        for (int i=0; i<path.size(); i++) {
+            if (path.get(i)[0]==curr) {
+                return path.get(i)[1];
+            }
+            if (path.get(i)[1]==curr) {
+                return path.get(i)[0];
+            }
         }
-        throw new java.lang.IllegalArgumentException("Given point does not exist on tile");
+        throw new IllegalArgumentException("Given point does not exist on tile");
     }
 
 
@@ -153,7 +147,7 @@ public class Tile {
         return tiles;
     }
 
-    //todo: consider rotation
+
     public boolean isLegalTile(){
         Tile copyTile = new Tile(this);
         List<Tile> tiles = getAllLegalTiles();
@@ -192,7 +186,7 @@ public class Tile {
         maps.add(createMap(new int[]{0,1,2,7,3,6,4,5}));
         maps.add(createMap(new int[]{1,2,0,3,4,7,5,6}));
         maps.add(createMap(new int[]{0,7,1,6,2,5,3,4}));
-        List<int[]> paths = this.getRotation(0);
+        List<int[]> paths = this.getPath();
         int count = 0;
         for (Map<Integer, Integer> m: maps){
             boolean stillgood = true;
@@ -214,6 +208,45 @@ public class Tile {
     }
 
 
-    
+//
+//    @XmlElement
+//    public void setConnect(List<n> list)
+//    {
+//
+//        this.connect = list;
+//
+//    }
+//
+//    public void addConnect(n node) {
+//        this.connect.add(node);
+//    }
+//
+//    public List<n> getConnect()
+//
+//    {
+//        return this.connect;
+//    }
+//
+//    @XmlType
+//    public static class n {
+//        private List<Integer> n;
+//
+//        public n() {
+//            this.n = new ArrayList<>();
+//        }
+//
+//        @XmlElement
+//        public List<Integer> getN() {
+//            return this.n;
+//        }
+//
+//        public void setN(List<Integer> n) {
+//            this.n = n;
+//        }
+//
+//    }
+
+
+
 }
 

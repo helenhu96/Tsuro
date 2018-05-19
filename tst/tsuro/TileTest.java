@@ -115,19 +115,10 @@ public class TileTest {
 
 
     @Test
-    public void getRotation() {
+    public void isSameTile() {
         Tile testTile = new Tile(new int[]{0,5,1,3,2,6,4,7});
-        List<int[]> expected = new ArrayList<>();
-        expected.add(new int[]{2, 7});
-        expected.add(new int[]{3, 5});
-        expected.add(new int[]{4, 0});
-        expected.add(new int[]{6, 1});
-
-
-        List<int[]> test = testTile.getRotation(1);
-        for (int i=0; i<expected.size(); i++) {
-            assertTrue(Arrays.equals(expected.get(i), test.get(i)));
-        }
+        Tile newtile = new Tile(new int[]{0,4,1,6,2,7,3,5});
+        assertTrue(testTile.sameTile(newtile));
     }
 
     @Test
