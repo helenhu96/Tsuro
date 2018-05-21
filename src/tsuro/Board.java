@@ -1,19 +1,27 @@
 package tsuro;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 
+@XmlRootElement
 public class Board {
+
+
     private Tile[][] tiles;
-    private Map<SPlayer, PlayerPosition> playerToPosition;
+    public Map<SPlayer, PlayerPosition> playerToPosition;
     private int numTiles;
     private static int boardsize = 6;
+    private List<Tile> tilesOnBoard;
+
 
     public Board() {
         this.tiles = new Tile[boardsize][boardsize];
         this.playerToPosition = new HashMap<>();
         this.numTiles = 0;
+        this.tilesOnBoard = new ArrayList<>();
     }
 
     public Tile getTile(int y, int x) {
@@ -27,7 +35,15 @@ public class Board {
         }
         tiles[y][x] = new Tile(tile);
         numTiles++;
+        tilesOnBoard.add(tile);
     }
+
+
+
+    public Map<SPlayer, PlayerPosition> getPlayerToPosition() {
+        return this.playerToPosition;
+    }
+
 
 
     public Tile removeTile(int y, int x) {
@@ -47,7 +63,6 @@ public class Board {
     //updates token's next position
     public void updatePlayerPosition(SPlayer player, PlayerPosition newPos) {
         playerToPosition.put(player, new PlayerPosition(newPos));
-        return;
     }
 
     //returns the set of colors of the players in this game
@@ -213,4 +228,7 @@ public class Board {
         }
         return position;
     }
+
+
+
 }

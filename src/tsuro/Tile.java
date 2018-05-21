@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
+
 public class Tile{
     //List of possible rotations of tile
     private List<int[]> path;

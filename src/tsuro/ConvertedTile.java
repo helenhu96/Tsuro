@@ -8,7 +8,7 @@ import java.util.*;
 @XmlRootElement (name = "tile")
 public class ConvertedTile {
 
-    List<Node> connect;
+    List<Number> connect;
 
     public ConvertedTile() {}
 
@@ -16,49 +16,32 @@ public class ConvertedTile {
         setConnect(new ArrayList<>());
         List<int[]> path = tile.getPath();
         for (int[] pair: path) {
-            Node node = new Node();
+            Number num = new Number();
             List<Integer> list = new ArrayList<>();
             list.add(pair[0]);
             list.add(pair[1]);
-            node.setNode(list);
-            addConnect(node);
+            num.setNumber(list);
+            addConnect(num);
         }
     }
 
     @XmlElement
-    public void setConnect(List<Node> list)
+    public void setConnect(List<Number> list)
     {
 
         this.connect = list;
 
     }
 
-    public void addConnect(Node node) {
-        this.connect.add(node);
+    public void addConnect(Number n) {
+        this.connect.add(n);
     }
 
-    public List<Node> getConnect()
+    public List<Number> getConnect()
 
     {
         return this.connect;
     }
 
-    @XmlType
-    public static class Node {
-        private List<Integer> nodes;
 
-        public Node() {
-            this.nodes = new ArrayList<>();
-        }
-
-        @XmlElement(name = "n")
-        public List<Integer> getNode() {
-            return this.nodes;
-        }
-
-        public void setNode(List<Integer> nodes) {
-            this.nodes = nodes;
-        }
-
-    }
 }

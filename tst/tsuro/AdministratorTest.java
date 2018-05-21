@@ -377,9 +377,8 @@ public class AdministratorTest {
 
     @Test
     public void testIllegalTile() throws Exception{
-        Tile tile = new Tile(new int[]{0,5,1,7,2,3,4,6});
+        Tile tile = new Tile(new int[]{0,7,1,2,5,3,4,6});
         assertFalse(tile.isLegalTile());
-
     }
 
     @Test

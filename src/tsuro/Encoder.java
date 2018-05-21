@@ -19,5 +19,45 @@ public class Encoder {
         System.out.println(xmlString);
     }
 
+    public static void encodeBoard(Board board) throws Exception
+    {
+        ConvertedBoard cboard = new ConvertedBoard(board);
 
+        StringWriter sw = new StringWriter();
+        JAXBContext jaxbContext = JAXBContext.newInstance(ConvertedBoard.class);
+        Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+        jaxbMarshaller.marshal(cboard, sw);
+        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        jaxbMarshaller.marshal(cboard, sw);
+
+        String xmlString = sw.toString();
+        System.out.println(xmlString);
+    }
+
+    public static void encodePawnLoc(PlayerPosition position) throws Exception
+    {
+        PawnLocation pawn = new PawnLocation(position);
+        StringWriter sw = new StringWriter();
+        JAXBContext jaxbContext = JAXBContext.newInstance(PawnLocation.class);
+        Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+        jaxbMarshaller.marshal(pawn, sw);
+        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        jaxbMarshaller.marshal(pawn, sw);
+
+        String xmlString = sw.toString();
+        System.out.println(xmlString);
+    }
+
+
+    public static void encodePawns(Pawns pawns) throws Exception
+    {
+        StringWriter sw = new StringWriter();
+        JAXBContext jaxbContext = JAXBContext.newInstance(Pawns.class);
+        Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+        jaxbMarshaller.marshal(pawns, sw);
+        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        jaxbMarshaller.marshal(pawns, sw);
+        String xmlString = sw.toString();
+        System.out.println(xmlString);
+    }
 }

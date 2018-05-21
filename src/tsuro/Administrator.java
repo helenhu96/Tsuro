@@ -211,7 +211,7 @@ public class Administrator {
         return getWinners(board, activePlayers, playersDiedThisTurn);
     }
 
-    public void handleDeadPlayers(List<SPlayer> playersDiedThisTurn, DrawPile pile) {
+    public void handleDeadPlayers(List<SPlayer> playersDiedThisTurn, DrawPile pile) throws Exception{
         for (SPlayer dead: playersDiedThisTurn){
             if (dead.equals(playerWithDragonTile)) {
                 this.returnDragon(pile);
@@ -224,7 +224,7 @@ public class Administrator {
         }
     }
 
-    public void drawTiles(DrawPile pile, SPlayer currentDrawer, List<SPlayer> drawOrder) {
+    public void drawTiles(DrawPile pile, SPlayer currentDrawer, List<SPlayer> drawOrder) throws Exception{
         //distribute tiles to players with under-full hands
         while (!stopDrawing(pile, activePlayers)) {
             // if current player is the dragon owner, return the dragon to pile first
@@ -265,12 +265,12 @@ public class Administrator {
 
     //TODO: handle exceptions
     // returns the dragon to the pile
-    public DrawPile returnDragon(DrawPile pile) {
+    public DrawPile returnDragon(DrawPile pile) throws Exception{
         this.playerWithDragonTile = null;
         try {
             pile.addDragon();
         } catch (Exception e) {
-
+            throw e;
         }
         return pile;
     }

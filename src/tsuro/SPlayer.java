@@ -1,8 +1,11 @@
 package tsuro;
 
 import java.util.*;
+import javax.xml.bind.annotation.XmlElement;
+
 public class SPlayer {
     private String color;
+    @XmlElement
     private List<Tile> handTiles;
     private IPlayer iplayer;
     private boolean alive;
