@@ -43,5 +43,19 @@ public class ConvertedTile {
         return this.connect;
     }
 
+    public Tile backtoTile(){
+        int[] input = new int[8];
+        int count = 0;
+
+        for (Number nd: connect){
+            input[count] = nd.getNumber().get(0);
+            count++;
+            input[count] = nd.getNumber().get(1);
+            count++;
+        }
+
+        return new Tile(input);
+    }
+
 
 }

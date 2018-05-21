@@ -38,4 +38,39 @@ public class ConvertedBoard {
     }
 
 
+//    public static Map<Tile, int[]> backtoTiles(List<TileEntry> entries){
+//
+//        Map<Tile, int[]> tile_map = new HashMap<>();
+//
+//        for (int i = 0; i < entries.size(); i++) {
+//            TileEntry curr = entries.get(i);
+//
+//            Tile t = curr.getCtile().backtoTile();
+//            int[] loc = curr.getXy().backtoXY();
+//
+//            tile_map.put(t, loc);
+//        }
+//
+//        return tile_map;
+//    }
+
+
+//    public Board backtoBoard(){
+//
+//        Board ob = new Board();
+//
+//        Map<Tile, int[]> tileLocations = backtoTiles(tiles.entries);
+//        for (Tile t: tileLocations.keySet()){
+//            ob.placeTile(t, tileLocations.get(t)[0], tileLocations.get(t)[1]);
+//        }
+//
+//
+//        //unhandled pawn positions
+//
+//
+//
+//        return ob;
+//    }
+
+
 }
