@@ -9,6 +9,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.*;
 import java.io.File;
+import java.io.StringReader;
 import java.util.*;
 
 public class Decoder {
@@ -44,7 +45,7 @@ public class Decoder {
 
             DocumentBuilder builder = factory.newDocumentBuilder();
 
-            return builder.parse(new InputSource(docString));
+            return builder.parse(new InputSource(new StringReader(docString)));
 
         }
         catch (Exception ex){
@@ -123,7 +124,7 @@ public class Decoder {
             Object element = u.unmarshal(t);
             Tile result = ((ConvertedTile) element).backtoTile();
             return result;
-        } catch (JAXBException e){
+        } catch (JAXBException e) {
             throw new JAXBException(e.getMessage());
         }
     }
@@ -290,35 +291,7 @@ public class Decoder {
             throw new JAXBException(e.getMessage());
         }
     }
+    
 
 
-
-
-
-
-
-
-    public static void main(String argv[]) throws Exception {
-
-
-        Document doc = getDocument("./src/tsuro/tile.xml");
-
-
-
-        //board
-        NodeList boardList = doc.getChildNodes();
-
-
-        Decoder dec = new Decoder();
-        Tile result = dec.decode_tile(boardList.item(0));
-
-
-
-        /*
-        Element el = doc.getDocumentElement();
-        String hehe = el.getTagName();
-        */
-
-
-    }
 }

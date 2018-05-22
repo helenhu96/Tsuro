@@ -7,7 +7,7 @@ import javax.xml.bind.Marshaller;
 
 public class Encoder {
 
-    public static void encodeTile(Tile t) throws Exception
+    public static String encodeTile(Tile t) throws Exception
     {
         ConvertedTile ctile = new ConvertedTile(t);
         JAXBContext jaxbContext = JAXBContext.newInstance(ConvertedTile.class);
@@ -16,7 +16,8 @@ public class Encoder {
         StringWriter sw = new StringWriter();
         jaxbMarshaller.marshal(ctile, sw);
         String xmlString = sw.toString();
-        System.out.println(xmlString);
+//        System.out.println(xmlString);
+        return xmlString;
     }
 
     public static void encodeBoard(Board board) throws Exception
