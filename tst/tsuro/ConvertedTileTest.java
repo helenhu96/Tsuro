@@ -15,6 +15,7 @@ public class ConvertedTileTest {
     public void testConvertTile() throws Exception{
         Tile tile = new Tile(new int[]{0, 7, 1, 2, 3, 4, 5, 6});
         Encoder.encodeTile(tile);
+
     }
 
     @Test
