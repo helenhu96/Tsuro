@@ -24,4 +24,14 @@ public class ListofColor {
     public List<String> getListofColor(){
         return this.colors;
     }
+
+    public List<String> backtoColors(){
+        List<String> result = new ArrayList<>();
+
+        for (String str: colors){
+            result.add(str);
+        }
+
+        return result;
+    }
 }

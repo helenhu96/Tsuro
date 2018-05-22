@@ -26,6 +26,16 @@ public class SetofColor {
         return this.colors;
     }
 
+    public Set<String> backtoColors(){
+        Set<String> result = new HashSet<>();
+
+        for (String str: colors){
+            result.add(str);
+        }
+
+        return result;
+    }
+
 }
 
 

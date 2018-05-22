@@ -38,4 +38,17 @@ public class List_SPlayer {
             this.splayers.add(new SPlayer_nodragon(splayer));
         }
     }
+
+    public List<SPlayer> backtoSPlayers(){
+        List<SPlayer> list = new ArrayList<>();
+
+        for (XmlSplayer player: splayers){
+            if (player instanceof SPlayer_dragon){
+                list.add(((SPlayer_dragon) player).backtoSPlayer());
+            } else {
+                list.add(((SPlayer_nodragon)player).backtoSPlayer());
+            }
+        }
+        return list;
+    }
 }

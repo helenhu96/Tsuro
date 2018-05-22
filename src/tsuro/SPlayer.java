@@ -74,6 +74,8 @@ public class SPlayer {
         this.amIDragon = true;
     }
 
+    public void setDragon(boolean bool) { this.amIDragon = bool;}
+
     public void returnDragon() {
         this.amIDragon = false;
     }
@@ -107,6 +109,7 @@ public class SPlayer {
     public boolean isAlive() {
         return this.alive;
     }
+
 
 
 }

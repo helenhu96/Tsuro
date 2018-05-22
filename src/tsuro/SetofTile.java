@@ -1,4 +1,6 @@
 package tsuro;
+import com.sun.tools.javac.util.Convert;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.*;
@@ -28,5 +30,15 @@ public class SetofTile {
 
     public void addSetofTile(Tile t) {
         this.ctiles.add(new ConvertedTile(t));
+    }
+
+    public Set<Tile> backtoTiles(){
+        Set<Tile> result = new HashSet<>();
+
+        for (ConvertedTile ct: ctiles){
+            result.add(ct.backtoTile());
+        }
+
+        return result;
     }
 }

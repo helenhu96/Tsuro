@@ -1,4 +1,6 @@
 package tsuro;
+import com.sun.tools.javac.util.Convert;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
@@ -29,5 +31,13 @@ public class ListofTile {
 
     public void addListofTile(Tile t) {
         this.ctiles.add(new ConvertedTile(t));
+    }
+
+    public List<Tile> backtoTiles(){
+        List<Tile> result = new ArrayList<>();
+        for (int i = 0; i < ctiles.size(); i++){
+            result.add(ctiles.get(i).backtoTile());
+        }
+        return result;
     }
 }

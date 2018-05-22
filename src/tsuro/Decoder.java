@@ -3,6 +3,7 @@ package tsuro;
 import org.xml.sax.*;
 import org.w3c.dom.*;
 
+import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
@@ -34,7 +35,7 @@ public class Decoder {
 
 
 
-    public static Document getDocument(String docString) {
+    public static Document getDocument(String docString) throws Exception{
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             factory.setIgnoringComments(true);
@@ -47,79 +48,75 @@ public class Decoder {
 
         }
         catch (Exception ex){
-            System.out.println(ex.getMessage());
+            throw new Exception(ex.getMessage());
         }
-
-        return null;
-    }
-
-
-    public void decode_general(String docString){
-        Document doc = getDocument(docString);
-        String function = doc.getDocumentElement().getTagName();
-
-
-        // handle different cases based on the different function calls
-        if (function.equals("player-name")){
-
-        }
-
-        else if (function.equals("initialize")){
-
-        }
-
-
-        else if (function.equals("place-pawn")){
-
-        }
-
-        else if (function.equals("pawn-loc")){
-
-        }
-
-        else if (function.equals("play-turn")){
-
-        }
-
-        else if (function.equals("tile")){
-
-        }
-
-        else if (function.equals("end-game")){
-
-        }
-
-        else {
-            //do nothing
-        }
-
-
 
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-    public Tile decode_tile(String docString) throws JAXBException {
+    public void decode_general(String docString) throws Exception{
         try {
             Document doc = getDocument(docString);
+            String function = doc.getDocumentElement().getTagName();
 
-            NodeList tile = doc.getElementsByTagName("tile");
 
-            if (tile.getLength() > 1){
-                throw new IllegalArgumentException("The input file is not a single tile!");
+            // handle different cases based on the different function calls
+            if (function.equals("player-name")) {
+                String str = doc.getFirstChild().getTextContent();
+                arguments.add(str);
+
+            } else if (function.equals("initialize")) {
+                Node color = doc.getFirstChild();
+                Node list_of_color = doc.getFirstChild().getNextSibling();
+
+                arguments.add(color.getTextContent());
+                arguments.add(decode_listofColors(list_of_color));
+
+            } else if (function.equals("place-pawn")) {
+                Node board = doc.getFirstChild();
+
+                arguments.add(decode_board(board));
+
+            }  else if (function.equals("play-turn")) {
+                Node board = doc.getFirstChild();
+                Node setofTiles = doc.getFirstChild().getNextSibling();
+                String n = doc.getLastChild().getTextContent();
+
+                arguments.add(decode_board(board));
+                arguments.add(decode_setofTiles(setofTiles));
+                arguments.add(n);
+
+
+            } else if (function.equals("tile")) {
+
+            } else if (function.equals("end-game")) {
+
+            } else {
+                //do nothing
             }
 
-            Node t = tile.item(0);
+        } catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public Tile decode_tile(Node t) throws JAXBException {
+        try {
 
             JAXBContext jc = JAXBContext.newInstance(ConvertedTile.class);
             Unmarshaller u = jc.createUnmarshaller();
@@ -222,13 +219,90 @@ public class Decoder {
         }
     }
 
+    public List<String> decode_listofColors(Node lc) throws JAXBException {
+        try {
+
+            JAXBContext jc = JAXBContext.newInstance(ListofColor.class);
+            Unmarshaller u = jc.createUnmarshaller();
+            ListofColor element = (ListofColor) u.unmarshal(lc);
+
+            return element.backtoColors();
+
+        } catch (JAXBException e){
+            throw new JAXBException(e.getMessage());
+        }
+    }
+
+
+    public List<Tile> decode_listofTiles(Node lt) throws JAXBException {
+        try {
+
+            JAXBContext jc = JAXBContext.newInstance(ListofTile.class);
+            Unmarshaller u = jc.createUnmarshaller();
+            ListofTile element = (ListofTile) u.unmarshal(lt);
+
+            return element.backtoTiles();
+
+        } catch (JAXBException e){
+            throw new JAXBException(e.getMessage());
+        }
+    }
+
+    public Set<Tile> decode_setofTiles(Node st) throws JAXBException {
+        try {
+
+            JAXBContext jc = JAXBContext.newInstance(SetofTile.class);
+            Unmarshaller u = jc.createUnmarshaller();
+            SetofTile element = (SetofTile) u.unmarshal(st);
+
+            return element.backtoTiles();
+
+        } catch (JAXBException e){
+            throw new JAXBException(e.getMessage());
+        }
+    }
+
+    public Set<String> decode_setofColors(Node sc) throws JAXBException {
+        try {
+
+            JAXBContext jc = JAXBContext.newInstance(SetofColor.class);
+            Unmarshaller u = jc.createUnmarshaller();
+            SetofColor element = (SetofColor) u.unmarshal(sc);
+
+            return element.backtoColors();
+
+        } catch (JAXBException e){
+            throw new JAXBException(e.getMessage());
+        }
+    }
+
+    public List<SPlayer> decode_listofSPlayers(Node lp) throws JAXBException {
+        try {
+
+            JAXBContext jc = JAXBContext.newInstance(List_SPlayer.class);
+            Unmarshaller u = jc.createUnmarshaller();
+            List_SPlayer element = (List_SPlayer) u.unmarshal(lp);
+
+            return element.backtoSPlayers();
+
+
+        } catch (JAXBException e){
+            throw new JAXBException(e.getMessage());
+        }
+    }
+
+
+
+
+
 
 
 
     public static void main(String argv[]) throws Exception {
 
 
-        Document doc = getDocument("./src/tsuro/board.xml");
+        Document doc = getDocument("./src/tsuro/tile.xml");
+
 
 
         //board
@@ -236,7 +310,7 @@ public class Decoder {
 
 
         Decoder dec = new Decoder();
-        Board oboard = dec.decode_board(boardList.item(0));
+        Tile result = dec.decode_tile(boardList.item(0));
 
 
 
