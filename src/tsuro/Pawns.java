@@ -2,7 +2,8 @@ package tsuro;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.*;
-@XmlRootElement (name = "map")
+
+@XmlRootElement (namespace = "pawns")
 public class Pawns {
     List<PawnEntry> entries;
     public Pawns() {}

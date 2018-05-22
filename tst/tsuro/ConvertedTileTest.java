@@ -57,7 +57,6 @@ public class ConvertedTileTest {
         board.placeTile(tile, 0,0);
         board.placeTile(tile1, 0,1);
 
-
         SPlayer player1 = new SPlayer("red");
         SPlayer player2 = new SPlayer("blue");
         PlayerPosition position = new PlayerPosition(0,0,1);
@@ -67,6 +66,45 @@ public class ConvertedTileTest {
         PawnEntry entry = new PawnEntry("red", new PawnLocation(position));
         PawnEntry entry1 = new PawnEntry("blue", new PawnLocation(position1));
         Encoder.encodeBoard(board);
+
     }
 
+
+    @Test
+    public void testListofTile1() throws Exception{
+        Tile tile = new Tile(new int[]{0, 7, 1, 2, 3, 4, 5, 6});
+        Tile tile1 = new Tile(new int[]{0, 1, 2, 3, 4, 5, 6, 7});
+        List <Tile> list = new ArrayList<>();
+        ListofTile tiles = new ListofTile(list);
+        tiles.addListofTile(tile);
+        tiles.addListofTile(tile1);
+        Encoder.encodeListofTile(tiles);
+    }
+
+    @Test
+    public void testSetofTile() throws Exception{
+        Tile tile = new Tile(new int[]{0, 7, 1, 2, 3, 4, 5, 6});
+        Tile tile1 = new Tile(new int[]{0, 1, 2, 3, 4, 5, 6, 7});
+        Set <Tile> set = new HashSet<>();
+        SetofTile tiles = new SetofTile(set);
+        tiles.addSetofTile(tile);
+        tiles.addSetofTile(tile1);
+        Encoder.encodeSetofTile(tiles);
+    }
+
+
+    @Test
+    public void testSPlayers() throws Exception{
+        SPlayer sp = new SPlayer("red");
+        Tile tile = new Tile(new int[]{0, 7, 1, 2, 3, 4, 5, 6});
+        Tile tile1 = new Tile(new int[]{0, 1, 2, 3, 4, 5, 6, 7});
+        SPlayer sp1 = new SPlayer("blue");
+        sp.receiveTile(tile);
+        sp1.receiveTile(tile1);
+        sp1.getDragon();
+        List<SPlayer> list = new ArrayList<>();
+        list.add(sp);
+        list.add(sp1);
+        Encoder.encodeSPlayers(list);
+    }
 }

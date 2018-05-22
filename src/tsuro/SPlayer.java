@@ -9,10 +9,12 @@ public class SPlayer {
     private List<Tile> handTiles;
     private IPlayer iplayer;
     private boolean alive;
+    private boolean amIDragon;
     public SPlayer(String color) {
         this.color = color;
         this.handTiles = new ArrayList<>();
         this.alive = true;
+        this.amIDragon= false;
     }
 
     public void associatePlayer(IPlayer iplayer){
@@ -66,6 +68,18 @@ public class SPlayer {
             }
         }
         return false;
+    }
+
+    public void getDragon(){
+        this.amIDragon = true;
+    }
+
+    public void returnDragon() {
+        this.amIDragon = false;
+    }
+
+    public boolean doIHaveDragon() {
+        return this.amIDragon;
     }
 
     //returns number of tiles a player has

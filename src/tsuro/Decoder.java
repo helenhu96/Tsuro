@@ -135,20 +135,92 @@ public class Decoder {
 
 
 
-//    public Board decode_board(Node b) throws JAXBException {
-//        try {
-//            JAXBContext jc = JAXBContext.newInstance(ConvertedBoard.class);
-//            Unmarshaller u = jc.createUnmarshaller();
-//            Object element = u.unmarshal(b);
-//
-//            Board result = ((ConvertedBoard)element).backtoBoard();
-//            return result;
-//
-//
-//        } catch (JAXBException e){
-//            throw new JAXBException(e.getMessage());
-//        }
-//    }
+    public Board decode_board(Node b) throws JAXBException {
+        try {
+
+            // tiles and pawns node
+            NodeList children = b.getChildNodes();
+
+            // tiles
+            Node tiles = children.item(0);
+
+            // pawns
+            Node pawns = children.item(1);
+
+            // list of tileentries
+            NodeList allTileEntries = tiles.getChildNodes();
+
+            // list of pawnentries
+            NodeList allPawnEntries = pawns.getChildNodes();
+
+            Board result = new Board();
+
+            // process the tileenties
+            decode_tileentries(result, allTileEntries);
+
+            //
+            Map<String, PlayerPosition> map = new HashMap<>();
+
+            decode_pawnentries(allPawnEntries, map, result);
+
+            return result;
+
+
+        } catch (JAXBException e){
+            throw new JAXBException(e.getMessage());
+        }
+    }
+
+    // input is an array of pawnentries, get back the matrix of tiles
+    public void decode_tileentries(Board board, NodeList entries) throws JAXBException {
+        try {
+            Tile[][] tiles = new Tile[6][6];
+
+            for(int i = 0; i < entries.getLength(); i++){
+                Node curr = entries.item(i);
+                JAXBContext jc = JAXBContext.newInstance(TileEntry.class);
+                Unmarshaller u = jc.createUnmarshaller();
+                TileEntry element = (TileEntry) u.unmarshal(curr);
+
+                Object[] result = element.backToPosandTile();
+                int[] pos = (int[]) result[0];
+                Tile tile = (Tile) result[1];
+
+                board.placeTile(tile, pos[0], pos[1]);
+            }
+
+        } catch (JAXBException e){
+            throw new JAXBException(e.getMessage());
+        }
+    }
+
+    public void decode_pawnentries(NodeList entries, Map<String, PlayerPosition> map, Board b) throws JAXBException {
+        try {
+
+            Map<String, PlayerPosition> pawn_map = new HashMap<>();
+
+            for (int i = 0; i < entries.getLength(); i++){
+                Node curr = entries.item(i);
+                JAXBContext jc = JAXBContext.newInstance(PawnEntry.class);
+                Unmarshaller u = jc.createUnmarshaller();
+                PawnEntry element = (PawnEntry) u.unmarshal(curr);
+
+                element.writePawnMap(map, b);
+
+            }
+
+            Map<SPlayer, PlayerPosition> actualMap = new HashMap<>();
+
+            for (String str: pawn_map.keySet()){
+                actualMap.put(new SPlayer(str), pawn_map.get(str));
+            }
+
+            b.playerToPosition = actualMap;
+
+        } catch (JAXBException e){
+            throw new JAXBException(e.getMessage());
+        }
+    }
 
 
 
@@ -156,21 +228,22 @@ public class Decoder {
     public static void main(String argv[]) throws Exception {
 
 
-
         Document doc = getDocument("./src/tsuro/board.xml");
 
-        //NodeList tileList = doc.getElementsByTagName("board");
+
+        //board
+        NodeList boardList = doc.getChildNodes();
+
+
+        Decoder dec = new Decoder();
+        Board oboard = dec.decode_board(boardList.item(0));
+
+
 
         /*
-        Decoder dec = new Decoder();
-        Board oboard = dec.decode_board(tileList.item(0));
-        */
-
         Element el = doc.getDocumentElement();
         String hehe = el.getTagName();
-
-
-
+        */
 
 
     }

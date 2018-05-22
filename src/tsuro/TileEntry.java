@@ -1,12 +1,13 @@
 package tsuro;
 
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-
+@XmlRootElement
 @XmlType(propOrder = {"xy", "ctile"}, name = "ent")
 public class TileEntry {
-    ConvertedTile ctile;
     TileLocation xy;
+    ConvertedTile ctile;
 
     public TileEntry() {}
     public TileEntry(TileLocation loc, ConvertedTile ctile) {
@@ -32,6 +33,12 @@ public class TileEntry {
     }
 
 
+    public Object[] backToPosandTile(){
+        Object[] result = new Object[2];
+        result[0] = xy.backtoYX();
+        result[1] = ctile.backtoTile();
+        return result;
+    }
 
 
 }

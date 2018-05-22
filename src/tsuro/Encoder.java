@@ -27,8 +27,6 @@ public class Encoder {
         JAXBContext jaxbContext = JAXBContext.newInstance(ConvertedBoard.class);
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
         jaxbMarshaller.marshal(cboard, sw);
-        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-        jaxbMarshaller.marshal(cboard, sw);
 
         String xmlString = sw.toString();
         System.out.println(xmlString);
@@ -57,6 +55,40 @@ public class Encoder {
         jaxbMarshaller.marshal(pawns, sw);
         jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         jaxbMarshaller.marshal(pawns, sw);
+        String xmlString = sw.toString();
+        System.out.println(xmlString);
+    }
+
+    public static void encodeListofTile(ListofTile tiles) throws Exception
+    {
+        StringWriter sw = new StringWriter();
+        JAXBContext jaxbContext = JAXBContext.newInstance(ListofTile.class);
+        Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        jaxbMarshaller.marshal(tiles, sw);
+        String xmlString = sw.toString();
+        System.out.println(xmlString);
+    }
+
+    public static void encodeSetofTile(SetofTile tiles) throws Exception
+    {
+        StringWriter sw = new StringWriter();
+        JAXBContext jaxbContext = JAXBContext.newInstance(SetofTile.class);
+        Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        jaxbMarshaller.marshal(tiles, sw);
+        String xmlString = sw.toString();
+        System.out.println(xmlString);
+    }
+
+    public static void encodeSPlayers(List<SPlayer> splayers) throws Exception
+    {
+        List_SPlayer lsplayer = new List_SPlayer(splayers);
+        StringWriter sw = new StringWriter();
+        JAXBContext jaxbContext = JAXBContext.newInstance(List_SPlayer.class, XmlSplayer.class, SPlayer_dragon.class, SPlayer_nodragon.class);
+        Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        jaxbMarshaller.marshal(lsplayer, sw);
         String xmlString = sw.toString();
         System.out.println(xmlString);
     }

@@ -230,5 +230,19 @@ public class Board {
     }
 
 
+    public boolean isTileOnBoard(PlayerPosition pp){
+        int y = pp.getY();
+        int x = pp.getX();
+
+        if (y<0 || y>5 || x<0 || x>5){
+            return false;
+        } else {
+            if (tiles[y][x] != null){
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
 
 }

@@ -24,6 +24,12 @@ public class TileLocation {
         return this.y;
     }
 
+    public int[] backtoYX(){
+        int[] result = new int[2];
+        result[0] = y;
+        result[1] = x;
 
+        return result;
+    }
 
 }

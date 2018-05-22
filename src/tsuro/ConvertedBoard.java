@@ -3,6 +3,7 @@ package tsuro;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+
 import java.util.*;
 
 @XmlRootElement (name = "board")
@@ -38,21 +39,8 @@ public class ConvertedBoard {
     }
 
 
-//    public static Map<Tile, int[]> backtoTiles(List<TileEntry> entries){
-//
-//        Map<Tile, int[]> tile_map = new HashMap<>();
-//
-//        for (int i = 0; i < entries.size(); i++) {
-//            TileEntry curr = entries.get(i);
-//
-//            Tile t = curr.getCtile().backtoTile();
-//            int[] loc = curr.getXy().backtoXY();
-//
-//            tile_map.put(t, loc);
-//        }
-//
-//        return tile_map;
-//    }
+
+
 
 
 //    public Board backtoBoard(){
@@ -71,6 +59,22 @@ public class ConvertedBoard {
 //
 //        return ob;
 //    }
-
+//
+//
+//    public static Map<Tile, int[]> backtoTiles(List<TileEntry> entries){
+//
+//        Map<Tile, int[]> tile_map = new HashMap<>();
+//
+//        for (int i = 0; i < entries.size(); i++) {
+//            TileEntry curr = entries.get(i);
+//
+//            Tile t = curr.getCtile().backtoTile();
+//            int[] loc = curr.getXy().backtoXY();
+//
+//            tile_map.put(t, loc);
+//        }
+//
+//        return tile_map;
+//    }
 
 }

@@ -3,8 +3,9 @@ package tsuro;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import java.util.*;
 
-@XmlRootElement(name = "ent")
+@XmlRootElement
 public class PawnEntry {
     String color;
     PawnLocation pawnLoc;
@@ -33,4 +34,7 @@ public class PawnEntry {
         return pawnLoc;
     }
 
+    public void writePawnMap(Map<String, PlayerPosition> map, Board b){
+        map.put(this.color, pawnLoc.backtoPlayerPosition(b));
+    }
 }

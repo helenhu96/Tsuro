@@ -235,8 +235,9 @@ public class Administrator {
                 Tile newtile = pile.drawATile();
                 if (newtile != null) {
                     currentDrawer.receiveTile(newtile);
-                } else {
+                } else { // we got dragon tile
                     playerWithDragonTile = currentDrawer;
+                    playerWithDragonTile.getDragon();
                 }
             }
             catch (Exception e) {
@@ -266,6 +267,7 @@ public class Administrator {
     //TODO: handle exceptions
     // returns the dragon to the pile
     public DrawPile returnDragon(DrawPile pile) throws Exception{
+        this.playerWithDragonTile.returnDragon();
         this.playerWithDragonTile = null;
         try {
             pile.addDragon();

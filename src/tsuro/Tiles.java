@@ -1,7 +1,10 @@
 package tsuro;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import java.util.*;
 
+@XmlRootElement(namespace = "tiles")
 public class Tiles {
     List<TileEntry> entries;
 
@@ -33,4 +36,8 @@ public class Tiles {
     public void addEntry(TileEntry entry) {
         this.entries.add(entry);
     }
+
+
+
+
 }

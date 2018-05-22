@@ -6,14 +6,21 @@ import javax.xml.bind.annotation.XmlType;
 import java.util.ArrayList;
 import java.util.List;
 
+@XmlRootElement
 @XmlType (propOrder = {"h", "v", "a", "b"}, name = "pawn-loc")
 public class PawnLocation {
     String h;
     String v;
-    Integer a;
-    Integer b;
+    int a;
+    int b;
     public PawnLocation() {}
 
+    public PawnLocation(String h, String v, int a, int b){
+        this.h = h;
+        this.v = v;
+        this.a = a;
+        this.b = b;
+    }
 
     public PawnLocation(PlayerPosition position) {
         int spot = position.getSpot();
@@ -39,21 +46,99 @@ public class PawnLocation {
         }
     }
 
+
+    // for the decoder
+    public PlayerPosition backtoPlayerPosition(Board board){
+        int y = 0;
+        int x = 0;
+        int spot = 0;
+        if (h != null) {
+            if (a == 0) {
+                y = 0;
+                x = b / 2;
+                return new PlayerPosition(y, x, b % 2);
+            } else if (a == 6) {
+                y = 5;
+                x = b / 2;
+                if (b % 2 == 0) {
+                    spot = 5;
+                } else {
+                    spot = 4;
+                }
+                return new PlayerPosition(y, x, spot);
+            } else {
+                y = a-1;
+                x = b / 2;
+                if (b % 2 == 0) {
+                    spot = 5;
+                } else {
+                    spot = 4;
+                }
+
+                PlayerPosition testpp = new PlayerPosition(y, x, spot);
+
+                if (board.isTileOnBoard(testpp)) {
+                    return testpp;
+                } else {
+                    return testpp.getBelowPosition();
+                }
+            }
+
+        }else {
+
+            if (a == 0){
+                x = 0;
+                y = b/2;
+                if (a%2 == 0){spot = 7;}
+                else {spot = 6;}
+
+                return new PlayerPosition(y,x,spot);
+
+            } else if (a == 5){
+                x = 5;
+                y = b/2;
+                if (a%2 == 0){spot = 2;}
+                else {spot = 3;}
+                return new PlayerPosition(y,x,spot);
+            }
+            else {
+                x = a-1;
+                y = b/2;
+                if (b%2 == 0){
+                    spot = 2;
+                } else {spot = 3;}
+
+                PlayerPosition testpp = new PlayerPosition(y,x,spot);
+
+                if (board.isTileOnBoard(testpp)){
+                    return testpp;
+                } else {
+                    return testpp.getRightPosition();
+                }
+
+            }
+
+        }
+
+    }
+
+
+
     @XmlElement (name = "n")
-    public void setA(Integer n) {
+    public void setA(int n) {
         this.a = n;
     }
 
-    public Integer getA() {
+    public int getA() {
         return this.a;
     }
 
     @XmlElement (name = "n")
-    public void setB(Integer n) {
+    public void setB(int n) {
         this.b = n;
     }
 
-    public Integer getB() {
+    public int getB() {
         return this.b;
     }
 
