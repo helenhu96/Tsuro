@@ -1,21 +1,40 @@
 package tsuro;
 import org.junit.Test;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.*;
 
 import static org.junit.Assert.*;
+import static tsuro.Decoder.getDocument;
 
 public class ConvertedTileTest {
 
+
     //TODO: add assertEqual after implementing decoder
     @Test
-    public void testConvertTile() throws Exception{
+    public void testEncodeTile() throws Exception{
         Tile tile = new Tile(new int[]{0, 7, 1, 2, 3, 4, 5, 6});
-        Encoder.encodeTile(tile);
+        String actual = Encoder.encodeTile(tile);
+        assertEquals(actual, "<tile><connect><n>0</n><n>7</n></connect><connect><n>1</n><n>2</n></connect><connect><n>3</n><n>4</n></connect><connect><n>5</n><n>6</n></connect></tile>");
+    }
 
+    @Test
+    public void testDecodeTile() throws Exception{
+        Decoder decoder = new Decoder();
+        String input = "<tile><connect><n>0</n><n>7</n></connect><connect><n>1</n><n>2</n></connect><connect><n>3</n><n>4</n></connect><connect><n>5</n><n>6</n></connect></tile>";
+        Tile expected = new Tile(new int[]{0, 7, 1, 2, 3, 4, 5, 6});
+        Node node = getDocument(input);
+        Tile t = decoder.decode_tile(node);
+        assertTrue(expected.sameTile(t));
     }
 
     @Test
@@ -108,4 +127,8 @@ public class ConvertedTileTest {
         list.add(sp1);
         Encoder.encodeSPlayers(list);
     }
+
+
+
+
 }
