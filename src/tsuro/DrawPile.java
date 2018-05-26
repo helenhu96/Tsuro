@@ -15,7 +15,7 @@ public class DrawPile {
 
     // initialize the draw pile as all the legal tiles
     public void initialize() {
-        this.tiles = Tile.getAllLegalTiles();
+        this.tiles = Administrator.getAllLegalTiles();
     }
 
 

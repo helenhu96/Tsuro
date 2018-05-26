@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 public class LeastSymmetricPlayerTest {
 
     @Test
-    public void playTurn() {
+    public void playTurn() throws Exception{
         Board board = new Board();
         SPlayer p = new SPlayer("Green");
         MPlayer m = new LeastSymmetricPlayer("G");
@@ -28,7 +28,7 @@ public class LeastSymmetricPlayerTest {
 
 
     @Test
-    public void playTurn1() {
+    public void playTurn1() throws Exception{
         Board board = new Board();
         SPlayer p = new SPlayer("Green");
         MPlayer m = new LeastSymmetricPlayer("G");
@@ -48,7 +48,7 @@ public class LeastSymmetricPlayerTest {
     }
 
     @Test
-    public void playTurn2() {
+    public void playTurn2() throws Exception{
         Board board = new Board();
         SPlayer p = new SPlayer("Green");
         MPlayer m = new LeastSymmetricPlayer("G");
@@ -69,7 +69,7 @@ public class LeastSymmetricPlayerTest {
     }
 
     @Test
-    public void playTurnStartFromEdge() {
+    public void playTurnStartFromEdge() throws Exception{
         Board board = new Board();
         SPlayer p = new SPlayer("Green");
         MPlayer m = new LeastSymmetricPlayer("G");
@@ -87,7 +87,7 @@ public class LeastSymmetricPlayerTest {
     }
 
     @Test
-    public void allMovesEliminate() {
+    public void allMovesEliminate() throws Exception{
         Board board = new Board();
 
         SPlayer p = new SPlayer("Green");

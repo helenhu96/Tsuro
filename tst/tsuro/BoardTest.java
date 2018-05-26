@@ -21,7 +21,7 @@ public class BoardTest {
     }
 
     @Test
-    public void flip() {
+    public void flip() throws Exception{
         PlayerPosition test = new PlayerPosition(0, 5, 6);
         PlayerPosition expected = new PlayerPosition(0, 4, 3);
         test = board.flip(test);
@@ -29,7 +29,7 @@ public class BoardTest {
     }
 
     @Test
-    public void flip1() {
+    public void flip1() throws Exception{
         PlayerPosition test = new PlayerPosition(0, 5, 1);
         assertNull(board.flip(test));
     }
@@ -51,7 +51,7 @@ public class BoardTest {
     }
 
     @Test
-    public void test_legal_play_1() {
+    public void test_legal_play_1() throws Exception{
         SPlayer player1 = new SPlayer("Green");
         Board board = new Board();
         board.updatePlayerPosition(player1, new PlayerPosition(0,0, 7));
@@ -66,7 +66,7 @@ public class BoardTest {
 
 
     @Test //if all tiles in hand kill the player
-    public void test_legal_play_2() {
+    public void test_legal_play_2() throws Exception{
         SPlayer player1 = new SPlayer("Green");
         Board board = new Board();
         board.updatePlayerPosition(player1, new PlayerPosition(0,0, 7));

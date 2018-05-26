@@ -10,11 +10,11 @@ import static org.junit.Assert.*;
 public class MostSymmetricPlayerTest {
 
     @Test
-    public void playTurn() {
+    public void playTurn() throws Exception{
         Board board = new Board();
         SPlayer p = new SPlayer("Green");
         MPlayer m = new MostSymmetricPlayer("G");
-        m.initialize("Green", null);
+        m.initialize("Green", new ArrayList<>());
         m.setState(IPlayer.State.PLAYING);
         board.updatePlayerPosition(p, new PlayerPosition(4,1,2));
         board.placeTile(new Tile(new int[]{0,3,1,6,2,5,4,7}), 4, 0);
@@ -25,11 +25,10 @@ public class MostSymmetricPlayerTest {
         list.add(new Tile(new int[]{0,2,1,6,3,7,4,5}));
         Tile actual = m.playTurn(board,list,10);
         assertEquals(new Tile(new int[]{0,7,1,2,3,4,5,6}), actual);
-        assertEquals(0, actual.getOrientation());
     }
 
     @Test
-    public void playTurn1() {
+    public void playTurn1() throws Exception{
         Board board = new Board();
         SPlayer p = new SPlayer("Green");
         MPlayer m = new MostSymmetricPlayer("G");
@@ -49,7 +48,7 @@ public class MostSymmetricPlayerTest {
     }
 
     @Test
-    public void playTurn2() {
+    public void playTurn2() throws Exception{
         Board board = new Board();
         SPlayer p = new SPlayer("Green");
         MPlayer m = new MostSymmetricPlayer("G");
@@ -68,7 +67,7 @@ public class MostSymmetricPlayerTest {
     }
 
     @Test
-    public void playTurnStartFromEdge() {
+    public void playTurnStartFromEdge() throws Exception{
         Board board = new Board();
         SPlayer p = new SPlayer("Green");
         MPlayer m = new MostSymmetricPlayer("G");
@@ -86,7 +85,7 @@ public class MostSymmetricPlayerTest {
     }
 
     @Test
-    public void allMovesEliminate() {
+    public void allMovesEliminate() throws Exception{
         Board board = new Board();
 
         SPlayer p = new SPlayer("Green");

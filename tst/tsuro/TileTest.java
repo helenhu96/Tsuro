@@ -44,7 +44,7 @@ public class TileTest {
         Tile testTile = new Tile(new int[]{0,5,1,3,2,6,4,7});
         testTile.rotateClockwise();
 
-        assertEquals(1, testTile.getOrientation());
+        assertTrue(testTile.isLegalTile());
 
     }
 
@@ -54,20 +54,21 @@ public class TileTest {
         testTile.rotateClockwise();
         testTile.rotateClockwise();
         testTile.rotateClockwise();
-        assertEquals(3, testTile.getOrientation());
+        assertTrue(testTile.isLegalTile());
 
     }
 
     @Test
     public void rotateClockwise_3() {
         Tile testTile = new Tile(new int[]{0,5,1,3,2,6,4,7});
+        Tile origin = new Tile(testTile);
         testTile.rotateClockwise();
         testTile.rotateClockwise();
         testTile.rotateClockwise();
         testTile.rotateClockwise();
         testTile.rotateClockwise();
-        assertEquals(1, testTile.getOrientation());
-
+        assertTrue(testTile.isLegalTile());
+        assertTrue(testTile.sameTile(origin));
     }
 
 
@@ -132,13 +133,6 @@ public class TileTest {
         assertEquals(testTile, testTile_same);
     }
 
-    @Test
-    public void getOrientation() {
-        Tile testTile = new Tile(new int[]{0,5,1,3,2,6,4,7});
-        testTile.rotateClockwise();
-        testTile.rotateClockwise();
-        assertEquals(2, testTile.getOrientation());
-    }
 
     @Test
     public void symmetry4() {

@@ -1,6 +1,10 @@
 package tsuro;
 import com.google.common.collect.Lists;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 
 public class Administrator {
@@ -101,11 +105,11 @@ public class Administrator {
         }
 
         for (SPlayer s : activePlayers) {
-            s.getIplayer().endGame(board, winningColors);
+            s.getIplayer().end_game(board, winningColors);
         }
 
         for (SPlayer s : deadPlayers) {
-            s.getIplayer().endGame(board, winningColors);
+            s.getIplayer().end_game(board, winningColors);
         }
 
         return winningColors;
@@ -120,7 +124,7 @@ public class Administrator {
      * @param tile
      * @return Description of return value
      */
-    public boolean legalPlay(SPlayer player, Board board, Tile tile) {
+    public boolean legalPlay(SPlayer player, Board board, Tile tile) throws Exception{
         // check if the player is alive
         if (!player.isAlive()) {
             return false;
@@ -144,7 +148,7 @@ public class Administrator {
     }
 
     //if no tile on the board is the same as tile, return true; otherwise returns false
-    public boolean checkTileOnBoard(Tile tile) {
+    public boolean checkTileOnBoard(Tile tile) throws Exception{
         for (int i = 0; i < 6; i++){
             for (int j = 0; j < 6; j++){
                 Tile curr = board.getTile(i, j);
@@ -158,7 +162,7 @@ public class Administrator {
         return false;
     }
 
-    private void moveSPlayer(SPlayer splayer, List<SPlayer> playersDiedThisTurn) {
+    private void moveSPlayer(SPlayer splayer, List<SPlayer> playersDiedThisTurn) throws Exception{
         PlayerPosition finalPosition = board.moveAlongPath(splayer);
 
         this.setPlayerPosition(splayer, finalPosition);
@@ -192,7 +196,7 @@ public class Administrator {
         if (winners.size() != 0) {
             return winners;
         }
-        List<SPlayer> drawOrder = activePlayers;
+        List<SPlayer> drawOrder = new ArrayList<>(activePlayers);
         if (playerWithDragonTile != null) {
             // if some player has dragon tile, change the order of drawing
             int index = drawOrder.indexOf(playerWithDragonTile);
@@ -200,13 +204,14 @@ public class Administrator {
             drawOrder.addAll(activePlayers.subList(0, index));
         }
 
+        //add eliminated players to list of dead players
+        deadPlayers.addAll(playersDiedThisTurn);
         //reorder order of active players
         activePlayers = reorderPlayers(activePlayers, currentPlayer);
 
         SPlayer currentDrawer = drawOrder.get(0);
         drawTiles(pile, currentDrawer, drawOrder);
-        //add eliminated players to list of dead players
-        deadPlayers.addAll(playersDiedThisTurn);
+
         //check if there are any players left
         return getWinners(board, activePlayers, playersDiedThisTurn);
     }
@@ -305,26 +310,26 @@ public class Administrator {
     }
 
 
-    //TODO: find out if we need this???
-    //given the current player who has the dragon tile, and the list of active players, return the next
-    //player who needs the dragon tile. If no other player needs the dragon tile, return null.
-    public SPlayer findDragonSuccessor(SPlayer currentDragon, List<SPlayer> listOfPlayers) {
-        //get index of current dragon tile holder
-        int currIndex = listOfPlayers.indexOf(currentDragon);
-
-        //first, look for the dragon successor in the list after the current holder
-        for (int i =  currIndex + 1;i<listOfPlayers.size(); i++) {
-            if (listOfPlayers.get(i).numHandTiles()<3)
-                return listOfPlayers.get(i);
-        }
-        //then, look for the dragon successor in the list before the current holder
-        for (int i = 0; i<currIndex; i++) {
-            if (listOfPlayers.get(i).numHandTiles()<3)
-                return listOfPlayers.get(i);
-        }
-        //otherwise, everyone has a full hand, no one needs the dragon
-        return null;
-    }
+//    //TODO: find out if we need this???
+//    //given the current player who has the dragon tile, and the list of active players, return the next
+//    //player who needs the dragon tile. If no other player needs the dragon tile, return null.
+//    public SPlayer findDragonSuccessor(SPlayer currentDragon, List<SPlayer> listOfPlayers) {
+//        //get index of current dragon tile holder
+//        int currIndex = listOfPlayers.indexOf(currentDragon);
+//
+//        //first, look for the dragon successor in the list after the current holder
+//        for (int i =  currIndex + 1;i<listOfPlayers.size(); i++) {
+//            if (listOfPlayers.get(i).numHandTiles()<3)
+//                return listOfPlayers.get(i);
+//        }
+//        //then, look for the dragon successor in the list before the current holder
+//        for (int i = 0; i<currIndex; i++) {
+//            if (listOfPlayers.get(i).numHandTiles()<3)
+//                return listOfPlayers.get(i);
+//        }
+//        //otherwise, everyone has a full hand, no one needs the dragon
+//        return null;
+//    }
 
     //update a player's position (mostly used for testing
     public void setPlayerPosition(SPlayer player, PlayerPosition position) {
@@ -349,6 +354,35 @@ public class Administrator {
          }
          return null;
     }
+
+    public static List<Tile> getAllLegalTiles() {
+        List<Tile> tiles = new ArrayList<>();
+        try {
+            File file = new File("./tiles.txt");
+            BufferedReader br = new BufferedReader(new FileReader(file));
+
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                line = line.replace('(', ' ');
+                line = line.replace(')', ' ');
+                String[] nums = line.split("[ ]+");
+
+                int[] my_array = new int[8];
+                for (int i = 1; i < nums.length; i++) {
+                    my_array[i-1] = Integer.parseInt(nums[i]);
+                }
+                Tile new_tile = new Tile(my_array);
+                tiles.add(new_tile);
+            }
+            Collections.shuffle(tiles);
+        }
+        catch(IOException e){
+            System.err.println("IOException occurred!");
+        }
+        return tiles;
+    }
+
 
     // for testing only
     public SPlayer getSPlayer(int index) {

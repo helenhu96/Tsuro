@@ -4,7 +4,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import java.util.*;
 
-@XmlRootElement(namespace = "tiles")
+@XmlRootElement
 public class Tiles {
     List<TileEntry> entries;
 

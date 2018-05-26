@@ -15,13 +15,13 @@ class LeastSymmetricPlayer extends MPlayer {
     LeastSymmetricPlayer(String name) { super(name); }
 
 
-    public Tile playTurn(Board board, List<Tile> hand, int numTiles) {
+    public Tile playTurn(Board board, List<Tile> hand, int tilesInDeck) throws Exception{
         Preconditions.checkArgument(this.state == State.PLAYING, "Expected PLAYING state, got " + this.state);
         //if (state != PLAYING) throw new IllegalStateException("Can't playTurn in this state!");
         Map<Integer, List<Tile>> scores = new HashMap<>();
 
         for (Tile t: hand){
-            int score = t.getSymmetryScore();
+            int score = t.getScore();
 
             if (!scores.containsKey(score)){
                 List<Tile> newList = new ArrayList<>();

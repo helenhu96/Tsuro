@@ -12,7 +12,7 @@ class MostSymmetricPlayer extends MPlayer {
     MostSymmetricPlayer(String name) { super(name); }
 
 
-    public Tile playTurn(Board board, List<Tile> tiles, int numTiles) {
+    public Tile play_turn(Board board, List<Tile> tiles, int numTiles) throws Exception{
         if (state != State.PLAYING) {
             throw new IllegalStateException("Can't playTurn in this state!");
         }

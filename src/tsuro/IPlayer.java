@@ -4,6 +4,7 @@ import java.util.*;
 
 public interface IPlayer {
 
+    //TODO: remove this from IPlayer?
     enum State {
         UNINITIALIZED,
         INITIALIZED,
@@ -14,7 +15,7 @@ public interface IPlayer {
     /**
      * return player's name
       */
-    String getName();
+    String get_name();
 
     // Called to indicate a game is starting.
     // The first argument is the player's color
@@ -27,7 +28,7 @@ public interface IPlayer {
      * the player wishes to place their pawn. The pawn must
      * be placed along the edge in an unoccupied space.
      */
-    PlayerPosition placePawn(Board board);
+    PlayerPosition place_pawn(Board board);
 
     /**
      *
@@ -39,7 +40,7 @@ public interface IPlayer {
      * are the ones the player has, the number is the
      * count of tiles that are not yet handed out to players.
      */
-    Tile playTurn(Board board, List<Tile> tiles, int numTiles);
+    Tile play_turn(Board board, List<Tile> tiles, int numTiles) throws Exception;
 
     /**
      *
@@ -47,7 +48,7 @@ public interface IPlayer {
      * @param winnerColors
      * Called to inform the player of the final board state and which players won the game
      */
-    void endGame(Board board, List<String> winnerColors);
+    void end_game(Board board, List<String> winnerColors);
 
 
     /**

@@ -11,37 +11,26 @@ public class Tile{
     //List of possible rotations of tile
     private List<int[]> path;
     //int in the range of [0, 1, 2, 3], each representing a different direction
-    private int orientation;
     private int SymmetryScore;
 
 
 
     public Tile(){
         this.path = new ArrayList<>();
-        this.orientation = 0;
+        this.SymmetryScore = -1;
     }
 
-    //TODO: consider removing rotations and calculate at getconnected directly
     public Tile(int[] points) {
         if (points.length!=8) {
-            throw new java.lang.IllegalArgumentException("Bad argument for Tile constructor");
+            throw new IllegalArgumentException("Bad argument for Tile constructor");
         }
 
         this.path = new ArrayList<>();
-//        for (int i=0; i<4; i++) {
-//            List<int[]> list = new ArrayList<>();
-//            list.add(new int[]{(points[0]+2*i)%8, (points[1]+2*i)%8});
-//            list.add(new int[]{(points[2]+2*i)%8, (points[3]+2*i)%8});
-//            list.add(new int[]{(points[4]+2*i)%8, (points[5]+2*i)%8});
-//            list.add(new int[]{(points[6]+2*i)%8, (points[7]+2*i)%8});
-//            this.rotations.add(list);
-//        }
         path.add(new int[]{points[0], points[1]});
         path.add(new int[]{points[2], points[3]});
         path.add(new int[]{points[4], points[5]});
         path.add(new int[]{points[6], points[7]});
-        this.orientation = 0;
-        //encodeTile(points);
+        this.SymmetryScore = getSymmetryScore();
 
     }
 
@@ -52,11 +41,10 @@ public class Tile{
         for (int[] a : tile.path) {
             this.path.add(a.clone());
         }
-        this.orientation = tile.orientation;
+        this.SymmetryScore = tile.SymmetryScore;
     }
 
     public void rotateClockwise() {
-        this.orientation = (this.orientation + 1) % 4;
         for (int[] pair: path) {
             int a = (pair[0] + 2) % 8;
             int b = (pair[1] + 2) % 8;
@@ -70,10 +58,6 @@ public class Tile{
         return this.path;
     }
 
-
-    public int getOrientation() {
-        return this.orientation;
-    }
 
     //checks if given tile is the same as this tile
     public boolean sameTile(Tile tile) {
@@ -100,8 +84,7 @@ public class Tile{
     @Override
     public boolean equals(Object o) {
         Tile tile = (Tile) o;
-        return orientation == tile.orientation &&
-                sameTile(tile);
+        return sameTile(tile);
     }
 
 
@@ -115,42 +98,16 @@ public class Tile{
                 return path.get(i)[0];
             }
         }
+        //TODO: is throwing excepetion the right way to handle???
         throw new IllegalArgumentException("Given point does not exist on tile");
     }
 
 
-    public static List<Tile> getAllLegalTiles() {
-        List<Tile> tiles = new ArrayList<>();
-        try {
-            File file = new File("./tiles.txt");
-            BufferedReader br = new BufferedReader(new FileReader(file));
-
-            String line;
-
-            while ((line = br.readLine()) != null) {
-                line = line.replace('(', ' ');
-                line = line.replace(')', ' ');
-                String[] nums = line.split("[ ]+");
-
-                int[] my_array = new int[8];
-                for (int i = 1; i < nums.length; i++) {
-                    my_array[i-1] = Integer.parseInt(nums[i]);
-                }
-                Tile new_tile = new Tile(my_array);
-                tiles.add(new_tile);
-            }
-            Collections.shuffle(tiles);
-        }
-        catch(IOException e){
-            System.err.println("IOException occurred!");
-        }
-        return tiles;
-    }
 
 
     public boolean isLegalTile(){
         Tile copyTile = new Tile(this);
-        List<Tile> tiles = getAllLegalTiles();
+        List<Tile> tiles = Administrator.getAllLegalTiles();
         for (int i=0; i<4; i++) {
             if (tiles.contains(copyTile)) {
                 return true;
@@ -161,6 +118,7 @@ public class Tile{
     }
 
 
+    // all things below are to calculate symmetry scores
     static protected Map<Integer, Integer> createMap(int[] input){
         Map<Integer,Integer> my_map = new HashMap<>();
         for (int i = 0; i < 4; i++){
@@ -179,7 +137,6 @@ public class Tile{
         return false;
     }
 
-    //TODO: implement this and test this
     public int getSymmetryScore(){
         Set<Map<Integer, Integer>> maps = new HashSet<>();
         maps.add(createMap(new int[]{2,3,1,4,0,5,6,7}));
@@ -207,6 +164,9 @@ public class Tile{
         return count;
     }
 
+    public int getScore() {
+        return this.SymmetryScore;
+    }
 
 //
 //    @XmlElement

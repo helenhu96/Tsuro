@@ -25,7 +25,7 @@ public class ConvertedTile {
         }
     }
 
-    @XmlElement
+
     public void setConnect(List<Number> list)
     {
 
@@ -37,6 +37,7 @@ public class ConvertedTile {
         this.connect.add(n);
     }
 
+    @XmlElement
     public List<Number> getConnect()
 
     {

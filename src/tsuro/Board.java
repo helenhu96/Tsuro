@@ -24,8 +24,11 @@ public class Board {
         this.tilesOnBoard = new ArrayList<>();
     }
 
-    public Tile getTile(int y, int x) {
-        if (tiles[y][x]==null) return null;
+    //TODO: return null here to represent it's empty??
+    public Tile getTile(int y, int x){
+        if (tiles[y][x]==null){
+            return null;
+        }
         return new Tile(this.tiles[y][x]);
     }
 
@@ -90,12 +93,10 @@ public class Board {
 
 
     //flip the position across to the next adjacent block
-    public PlayerPosition flip(PlayerPosition position) {
-        if (isBorder(position)) return null;
+    public PlayerPosition flip(PlayerPosition position) throws Exception {
         int spot = position.getSpot();
         int y = position.getY();
         int x = position.getX();
-
         //move up
         if (spot == 0)
             return new PlayerPosition(y - 1, x, 5);
@@ -116,43 +117,26 @@ public class Board {
             return new PlayerPosition(y, x - 1, 3);
         if (spot == 7)
             return new PlayerPosition(y, x - 1, 2);
-
-        return null;
+        throw new IllegalArgumentException("Player position not valid");
     }
 
 
     //returns true if a point is at a border
-    public boolean isBorder(PlayerPosition position) {
-        //is on top border
-        int y = position.getY();
-        int x = position.getX();
+    public boolean isBorder(PlayerPosition position){
         int spot = position.getSpot();
-        if (y == 0) {
-            if (spot == 0 || spot == 1) {
-                return true;
-            }
-        }
-        //is on right border
-        if (x == 5 ) {
-            if (spot == 2 || spot == 3) {
-                return true;
-            }
-        }
 
-        //is on bottom border
-        if (y == 5 ) {
-            if (spot == 4 || spot == 5) {
-                return true;
-            }
-        }
+        if (spot == 0 || spot == 1)
+            return position.getY() == 0;
 
-        //is on left border
-        if (x == 0 ) {
-            if (spot == 6 || spot == 7) {
-                return true;
-            }
-        }
+        if (spot == 2 || spot == 3)
+            return position.getX() == 5;
 
+        if (spot == 4 || spot == 5)
+            return position.getY() == 5;
+
+        if (spot == 6 || spot == 7) {
+             return position.getX() == 0;
+        }
         return false;
     }
 
@@ -164,13 +148,13 @@ public class Board {
         return false;
     }
 
-    public SPlayer getPlayerByPosition(PlayerPosition position) {
+    public SPlayer getPlayerByPosition(PlayerPosition position) throws Exception{
         for (SPlayer splayer: playerToPosition.keySet()) {
             if (position.equals(playerToPosition.get(splayer))) {
                 return splayer;
             }
         }
-        return null;
+        throw new Exception("no player here!");
     }
 
     /**
@@ -179,7 +163,7 @@ public class Board {
      * @param tile
      * @return whether the tile is a legal move
      */
-    public boolean tileLegal(SPlayer player, Tile tile) {
+    public boolean tileLegal(SPlayer player, Tile tile) throws Exception{
         if (!tileKillsPlayer(player, tile)) {
             return true;
         }
@@ -202,7 +186,7 @@ public class Board {
      * @param tile
      * @return whether the tile kills the player
      */
-    private boolean tileKillsPlayer(SPlayer player, Tile tile) {
+    private boolean tileKillsPlayer(SPlayer player, Tile tile) throws Exception{
         PlayerPosition position = this.getPlayerPosition(player);
         boolean result = false;
         this.placeTile(tile, position.getY(), position.getX());
@@ -213,16 +197,16 @@ public class Board {
         return result;
     }
 
-    public PlayerPosition moveAlongPath(SPlayer splayer) {
+    public PlayerPosition moveAlongPath(SPlayer splayer) throws Exception{
         PlayerPosition position = this.getPlayerPosition(splayer);
         Tile currTile = this.getTile(position.getY(), position.getX());
         while (currTile != null){
             int nextSpot = currTile.getConnected(position.getSpot());
             position.setSpot(nextSpot);
             //if at edge, return edge coordinates
-            if (this.isBorder(position))
+            if (this.isBorder(position)) {
                 return position;
-
+            }
             position = this.flip(position);
             currTile = this.getTile(position.getY(), position.getX());
         }

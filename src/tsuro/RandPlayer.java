@@ -4,17 +4,20 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import com.google.common.base.Preconditions;
 
+//TODO: rewrite this
 class RandPlayer extends MPlayer {
 
 
     RandPlayer(String name) { super(name); }
 
 
-    public Tile playTurn(Board board, List<Tile> tiles, int numTiles) throws IllegalArgumentException{
+    public Tile play_turn(Board b, Set<Tile> hand, int tilesInDeck) throws IllegalArgumentException{
         Preconditions.checkState(state == State.PLAYING, "Expect State Playing, actual state " + state);
-        Preconditions.checkArgument(tiles.size()<= Administrator.HAND_SIZE, "Can't have more than 3 tiles in hand");
+        Preconditions.checkArgument(hand.size()<= Administrator.HAND_SIZE, "Can't have more than 3 tiles in hand");
         List<Tile> possibleMoves = new ArrayList<>();
-        Administrator admin = new Administrator();
+
+//        while (board.tileLegal())
+
         //loop through each tile and add legal moves to list
 
 
@@ -38,31 +41,11 @@ class RandPlayer extends MPlayer {
 //            ret.rotateClockwise();
 //        }
 //        return ret;
-        return null;
+        return new Tile();
     }
 
 
 
 
-//private helper functions-----------------------------------------------------------------------------------
-
-    //returns true if a tile doesn't lead player to edge of board
-    private boolean tileLegal(Board board, Tile tile) {
-        //Check if placing this tile would make the token move to the border
-        PlayerPosition position = board.getPlayerPositionByColor(this.color);
-        int nextSpot = tile.getConnected(position.getSpot());
-        position.setSpot(nextSpot);
-        if (board.isBorder(position)) return false;
-
-        //starting point is the point next to the one that the player would move to from the placed tile
-        PlayerPosition startingPosition = board.flip(position);
-
-        //call moveAlongPath to see if token would reach end of board
-        boolean result = true;
-        board.placeTile(tile, position.getY(), position.getX());
-        if (board.isBorder(moveAlongPath(startingPosition, board))) result = false;
-        board.removeTile(position.getY(), position.getX());
-        return result;
-    }
 
 }

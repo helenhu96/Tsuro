@@ -27,19 +27,22 @@ abstract class MPlayer implements IPlayer {
     protected final static Set<String> COLORS_SET= new HashSet<>(Arrays.asList(COLOR_VALUES));
 
 
-    public String getName() { return this.name; }
+    public String get_name() { return this.name; }
 
     public String getColor() {
         return this.color;
     }
 
+    //TODO: fix color contract
     public void initialize(String color, List<String> colors) {
         Preconditions.checkState(state == State.UNINITIALIZED, "Expect State Uninitialized, actual state " + state);
-        if (!COLORS_SET.contains(color)) {
+        if (!colors.contains(color)) {
             throw new IllegalArgumentException("Can't initialize with this color!");
         }
         this.color = color;
         state = State.INITIALIZED;
+
+
     }
 
 
@@ -76,7 +79,7 @@ abstract class MPlayer implements IPlayer {
     }
 
 
-    public void endGame(Board board, List<String> winnerColors) {
+    public void end_game(Board board, List<String> winnerColors) {
         state = State.UNINITIALIZED;
     }
 
@@ -85,53 +88,59 @@ abstract class MPlayer implements IPlayer {
     }
 
 
+    abstract public Tile play_turn(Board b, Set<Tile> hand, int tilesInDeck);
+
 
 
     //protected helper functions-----------------------------------------------------------------------------------
 
 
-    //TODO: consider moving this to board class and remove continue
-    protected Tile rotateTileTillLegal(Board board, Tile tile) {
-        Tile t = new Tile(tile);
-        for (int i = 0; i < 4; i++) {
+    //TODO: consider moving these to board class or remove continue
 
-            //get position of this player
-            PlayerPosition position = board.getPlayerPositionByColor(this.color);
+//    protected Tile rotateTileTillLegal(Board board, Tile tile) throws Exception{
+//        Tile t = new Tile(tile);
+//        for (int i = 0; i < 4; i++) {
+//
+//            //get position of this player
+//            PlayerPosition position = board.getPlayerPositionByColor(this.color);
+//
+//            //call moveAlongPath to see if token would reach end of board
+//            boolean result = true;
+//            board.placeTile(t, position.getY(), position.getX());
+//            if (board.isBorder(moveAlongPath(position, board))) result = false;
+//            board.removeTile(position.getY(), position.getX());
+//            if (result) {return t;}
+//            else {
+//                t.rotateClockwise();
+//                continue; }
+//        }
+//        return null;
+//    }
+//
+//
+//    //TODO: DELETE THIS AND RESOLVE ISSUES
+//    /**
+//     *
+//     * @param startingPosition
+//     * @param board
+//     * @return returns the furthest adjacent position a player can move to from given starting position
+//     */
+//    protected PlayerPosition moveAlongPath(PlayerPosition startingPosition, Board board) throws Exception{
+//        PlayerPosition position = new PlayerPosition(startingPosition);
+//        Tile currTile = board.getTile(position.getY(), position.getX());
+//        while (currTile != null){
+//            int nextSpot = currTile.getConnected(position.getSpot());
+//            position.setSpot(nextSpot);
+//            //if at edge, return edge coordinates
+//            if (board.isBorder(position))
+//                return position;
+//
+//            position = board.flip(position);
+//            currTile = board.getTile(position.getY(), position.getX());
+//        }
+//        return position;
+//    }
 
-            //call moveAlongPath to see if token would reach end of board
-            boolean result = true;
-            board.placeTile(t, position.getY(), position.getX());
-            if (board.isBorder(moveAlongPath(position, board))) result = false;
-            board.removeTile(position.getY(), position.getX());
-            if (result) {return t;}
-            else {
-                t.rotateClockwise();
-                continue; }
-        }
-        return null;
-    }
-
-    /**
-     *
-     * @param startingPosition
-     * @param board
-     * @return returns the furthest adjacent position a player can move to from given starting position
-     */
-    protected PlayerPosition moveAlongPath(PlayerPosition startingPosition, Board board) {
-        PlayerPosition position = new PlayerPosition(startingPosition);
-        Tile currTile = board.getTile(position.getY(), position.getX());
-        while (currTile != null){
-            int nextSpot = currTile.getConnected(position.getSpot());
-            position.setSpot(nextSpot);
-            //if at edge, return edge coordinates
-            if (board.isBorder(position))
-                return position;
-
-            position = board.flip(position);
-            currTile = board.getTile(position.getY(), position.getX());
-        }
-        return position;
-    }
 
 
 

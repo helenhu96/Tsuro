@@ -30,7 +30,7 @@ public class SPlayer {
     }
 
     public void dealWithCheater(){
-        String name = iplayer.getName() + "replaced";
+        String name = iplayer.get_name() + "replaced";
         this.iplayer = new RandPlayer(name);
         this.iplayer.initialize(color, null);
     }

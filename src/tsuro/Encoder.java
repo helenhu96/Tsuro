@@ -12,6 +12,8 @@ public class Encoder {
         ConvertedTile ctile = new ConvertedTile(t);
         JAXBContext jaxbContext = JAXBContext.newInstance(ConvertedTile.class);
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+//        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
         jaxbMarshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
         StringWriter sw = new StringWriter();
         jaxbMarshaller.marshal(ctile, sw);
@@ -20,17 +22,19 @@ public class Encoder {
         return xmlString;
     }
 
-    public static void encodeBoard(Board board) throws Exception
+    public static String encodeBoard(Board board) throws Exception
     {
         ConvertedBoard cboard = new ConvertedBoard(board);
 
         StringWriter sw = new StringWriter();
         JAXBContext jaxbContext = JAXBContext.newInstance(ConvertedBoard.class);
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+//        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         jaxbMarshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
         jaxbMarshaller.marshal(cboard, sw);
         String xmlString = sw.toString();
-        System.out.println(xmlString);
+//        System.out.println(xmlString);
+        return xmlString;
     }
 
     public static void encodePawnLoc(PlayerPosition position) throws Exception

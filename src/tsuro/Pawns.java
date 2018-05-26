@@ -3,7 +3,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.*;
 
-@XmlRootElement (namespace = "pawns")
+@XmlRootElement
 public class Pawns {
     List<PawnEntry> entries;
     public Pawns() {}

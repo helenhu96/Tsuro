@@ -46,7 +46,7 @@ public class AdministratorTest {
     }
 
     @Test
-    public void legalPlay_move_is_illegal() {
+    public void legalPlay_move_is_illegal() throws Exception{
         SPlayer player1 = new SPlayer("Green");
         Board board = new Board();
         board.updatePlayerPosition(player1, new PlayerPosition(0, 0, 0));
@@ -360,20 +360,6 @@ public class AdministratorTest {
         assertEquals("Blue cheated.\n", outContent.toString());
     }
 
-    @Test
-    public void playersAllCheat() throws Exception {
-        Administrator admin = new Administrator();
-        MPlayer p1 = new CrappyPlayer("B");
-        MPlayer p2 = new CrappyPlayer("R");
-        MPlayer p3 = new CrappyPlayer("G");
-
-        admin.registerPlayer(p1);
-        admin.registerPlayer(p2);
-        admin.registerPlayer(p3);
-
-        admin.play();
-        assertEquals("Blue cheated.\nRed cheated.\nGreen cheated.\n", outContent.toString());
-    }
 
     @Test
     public void testIllegalTile() throws Exception{
