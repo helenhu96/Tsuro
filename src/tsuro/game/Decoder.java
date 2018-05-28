@@ -8,11 +8,11 @@ import tsuro.xmlmodel.PawnLocation;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.StringReader;
 
 public abstract class Decoder {
 
-    // helper function to unpack the document
-    public static Document getDocument(String docString) {
+    public static Document getDocument(String docString) throws Exception{
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             factory.setIgnoringComments(true);
@@ -21,14 +21,13 @@ public abstract class Decoder {
 
             DocumentBuilder builder = factory.newDocumentBuilder();
 
-            return builder.parse(new InputSource(docString));
+            return builder.parse(new InputSource(new StringReader(docString)));
 
         }
         catch (Exception ex){
-            System.out.println(ex.getMessage());
+            throw new Exception(ex.getMessage());
         }
 
-        return null;
     }
 
     public int decode_n(Node node) throws IllegalArgumentException{

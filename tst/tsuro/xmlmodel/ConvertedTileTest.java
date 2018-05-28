@@ -1,29 +1,36 @@
 package tsuro.xmlmodel;
 import org.junit.Test;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import tsuro.game.*;
 import tsuro.xmlmodel.*;
 
 import java.util.*;
 
+import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertEquals;
+
 public class ConvertedTileTest {
 
     @Test
-    public void testEncodeTile() throws Exception{
-        Tile tile = new Tile(new int[]{0, 7, 1, 2, 3, 4, 5, 6});
-        String actual = Encoder.encodeTile(tile);
-        System.out.println(actual);
-//        assertEquals(actual, "<tile><connect><n>0</n><n>7</n></connect><connect><n>1</n><n>2</n></connect><connect><n>3</n><n>4</n></connect><connect><n>5</n><n>6</n></connect></tile>");
+    public void testEncodeTile() throws Exception {
+
+        String input = "<tile><connect><n>0</n><n>7</n></connect><connect><n>1</n><n>2</n></connect><connect><n>3</n><n>4</n></connect><connect><n>5</n><n>6</n></connect></tile>";
+        Tile expected = new Tile(new int[]{0, 7, 1, 2, 3, 4, 5, 6});
+        String encodedTile = Encoder.encodeTile(expected);
+        assertEquals(encodedTile, input);
     }
 
-//    @Test
-//    public void testDecodeTile() throws Exception{
-//        Decoder decoder = new Decoder();
-//        String input = "<tile><connect><n>0</n><n>7</n></connect><connect><n>1</n><n>2</n></connect><connect><n>3</n><n>4</n></connect><connect><n>5</n><n>6</n></connect></tile>";
-//        Tile expected = new Tile(new int[]{0, 7, 1, 2, 3, 4, 5, 6});
-//        Node node = getDocument(input);
-//        Tile t = decoder.decode_tile(node);
-//        assertTrue(expected.sameTile(t));
-//    }
+    @Test
+    public void testDecodeTile() throws Exception{
+        PlayerDecoder decoder = new PlayerDecoder();
+        String input = "<tile><connect><n>0</n><n>7</n></connect><connect><n>1</n><n>2</n></connect><connect><n>3</n><n>4</n></connect><connect><n>5</n><n>6</n></connect></tile>";
+        Tile expected = new Tile(new int[]{0, 7, 1, 2, 3, 4, 5, 6});
+        Document doc = decoder.getDocument(input);
+        Node node = doc.getElementsByTagName("tile").item(0);
+        Tile t = decoder.decode_tile(node);
+        assertTrue(expected.sameTile(t));
+    }
 
     @Test
     public void testListOfTile() throws Exception{

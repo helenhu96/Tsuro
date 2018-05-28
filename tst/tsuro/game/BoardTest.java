@@ -29,10 +29,10 @@ public class BoardTest {
         assertTrue(expected.equals(test));
     }
 
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void flip1() throws Exception{
         PlayerPosition test = new PlayerPosition(0, 5, 1);
-        assertNull(board.flip(test));
+        board.flip(test);
     }
 
     @Test

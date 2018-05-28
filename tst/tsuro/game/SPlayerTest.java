@@ -15,9 +15,8 @@ public class SPlayerTest {
         SPlayer testPlayer = new SPlayer("Green");
         Tile tile1 = new Tile(new int[]{0,5,1,3,2,6,4,7});
         testPlayer.receiveTile(tile1);
-        List<Tile> expected = new ArrayList<>();
+        Set<Tile> expected = new HashSet<>();
         expected.add(tile1);
-
         assertEquals(expected, testPlayer.getHandTiles());
 
     }
@@ -31,7 +30,7 @@ public class SPlayerTest {
         testPlayer.receiveTile(tile1);
         testPlayer.removeHandTiles();
 
-        assertEquals(new ArrayList(), testPlayer.getHandTiles());
+        assertEquals(new HashSet<>(), testPlayer.getHandTiles());
     }
 
 
@@ -42,7 +41,7 @@ public class SPlayerTest {
         Tile tile2 = new Tile(new int[]{0,1,2,3,4,5,6,7});
         testPlayer.receiveTile(tile1);
         testPlayer.receiveTile(tile2);
-        List<Tile> expected = new ArrayList<>();
+        Set<Tile> expected = new HashSet<>();
         expected.add(tile1);
         testPlayer.removeTile(tile2);
         assertEquals(expected, testPlayer.getHandTiles());

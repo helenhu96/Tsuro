@@ -16,26 +16,6 @@ public class ServerDecoder extends Decoder{
         board = null;
     }
 
-    // helper function to unpack the document
-    public static Document getDocument(String docString) {
-        try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            factory.setIgnoringComments(true);
-            factory.setIgnoringElementContentWhitespace(true);
-            factory.setValidating(true);
-
-            DocumentBuilder builder = factory.newDocumentBuilder();
-
-            return builder.parse(new InputSource(docString));
-
-        }
-        catch (Exception ex){
-            System.out.println(ex.getMessage());
-        }
-
-        return null;
-    }
-
     public void decode(String docString) throws Exception{
         try {
             Document doc = getDocument(docString);
