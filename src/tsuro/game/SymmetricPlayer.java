@@ -10,11 +10,17 @@ public abstract class SymmetricPlayer extends MPlayer{
         super(name);
     }
 
+    public Set<Tile> legalTiles;
+    public Board board;
+    public Set<Tile> hand;
+
     //TODO: choose legal here
     public Tile playTurn(Board board, Set<Tile> hand, int tilesInDeck) throws Exception {
+        this.board = board;
+        this.hand = hand;
         Preconditions.checkArgument(this.state == PlayerState.PLAYING, "Expected PLAYING state, got " + this.state);
         Map<Integer, List<Tile>> scores = new HashMap<>();
-        Set<Tile> legalTiles = chooseLegalRotations(board, hand);
+        legalTiles = chooseLegalRotations(board, hand);
         for (Tile t: legalTiles){
             int score = t.getScore();
             if (!scores.containsKey(score)){

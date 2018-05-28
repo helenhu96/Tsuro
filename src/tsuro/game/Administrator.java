@@ -87,6 +87,7 @@ public class Administrator {
         //play till we have a winner/winners
         while (winners.isEmpty()) {
             SPlayer currPlayer = activePlayers.get(0);
+            //no tile in hand
             if (currPlayer.numHandTiles() == 0 && currPlayer.doIHaveDragon()) {
                 reorderPlayers(activePlayers, currPlayer);
 
@@ -188,6 +189,10 @@ public class Administrator {
         List<SPlayer> playersDiedThisTurn = new ArrayList<>();
         //get current player
         SPlayer currentPlayer = activePlayers.get(0);
+//        //TODO: is this right??
+//        if (this.playerWithDragonTile == currentPlayer) {
+//            returnDragon(pile);
+//        }
         PlayerPosition playerPosition = board.getPlayerPosition(currentPlayer);
         //place tile at current position
         board.placeTile(tile, playerPosition.getY(), playerPosition.getX());
@@ -206,12 +211,15 @@ public class Administrator {
         }
 
         List<SPlayer> drawOrder = changeDrawOrder(activePlayers);
+        //reorder order of active players
+        activePlayers = reorderPlayers(activePlayers, currentPlayer);
+
 
         SPlayer currentDrawer = drawOrder.get(0);
         drawTiles(pile, currentDrawer, drawOrder);
 
-        //reorder order of active players
-        activePlayers = reorderPlayers(activePlayers, currentPlayer);
+
+
 
         //check if there are any players left
         return getWinners(board, activePlayers, playersDiedThisTurn);
@@ -237,7 +245,10 @@ public class Administrator {
     public void handleDeadPlayers(List<SPlayer> playersDiedThisTurn, DrawPile pile) throws Exception{
         for (SPlayer dead: playersDiedThisTurn){
             if (dead.equals(playerWithDragonTile)) {
-                this.returnDragon(pile);
+                dead.returnDragon();
+                int dragonIndex = (this.activePlayers.indexOf(dead) + 1) % this.activePlayers.size();
+                playerWithDragonTile = activePlayers.get(dragonIndex);
+                playerWithDragonTile.getDragon();
             }
             activePlayers.remove(dead);
             pile.addTilesAndShuffle(dead.getHandTiles());
@@ -248,12 +259,12 @@ public class Administrator {
     }
 
     public void drawTiles(DrawPile pile, SPlayer currentDrawer, List<SPlayer> drawOrder) throws Exception{
+        // if current player is the dragon owner, return the dragon to pile first
+        if (playerWithDragonTile != null) {
+            pile = returnDragon(pile);
+        }
         //distribute tiles to players with under-full hands
         while (!stopDrawing(pile, activePlayers)) {
-            // if current player is the dragon owner, return the dragon to pile first
-            if (playerWithDragonTile == currentDrawer) {
-                pile = returnDragon(pile);
-            }
             try {
                 Tile newtile = pile.drawATile();
                 if (newtile != null) {
