@@ -29,7 +29,7 @@ public class ConvertedTileTest {
 
     @Test
     public void testDecodeTile() throws Exception{
-        Decoder decoder = new Decoder();
+        Decoder decoder = new ServerDecoder();
         String input = "<tile><connect><n>0</n><n>7</n></connect><connect><n>1</n><n>2</n></connect><connect><n>3</n><n>4</n></connect><connect><n>5</n><n>6</n></connect></tile>";
         Tile expected = new Tile(new int[]{0, 7, 1, 2, 3, 4, 5, 6});
         Node node = getDocument(input);
