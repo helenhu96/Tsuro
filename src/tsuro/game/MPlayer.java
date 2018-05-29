@@ -14,7 +14,7 @@ abstract class MPlayer implements IPlayer {
         state = PlayerState.UNINITIALIZED;
     }
     final static String[] COLOR_VALUES =
-            new String[] {"Blue", "Red", "Green", "Orange", "Sienna", "Hotpink", "Darkgreen", "Purple"};
+            new String[] {"blue", "red", "green", "orange", "sienna", "hotpink", "darkgreen", "purple"};
 
 
 
@@ -79,7 +79,7 @@ abstract class MPlayer implements IPlayer {
     }
 
 
-    public void endGame(Board board, List<String> winnerColors) {
+    public void endGame(Board board, Set<String> winnerColors) {
         state = PlayerState.UNINITIALIZED;
     }
 

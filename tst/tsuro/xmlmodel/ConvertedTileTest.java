@@ -22,7 +22,8 @@ public class ConvertedTileTest {
     }
 
     @Test
-    public void testDecodeTile() throws Exception{
+    public void testDecodeTile() throws Exception
+    {
         PlayerDecoder decoder = new PlayerDecoder();
         String input = "<tile><connect><n>0</n><n>7</n></connect><connect><n>1</n><n>2</n></connect><connect><n>3</n><n>4</n></connect><connect><n>5</n><n>6</n></connect></tile>";
         Tile expected = new Tile(new int[]{0, 7, 1, 2, 3, 4, 5, 6});
@@ -30,6 +31,32 @@ public class ConvertedTileTest {
         Node node = doc.getElementsByTagName("tile").item(0);
         Tile t = decoder.decode_tile(node);
         assertTrue(expected.sameTile(t));
+    }
+
+    @Test
+    public void testSetofColor() throws Exception {
+        Set<String> set = new HashSet<>();
+        set.add("red");
+        set.add("blue");
+        String a = Encoder.encodeSetofColor(set);
+        assertEquals(a, "<set><color>red</color><color>blue</color></set>");
+    }
+
+
+    @Test
+    public void testListofColor() throws Exception {
+        List<String> list = new ArrayList<>();
+        list.add("red");
+        list.add("blue");
+        String a = Encoder.encodeListofColor(list);
+        assertEquals(a, "<list><color>red</color><color>blue</color></list>");
+    }
+
+    @Test
+    public void testNumber() throws Exception
+    {
+        String a =Encoder.encodeNum(5);
+        assertEquals(a,"<n>5</n>");
     }
 
     @Test
@@ -81,10 +108,10 @@ public class ConvertedTileTest {
         Tile tile = new Tile(new int[]{0, 7, 1, 2, 3, 4, 5, 6});
         Tile tile1 = new Tile(new int[]{0, 1, 2, 3, 4, 5, 6, 7});
         Set <Tile> set = new HashSet<>();
-        SetofTile tiles = new SetofTile(set);
-        tiles.addSetofTile(tile);
-        tiles.addSetofTile(tile1);
-        Encoder.encodeSetofTile(tiles);
+        set.add(tile);
+        set.add(tile1);
+        String a = Encoder.encodeSetofTile(set);
+        assertEquals(a, "<set><tile><connect><n>0</n><n>1</n></connect><connect><n>2</n><n>3</n></connect><connect><n>4</n><n>5</n></connect><connect><n>6</n><n>7</n></connect></tile><tile><connect><n>0</n><n>7</n></connect><connect><n>1</n><n>2</n></connect><connect><n>3</n><n>4</n></connect><connect><n>5</n><n>6</n></connect></tile></set>");
     }
 
 
@@ -100,9 +127,24 @@ public class ConvertedTileTest {
         List<SPlayer> list = new ArrayList<>();
         list.add(sp);
         list.add(sp1);
-        Encoder.encodeSPlayers(list);
+        System.out.println(Encoder.encodeSPlayers(list));
     }
 
+    @Test
+    public void testMayberSPlayers() throws Exception{
+        SPlayer sp = new SPlayer("red");
+        Tile tile = new Tile(new int[]{0, 7, 1, 2, 3, 4, 5, 6});
+        Tile tile1 = new Tile(new int[]{0, 1, 2, 3, 4, 5, 6, 7});
+        SPlayer sp1 = new SPlayer("blue");
+        sp.receiveTile(tile);
+        sp1.receiveTile(tile1);
+        sp1.getDragon();
+        List<SPlayer> list = new ArrayList<>();
+        assertEquals(Encoder.encodeMaybeListofSPlayers(list), "<false> </false>");
+        list.add(sp);
+        list.add(sp1);
+        assertTrue(Encoder.encodeMaybeListofSPlayers(list).equals("<list><splayer-nodragon><color>red</color><set><tile><connect><n>0</n><n>7</n></connect><connect><n>1</n><n>2</n></connect><connect><n>3</n><n>4</n></connect><connect><n>5</n><n>6</n></connect></tile></set></splayer-nodragon><splayer-dragon><color>blue</color><set><tile><connect><n>0</n><n>1</n></connect><connect><n>2</n><n>3</n></connect><connect><n>4</n><n>5</n></connect><connect><n>6</n><n>7</n></connect></tile></set></splayer-dragon></list>"));
+    }
 
 
 

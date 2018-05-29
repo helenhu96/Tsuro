@@ -14,11 +14,11 @@ public class MostSymmetricPlayerTest {
     @Test
     public void playTurn() throws Exception{
         Board board = new Board();
-        SPlayer p = new SPlayer("Green");
+        SPlayer p = new SPlayer("green");
         MPlayer m = new MostSymmetricPlayer("G");
         List<String> colors = new ArrayList<>();
-        colors.add("Green");
-        m.initialize("Green", colors);
+        colors.add("green");
+        m.initialize("green", colors);
         m.setState(PlayerState.PLAYING);
         board.updatePlayerPosition(p, new PlayerPosition(4,1,2));
         board.placeTile(new Tile(new int[]{0,3,1,6,2,5,4,7}), 4, 0);
@@ -34,11 +34,11 @@ public class MostSymmetricPlayerTest {
     @Test
     public void playTurn1() throws Exception{
         Board board = new Board();
-        SPlayer p = new SPlayer("Green");
+        SPlayer p = new SPlayer("green");
         MPlayer m = new MostSymmetricPlayer("G");
         List<String> colors = new ArrayList<>();
-        colors.add("Green");
-        m.initialize("Green", colors);
+        colors.add("green");
+        m.initialize("green", colors);
         m.setState(PlayerState.PLAYING);
         board.updatePlayerPosition(p, new PlayerPosition(4,1,2));
         board.placeTile(new Tile(new int[]{0,3,1,6,2,5,4,7}), 4, 0);
@@ -56,11 +56,11 @@ public class MostSymmetricPlayerTest {
     @Test
     public void playTurn2() throws Exception{
         Board board = new Board();
-        SPlayer p = new SPlayer("Green");
+        SPlayer p = new SPlayer("green");
         MPlayer m = new MostSymmetricPlayer("G");
         List<String> colors = new ArrayList<>();
-        colors.add("Green");
-        m.initialize("Green", colors);
+        colors.add("green");
+        m.initialize("green", colors);
         m.setState(PlayerState.PLAYING);
         board.updatePlayerPosition(p, new PlayerPosition(4,1,2));
         board.placeTile(new Tile(new int[]{0,3,1,6,2,5,4,7}), 4, 0);
@@ -77,11 +77,11 @@ public class MostSymmetricPlayerTest {
     @Test
     public void playTurnStartFromEdge() throws Exception{
         Board board = new Board();
-        SPlayer p = new SPlayer("Green");
+        SPlayer p = new SPlayer("green");
         MPlayer m = new MostSymmetricPlayer("G");
         List<String> colors = new ArrayList<>();
-        colors.add("Green");
-        m.initialize("Green", colors);
+        colors.add("green");
+        m.initialize("green", colors);
         m.setState(PlayerState.PLAYING);
         board.updatePlayerPosition(p, new PlayerPosition(0,3,1));
         board.placeTile(new Tile(new int[]{0,7,1,2,3,4,5,6}), 0, 4);
@@ -98,11 +98,11 @@ public class MostSymmetricPlayerTest {
     public void allMovesEliminate() throws Exception{
         Board board = new Board();
 
-        SPlayer p = new SPlayer("Green");
+        SPlayer p = new SPlayer("green");
         MPlayer m = new MostSymmetricPlayer("G");
         List<String> colors = new ArrayList<>();
-        colors.add("Green");
-        m.initialize("Green", colors);
+        colors.add("green");
+        m.initialize("green", colors);
         m.setState(PlayerState.PLAYING);
         board.updatePlayerPosition(p, new PlayerPosition(5, 0, 0));
         board.placeTile(new Tile(new int[]{0,5,1,2,3,6,4,7}), 4, 0);

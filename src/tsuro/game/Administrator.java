@@ -9,7 +9,7 @@ import java.util.*;
 
 public class Administrator {
     private static final String[] COLORS =
-        new String[] {"Blue", "Red", "Green", "Orange", "Sienna", "Hotpink", "Darkgreen", "Purple"};
+        new String[] {"blue", "red", "green", "orange", "sienna", "hotpink", "darkgreen", "purple"};
 
     private List<SPlayer> activePlayers;
     private Board board;
@@ -81,7 +81,7 @@ public class Administrator {
         }
     }
 
-    public List<String> play() throws Exception {
+    public Set<String> play() throws Exception {
         setupGame();
 
         //play till we have a winner/winners
@@ -106,7 +106,7 @@ public class Administrator {
 
         }
 
-        List<String> winningColors = new ArrayList<>();
+        Set<String> winningColors = new HashSet<>();
         for (SPlayer s : winners) {
             winningColors.add(s.getColor());
         }

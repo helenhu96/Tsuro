@@ -6,12 +6,12 @@ import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement (name = "list")
-public class ListofSPlayer {
+public class ListofSPlayer extends XmlMaybe{
     @XmlElements(value = {
             @XmlElement(name="splayer-dragon",
-                    type=SPlayer_dragon.class),
+                    type=SPlayerwithDragon.class),
             @XmlElement(name="splayer-nodragon",
-                    type=SPlayer_nodragon.class),
+                    type=SPlayerNoDragon.class),
     })
     List<XmlSplayer> splayers;
     public ListofSPlayer() {}
@@ -35,9 +35,9 @@ public class ListofSPlayer {
 
     public void addSplayer(SPlayer splayer) {
         if (splayer.doIHaveDragon()) {
-            this.splayers.add(new SPlayer_dragon(splayer));
+            this.splayers.add(new SPlayerwithDragon(splayer));
         } else {
-            this.splayers.add(new SPlayer_nodragon(splayer));
+            this.splayers.add(new SPlayerNoDragon(splayer));
         }
     }
 
@@ -45,10 +45,10 @@ public class ListofSPlayer {
         List<SPlayer> list = new ArrayList<>();
 
         for (XmlSplayer player: splayers){
-            if (player instanceof SPlayer_dragon){
-                list.add(((SPlayer_dragon) player).backtoSPlayer());
+            if (player instanceof SPlayerwithDragon){
+                list.add(((SPlayerwithDragon) player).backtoSPlayer());
             } else {
-                list.add(((SPlayer_nodragon)player).backtoSPlayer());
+                list.add(((SPlayerNoDragon)player).backtoSPlayer());
             }
         }
         return list;

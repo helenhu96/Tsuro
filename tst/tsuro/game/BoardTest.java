@@ -39,8 +39,8 @@ public class BoardTest {
     public void positionHasPlayer() {
         PlayerPosition test = new PlayerPosition(0, 5, 1);
         PlayerPosition test1 = new PlayerPosition(5, 2, 3);
-        board.updatePlayerPosition(new SPlayer("Green"), test);
-        board.updatePlayerPosition(new SPlayer("Red"), test1);
+        board.updatePlayerPosition(new SPlayer("green"), test);
+        board.updatePlayerPosition(new SPlayer("red"), test1);
 
         PlayerPosition expect = new PlayerPosition(0, 5, 1);
         PlayerPosition expect1 = new PlayerPosition(5, 2, 3);
@@ -53,7 +53,7 @@ public class BoardTest {
 
     @Test
     public void test_legal_play_1() throws Exception{
-        SPlayer player1 = new SPlayer("Green");
+        SPlayer player1 = new SPlayer("green");
         Board board = new Board();
         board.updatePlayerPosition(player1, new PlayerPosition(0,0, 7));
         Tile tile1 = new Tile(new int[]{0, 7, 1, 2, 3, 4, 5, 6});
@@ -68,7 +68,7 @@ public class BoardTest {
 
     @Test //if all tiles in hand kill the player
     public void test_legal_play_2() throws Exception{
-        SPlayer player1 = new SPlayer("Green");
+        SPlayer player1 = new SPlayer("green");
         Board board = new Board();
         board.updatePlayerPosition(player1, new PlayerPosition(0,0, 7));
         Tile tile1 = new Tile(new int[]{0, 7, 1, 2, 3, 4, 5, 6});

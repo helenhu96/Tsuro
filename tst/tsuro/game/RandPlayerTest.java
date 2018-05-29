@@ -16,8 +16,8 @@ public class RandPlayerTest {
     public void placePawn() {
         MPlayer randP = new RandPlayer("Cathy");
         Board board = new Board();
-        SPlayer testP = new SPlayer("Green");
-        SPlayer testP2 = new SPlayer("Red");
+        SPlayer testP = new SPlayer("green");
+        SPlayer testP2 = new SPlayer("red");
         board.updatePlayerPosition(testP, new PlayerPosition(0, 0, 0));
         board.updatePlayerPosition(testP2, new PlayerPosition( 5, 3, 5));
         Administrator admin = new Administrator();
@@ -31,11 +31,11 @@ public class RandPlayerTest {
     public void playTurn() throws Exception{
         //honestly not sure how to test this...
         Board board = new Board();
-        SPlayer p = new SPlayer("Green");
+        SPlayer p = new SPlayer("green");
         MPlayer player = new RandPlayer("G");
         List<String> colors = new ArrayList<>();
-        colors.add("Green");
-        player.initialize("Green", colors);
+        colors.add("green");
+        player.initialize("green", colors);
         Set<Tile> set = new HashSet<>();
         List<Tile> help = new ArrayList<>();
         Tile tile1 = new Tile(new int[]{0,5,1,7,2,3,4,6});
@@ -64,11 +64,11 @@ public class RandPlayerTest {
     public void allMovesEliminate() throws Exception{
         //or how to test this....
         Board board = new Board();
-        SPlayer p = new SPlayer("Green");
+        SPlayer p = new SPlayer("green");
         MPlayer m = new RandPlayer("G");
         List<String> colors = new ArrayList<>();
-        colors.add("Green");
-        m.initialize("Green", colors);
+        colors.add("green");
+        m.initialize("green", colors);
         // just so that we updated state
         m.placePawn(board);
         board.updatePlayerPosition(p, new PlayerPosition(5, 0, 0));

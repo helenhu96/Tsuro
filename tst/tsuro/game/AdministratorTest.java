@@ -14,7 +14,7 @@ public class AdministratorTest {
 
     @Test
     public void setup_game() throws Exception{
-        MPlayer player1 = new RandPlayer("Green");
+        MPlayer player1 = new RandPlayer("green");
         Administrator admin = new Administrator();
         admin.registerPlayer(player1);
         SPlayer splayer1 = admin.getSPlayer(0);
@@ -29,7 +29,7 @@ public class AdministratorTest {
 
     @Test
     public void legalPlay_play_is_legal() throws Exception{
-        SPlayer player1 = new SPlayer("Green");
+        SPlayer player1 = new SPlayer("green");
         Board board = new Board();
         board.updatePlayerPosition(player1, new PlayerPosition(3,1, 6));
         Tile tile = new Tile(new int[]{0, 1, 2, 3, 4, 5, 6, 7});
@@ -47,7 +47,7 @@ public class AdministratorTest {
 
     @Test
     public void legalPlay_move_is_illegal() throws Exception{
-        SPlayer player1 = new SPlayer("Green");
+        SPlayer player1 = new SPlayer("green");
         Board board = new Board();
         board.updatePlayerPosition(player1, new PlayerPosition(0, 0, 0));
         Tile tile = new Tile(new int[]{0, 7, 1, 2, 3, 4, 5, 6});
@@ -68,7 +68,7 @@ public class AdministratorTest {
 
     @Test
     public void legalPlay_all_moves_are_eliminating() throws Exception{
-        SPlayer player1 = new SPlayer("Green");
+        SPlayer player1 = new SPlayer("green");
         Board board = new Board();
         board.updatePlayerPosition(player1, new PlayerPosition(0, 0, 5));
         Tile tile = new Tile(new int[]{0, 7, 1, 2, 3, 4, 5, 6});
@@ -90,10 +90,10 @@ public class AdministratorTest {
 
 
 
-    @Test    //both players start in a corner, player Green/s first move immediately eliminates player Red
+    @Test    //both players start in a corner, player green/s first move immediately eliminates player red
     public void playATurnImmediateElimination() throws Exception{
-        SPlayer player1 = new SPlayer("Green");
-        SPlayer player2 = new SPlayer("Red");
+        SPlayer player1 = new SPlayer("green");
+        SPlayer player2 = new SPlayer("red");
         Board board = new Board();
         board.updatePlayerPosition(player1, new PlayerPosition(0,0,1));
         board.updatePlayerPosition(player2, new PlayerPosition(0,0,7));
@@ -127,8 +127,8 @@ public class AdministratorTest {
 
     @Test
     public void playATurnCrossMultipleTiles() throws Exception{
-        SPlayer player1 = new SPlayer("Green");
-        SPlayer player2 = new SPlayer("Red");
+        SPlayer player1 = new SPlayer("green");
+        SPlayer player2 = new SPlayer("red");
         Board board = new Board();
         board.updatePlayerPosition(player1, new PlayerPosition(1,1,6));
         board.updatePlayerPosition(player2, new PlayerPosition(2,1,5));
@@ -167,9 +167,9 @@ public class AdministratorTest {
 
     @Test
     public void playATurnEliminateAll() throws Exception{
-        SPlayer player1 = new SPlayer("Green");
-        SPlayer player2 = new SPlayer("Red");
-        SPlayer player3 = new SPlayer("Blue");
+        SPlayer player1 = new SPlayer("green");
+        SPlayer player2 = new SPlayer("red");
+        SPlayer player3 = new SPlayer("blue");
         Board board = new Board();
         board.updatePlayerPosition(player1, new PlayerPosition(0,0,2));
         board.updatePlayerPosition(player2, new PlayerPosition(1,1,4));
@@ -203,8 +203,8 @@ public class AdministratorTest {
 //
     @Test
     public void playATurnRotated() throws Exception{
-        SPlayer player1 = new SPlayer("Green");
-        SPlayer player2 = new SPlayer("Red");
+        SPlayer player1 = new SPlayer("green");
+        SPlayer player2 = new SPlayer("red");
         Board board = new Board();
         board.updatePlayerPosition(player1, new PlayerPosition(3,1, 6));
         board.updatePlayerPosition(player2, new PlayerPosition(5,1, 6));
@@ -232,9 +232,9 @@ public class AdministratorTest {
 
     @Test  //player who has the dragon tile dies, dragon tile gets passed on to the next rightful successor
     public void playATurnDragonDies() throws Exception {
-        SPlayer player1 = new SPlayer("Green");
-        SPlayer player2 = new SPlayer("Red");
-        SPlayer player3 = new SPlayer("Blue");
+        SPlayer player1 = new SPlayer("green");
+        SPlayer player2 = new SPlayer("red");
+        SPlayer player3 = new SPlayer("blue");
 
         Board board = new Board();
         board.updatePlayerPosition(player1, new PlayerPosition(5, 0, 0));
@@ -288,8 +288,8 @@ public class AdministratorTest {
 
     @Test  //current player eliminates player with dragon tile
     public void playATurn_Player_Eliminate_Dragon() throws Exception {
-        SPlayer player1 = new SPlayer("Green");
-        SPlayer player2 = new SPlayer("Red");
+        SPlayer player1 = new SPlayer("green");
+        SPlayer player2 = new SPlayer("red");
         Board board = new Board();
         board.updatePlayerPosition(player1, new PlayerPosition(0,0,1));
         board.updatePlayerPosition(player2, new PlayerPosition(0,0,7));

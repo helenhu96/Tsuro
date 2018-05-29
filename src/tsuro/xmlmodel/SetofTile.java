@@ -15,7 +15,7 @@ public class SetofTile {
     public SetofTile(Set<Tile> tiles) {
         setSetofTile(new HashSet<>());
         for (Tile t: tiles) {
-            ConvertedTile ctile = new ConvertedTile(t);
+            addSetofTile(t);
         }
     }
 

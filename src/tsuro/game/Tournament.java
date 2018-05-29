@@ -2,6 +2,7 @@ package tsuro.game;
 
 
 import java.util.List;
+import java.util.Set;
 
 class Tournament {
     public static void main(String argv[]) throws Exception {
@@ -28,7 +29,7 @@ class Tournament {
             admin.registerPlayer(p7);
             admin.registerPlayer(p8);
 
-            List<String> winners = admin.play();
+            Set<String> winners = admin.play();
             System.out.println(winners);
         }
     }

@@ -1,24 +1,23 @@
 package tsuro.xmlmodel;
-
 import tsuro.game.SPlayer;
 import tsuro.game.Tile;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import java.util.*;
-
-@XmlType(name = "splayer-nodragon")
-public class SPlayer_nodragon extends XmlSplayer{
+@XmlType(name = "splayer-dragon")
+public class SPlayerwithDragon extends XmlSplayer{
     String color;
     SetofTile setofTile;
-    public SPlayer_nodragon() {}
-    public SPlayer_nodragon(SPlayer splayer) {
+    public SPlayerwithDragon() {}
+    public SPlayerwithDragon(SPlayer splayer) {
         this.color = splayer.getColor();
         this.setofTile = new SetofTile(new HashSet<>());
         for (Tile t: splayer.getHandTiles()) {
             addSetofTile(t);
         }
     }
+
 
     public String getColor() {
         return color;
@@ -28,7 +27,7 @@ public class SPlayer_nodragon extends XmlSplayer{
         this.color = color;
     }
 
-    @XmlElement (name = "set")
+    @XmlElement(name = "set")
     public void setSetofTile(SetofTile setofTile) {
         this.setofTile = setofTile;
     }
@@ -48,7 +47,7 @@ public class SPlayer_nodragon extends XmlSplayer{
         for(Tile t: tiles){
             player.receiveTile(t);
         }
-        player.setDragon(false);
+        player.setDragon(true);
 
         return player;
     }

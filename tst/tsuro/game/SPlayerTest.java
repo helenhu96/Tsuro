@@ -12,7 +12,7 @@ public class SPlayerTest {
 
     @Test
     public void receiveTile() {
-        SPlayer testPlayer = new SPlayer("Green");
+        SPlayer testPlayer = new SPlayer("green");
         Tile tile1 = new Tile(new int[]{0,5,1,3,2,6,4,7});
         testPlayer.receiveTile(tile1);
         Set<Tile> expected = new HashSet<>();
@@ -25,7 +25,7 @@ public class SPlayerTest {
 
     @Test
     public void removeHandTiles() {
-        SPlayer testPlayer = new SPlayer("Green");
+        SPlayer testPlayer = new SPlayer("green");
         Tile tile1 = new Tile(new int[]{0,5,1,3,2,6,4,7});
         testPlayer.receiveTile(tile1);
         testPlayer.removeHandTiles();
@@ -36,7 +36,7 @@ public class SPlayerTest {
 
     @Test
     public void removeTile() {
-        SPlayer testPlayer = new SPlayer("Green");
+        SPlayer testPlayer = new SPlayer("green");
         Tile tile1 = new Tile(new int[]{0,5,1,3,2,6,4,7});
         Tile tile2 = new Tile(new int[]{0,1,2,3,4,5,6,7});
         testPlayer.receiveTile(tile1);
@@ -50,7 +50,7 @@ public class SPlayerTest {
 
     @Test
     public void removeTile_fail() {
-        SPlayer testPlayer = new SPlayer("Green");
+        SPlayer testPlayer = new SPlayer("green");
         Tile tile1 = new Tile(new int[]{0,5,1,3,2,6,4,7});
         Tile tile2 = new Tile(new int[]{0,1,2,3,4,5,6,7});
         testPlayer.receiveTile(tile1);
@@ -61,7 +61,7 @@ public class SPlayerTest {
 
     @Test
     public void numHandTiles() {
-        SPlayer testPlayer = new SPlayer("Green");
+        SPlayer testPlayer = new SPlayer("green");
         Tile tile1 = new Tile(new int[]{0,5,1,3,2,6,4,7});
         Tile tile2 = new Tile(new int[]{0,1,2,3,4,5,6,7});
         testPlayer.receiveTile(tile1);
@@ -73,7 +73,7 @@ public class SPlayerTest {
 
     @Test
     public void numHandTiles_1() {
-        SPlayer testPlayer = new SPlayer("Green");
+        SPlayer testPlayer = new SPlayer("green");
         assertEquals(0, testPlayer.numHandTiles());
 
     }

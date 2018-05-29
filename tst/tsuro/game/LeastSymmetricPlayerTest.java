@@ -11,11 +11,11 @@ public class LeastSymmetricPlayerTest {
     @Test
     public void playTurn() throws Exception{
         Board board = new Board();
-        SPlayer p = new SPlayer("Green");
+        SPlayer p = new SPlayer("green");
         MPlayer m = new LeastSymmetricPlayer("G");
         List<String> colors = new ArrayList<>();
-        colors.add("Green");
-        m.initialize("Green", colors);
+        colors.add("green");
+        m.initialize("green", colors);
         board.updatePlayerPosition(p, new PlayerPosition(4,1,2));
         m.setState(PlayerState.PLAYING);
         board.placeTile(new Tile(new int[]{0,3,1,6,2,5,4,7}), 4, 0);
@@ -32,11 +32,11 @@ public class LeastSymmetricPlayerTest {
     @Test
     public void playTurn1() throws Exception{
         Board board = new Board();
-        SPlayer p = new SPlayer("Green");
+        SPlayer p = new SPlayer("green");
         MPlayer m = new LeastSymmetricPlayer("G");
         List<String> colors = new ArrayList<>();
-        colors.add("Green");
-        m.initialize("Green", colors);
+        colors.add("green");
+        m.initialize("green", colors);
         board.updatePlayerPosition(p, new PlayerPosition(4,1,2));
         m.setState(PlayerState.PLAYING);
         board.placeTile(new Tile(new int[]{0,3,1,6,2,5,4,7}), 4, 0);
@@ -54,11 +54,11 @@ public class LeastSymmetricPlayerTest {
     @Test
     public void playTurn2() throws Exception{
         Board board = new Board();
-        SPlayer p = new SPlayer("Green");
+        SPlayer p = new SPlayer("green");
         MPlayer m = new LeastSymmetricPlayer("G");
         List<String> colors = new ArrayList<>();
-        colors.add("Green");
-        m.initialize("Green", colors);
+        colors.add("green");
+        m.initialize("green", colors);
         board.updatePlayerPosition(p, new PlayerPosition(4,1,2));
         m.setState(PlayerState.PLAYING);
         board.placeTile(new Tile(new int[]{0,3,1,6,2,5,4,7}), 4, 0);
@@ -77,11 +77,11 @@ public class LeastSymmetricPlayerTest {
     @Test
     public void playTurnStartFromEdge() throws Exception{
         Board board = new Board();
-        SPlayer p = new SPlayer("Green");
+        SPlayer p = new SPlayer("green");
         MPlayer m = new LeastSymmetricPlayer("G");
         List<String> colors = new ArrayList<>();
-        colors.add("Green");
-        m.initialize("Green", colors);
+        colors.add("green");
+        m.initialize("green", colors);
         board.updatePlayerPosition(p, new PlayerPosition(0,3,1));
         m.setState(PlayerState.PLAYING);
         board.placeTile(new Tile(new int[]{0,7,1,2,3,4,5,6}), 0, 4);
@@ -98,11 +98,11 @@ public class LeastSymmetricPlayerTest {
     public void allMovesEliminate() throws Exception{
         Board board = new Board();
 
-        SPlayer p = new SPlayer("Green");
+        SPlayer p = new SPlayer("green");
         MPlayer m = new LeastSymmetricPlayer("G");
         List<String> colors = new ArrayList<>();
-        colors.add("Green");
-        m.initialize("Green", colors);
+        colors.add("green");
+        m.initialize("green", colors);
         board.updatePlayerPosition(p, new PlayerPosition(5, 0, 0));
         m.setState(PlayerState.PLAYING);
         board.placeTile(new Tile(new int[]{0,5,1,2,3,6,4,7}), 4, 0);
