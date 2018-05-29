@@ -211,4 +211,17 @@ public class TileTest {
     }
 
 
+    @Test
+    public void checkDuplicate() {
+        Set<Tile> set = new HashSet<>();
+        Tile tile = new Tile(new int[]{0,7,1,2,3,4,5,6});
+        Tile copy = new Tile(tile);
+        for (int i=0; i<4; i++) {
+            Tile added = new Tile(copy);
+            set.add(added);
+            copy.rotateClockwise();
+        }
+        assertTrue(tile.equals(copy));
+        assertEquals(set.size(), 1);
+    }
 }

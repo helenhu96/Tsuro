@@ -3,7 +3,6 @@ package tsuro.game;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import tsuro.game.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -123,7 +122,7 @@ public class AdministratorTest {
         assertFalse(player2.isAlive());
         assertEquals(0, player2.numHandTiles());
         assertEquals(1, drawPile.size());
-        assertEquals(null, admin.getPlayerWithDragonTileDragon());
+        assertEquals(null, admin.getPlayerWithDragonTile());
     }
 
     @Test
@@ -227,11 +226,10 @@ public class AdministratorTest {
         assertEquals(3, player1.numHandTiles());
         assertEquals(2, activePlayers.size());
         assertEquals(0, deadPlayers.size());
-        assertNull(admin.getPlayerWithDragonTileDragon());
+        assertNull(admin.getPlayerWithDragonTile());
 
     }
 
-    //TODO: fix this
     @Test  //player who has the dragon tile dies, dragon tile gets passed on to the next rightful successor
     public void playATurnDragonDies() throws Exception {
         SPlayer player1 = new SPlayer("Green");
@@ -254,7 +252,6 @@ public class AdministratorTest {
         Tile tile4 = new Tile(new int[]{0, 5, 2, 3, 4, 6, 1, 7});
         Tile tile5 = new Tile(new int[]{0, 1, 2, 3, 4, 5, 6, 7});
         Tile tile6 = new Tile(new int[]{0, 1, 2, 3, 4, 6, 5, 7});
-        player1.receiveTile(tile3);
         player1.receiveTile(tile2);
         player2.receiveTile(tile1);
         player2.receiveTile(tile4);
@@ -270,22 +267,21 @@ public class AdministratorTest {
         DrawPile drawPile = new DrawPile();
 
         Administrator admin = new Administrator(activePlayers, board, drawPile, deadPlayers, player1);
+        drawPile.giveDragon();
+        assertEquals(admin.getPlayerWithDragonTile(), player1);
         List<SPlayer> winners = admin.playATurn(drawPile, activePlayers, deadPlayers, board, tile3);
 
-        assertNull(winners);
+        assertEquals(0, drawPile.size());
+        assertEquals(winners.size(), 0);
         assertEquals(2, activePlayers.size());
         assertEquals(player2, activePlayers.get(0));
         assertEquals(player3, activePlayers.get(1));
         assertEquals(1, deadPlayers.size());
         assertEquals(player1, deadPlayers.get(0));
-
         assertEquals(0, player1.numHandTiles());
         assertEquals(3, player2.numHandTiles());
-        assertEquals(3, player3.numHandTiles());
-
-        assertEquals(0, drawPile.size());
-
-        assertNull(admin.getPlayerWithDragonTileDragon());
+        assertEquals(2, player3.numHandTiles());
+        assertEquals(admin.getPlayerWithDragonTile(), player3);
     }
 
 
@@ -299,7 +295,6 @@ public class AdministratorTest {
         board.updatePlayerPosition(player2, new PlayerPosition(0,0,7));
         Tile tile1 = new Tile(new int[]{0, 7, 1, 2, 3, 4, 5, 6});
 
-
         List<SPlayer> activePlayers = new ArrayList<>();
         activePlayers.add(player1);
         activePlayers.add(player2);
@@ -312,23 +307,19 @@ public class AdministratorTest {
         player2.receiveTile(drawPile.drawATile());
         Administrator admin = new Administrator(activePlayers, board, drawPile, deadPlayers, player2);
         drawPile.giveDragon();
-        assertEquals(admin.getPlayerWithDragonTileDragon(), player2);
+        assertEquals(admin.getPlayerWithDragonTile(), player2);
         assertFalse(drawPile.hasDrogon());
-
 
         List<SPlayer> winners = admin.playATurn(drawPile, activePlayers, deadPlayers, board, tile1);
         assertEquals(1, winners.size());
         assertEquals(player1, winners.get(0));
 
-
-
-        assertTrue(drawPile.hasDrogon());
+        assertEquals(admin.getPlayerWithDragonTile(), player1);
         assertEquals(1, activePlayers.size());
         assertEquals(player1, activePlayers.get(0));
         assertEquals(1, deadPlayers.size());
         assertEquals(player2, deadPlayers.get(0));
         assertEquals(0, player2.numHandTiles());
-        assertEquals(null, admin.getPlayerWithDragonTileDragon());
     }
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();

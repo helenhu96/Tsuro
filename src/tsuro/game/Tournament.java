@@ -3,7 +3,7 @@ package tsuro.game;
 
 import java.util.List;
 
-class Main {
+class Tournament {
     public static void main(String argv[]) throws Exception {
         int rWins = 0;
         int mWins = 0;

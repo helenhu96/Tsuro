@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement (name = "list")
-public class List_SPlayer {
+public class ListofSPlayer {
     @XmlElements(value = {
             @XmlElement(name="splayer-dragon",
                     type=SPlayer_dragon.class),
@@ -14,9 +14,9 @@ public class List_SPlayer {
                     type=SPlayer_nodragon.class),
     })
     List<XmlSplayer> splayers;
-    public List_SPlayer() {}
+    public ListofSPlayer() {}
 
-    public List_SPlayer(List<SPlayer> splayers) {
+    public ListofSPlayer(List<SPlayer> splayers) {
         setSplayer(new ArrayList<>());
         for (SPlayer splayer: splayers) {
             addSplayer(splayer);

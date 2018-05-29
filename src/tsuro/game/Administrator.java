@@ -189,10 +189,6 @@ public class Administrator {
         List<SPlayer> playersDiedThisTurn = new ArrayList<>();
         //get current player
         SPlayer currentPlayer = activePlayers.get(0);
-//        //TODO: is this right??
-//        if (this.playerWithDragonTile == currentPlayer) {
-//            returnDragon(pile);
-//        }
         PlayerPosition playerPosition = board.getPlayerPosition(currentPlayer);
         //place tile at current position
         board.placeTile(tile, playerPosition.getY(), playerPosition.getX());
@@ -217,9 +213,6 @@ public class Administrator {
 
         SPlayer currentDrawer = drawOrder.get(0);
         drawTiles(pile, currentDrawer, drawOrder);
-
-
-
 
         //check if there are any players left
         return getWinners(board, activePlayers, playersDiedThisTurn);
@@ -346,7 +339,7 @@ public class Administrator {
     }
 
 
-    public SPlayer getPlayerWithDragonTileDragon() {
+    public SPlayer getPlayerWithDragonTile() {
         return this.playerWithDragonTile;
     }
 

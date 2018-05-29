@@ -93,9 +93,9 @@ public class Encoder {
 
     public static void encodeSPlayers(List<SPlayer> splayers) throws Exception
     {
-        List_SPlayer lsplayer = new List_SPlayer(splayers);
+        ListofSPlayer lsplayer = new ListofSPlayer(splayers);
         StringWriter sw = new StringWriter();
-        JAXBContext jaxbContext = JAXBContext.newInstance(List_SPlayer.class, XmlSplayer.class, SPlayer_dragon.class, SPlayer_nodragon.class);
+        JAXBContext jaxbContext = JAXBContext.newInstance(ListofSPlayer.class, XmlSplayer.class, SPlayer_dragon.class, SPlayer_nodragon.class);
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
         jaxbMarshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
         jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);

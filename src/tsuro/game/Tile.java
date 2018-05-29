@@ -83,6 +83,19 @@ public class Tile{
         return arePathsIdentical(tile);
     }
 
+    //TODO: hashcode legal??
+    @Override
+    public int hashCode() {
+        int result = 0;
+        int[] m= new int[]{17, 19, 23, 29, 31, 37, 41, 43};
+        for (int i = 0; i < 4; i++) {
+            int[] a = this.path.get(i);
+            for (int j = 0; j < 2; j++) {
+                result += m[2 * i + j] * a[j];
+            }
+        }
+        return result;
+    }
 
     //returns the endpoint connected to the given endpoint
     public int getConnected(int curr) {
