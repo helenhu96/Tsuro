@@ -10,12 +10,18 @@ class RandPlayer extends MPlayer {
 
     RandPlayer(String name) { super(name); }
 
-
-    public Tile playTurn(Board board, Set<Tile> hand, int tilesInDeck) throws Exception{
-        Preconditions.checkState(state == PlayerState.PLAYING, "Expect State Playing, actual state " + state);
-        Preconditions.checkArgument(hand.size()<= Administrator.HAND_SIZE, "Can't have more than 3 tiles in hand");
-        Set<Tile> possibleMoves = chooseLegalRotations(board, hand);
-
+    //TODO: check exception handling
+    public Tile playTurn(Board board, Set<Tile> hand, int tilesInDeck){
+        checkState(PlayerState.PLAYING);
+        if (hand.size() > 3) {
+            throw new IllegalArgumentException("can't hand more than three cards in hand!");
+        }
+        Set<Tile> possibleMoves = new HashSet<>();
+        try {
+            possibleMoves = chooseLegalRotations(board, hand);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
 
         if (possibleMoves.size()>0) {
             int rand = ThreadLocalRandom.current().nextInt(0, possibleMoves.size());

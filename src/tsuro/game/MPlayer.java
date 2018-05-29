@@ -33,22 +33,25 @@ abstract class MPlayer implements IPlayer {
         return this.color;
     }
 
-    //TODO: fix color contract
     public void initialize(String color, List<String> colors) {
-        Preconditions.checkState(state == PlayerState.UNINITIALIZED, "Expect State Uninitialized, actual state " + state);
-        if (!colors.contains(color)) {
-            throw new IllegalArgumentException("Can't initialize with this color!");
+        try {
+            checkState(PlayerState.UNINITIALIZED);
+            if (!colors.contains(color)) {
+                throw new IllegalArgumentException("Can't initialize with this color!");
+            }
+            this.color = color;
+            state = PlayerState.INITIALIZED;
+        } catch (IllegalStateException e){
+            throw e;
         }
-        this.color = color;
-        state = PlayerState.INITIALIZED;
+
 
 
     }
 
 
     public PlayerPosition placePawn(Board board) {
-        Preconditions.checkState(state == PlayerState.INITIALIZED, "Expect State Initialized, actual state " + state);
-
+        checkState(PlayerState.INITIALIZED);
         if (board.getPlayerColors().contains(this.color)) {
             throw new java.lang.IllegalStateException("Pawn already exists on board");
         }
@@ -91,7 +94,7 @@ abstract class MPlayer implements IPlayer {
         return state;
     }
 
-    abstract public Tile playTurn(Board b, Set<Tile> hand, int tilesInDeck) throws Exception;
+    abstract public Tile playTurn(Board b, Set<Tile> hand, int tilesInDeck);
 
 
 
@@ -129,55 +132,11 @@ abstract class MPlayer implements IPlayer {
         return legalTiles;
     }
 
-
-    //protected helper functions-----------------------------------------------------------------------------------
-
-
-    //TODO: consider moving these to board class or remove continue
-
-//    protected Tile rotateTileTillLegal(Board board, Tile tile) throws Exception{
-//        Tile t = new Tile(tile);
-//        for (int i = 0; i < 4; i++) {
-//
-//            //get position of this player
-//            PlayerPosition position = board.getPlayerPositionByColor(this.color);
-//
-//            //call moveAlongPath to see if token would reach end of board
-//            boolean result = true;
-//            board.placeTile(t, position.getY(), position.getX());
-//            if (board.isBorder(moveAlongPath(position, board))) result = false;
-//            board.removeTile(position.getY(), position.getX());
-//            if (result) {return t;}
-//            else {
-//                t.rotateClockwise();
-//                continue; }
-//        }
-//        return null;
-//    }
-//
-//
-//    //TODO: DELETE THIS AND RESOLVE ISSUES
-//    /**
-//     *
-//     * @param startingPosition
-//     * @param board
-//     * @return returns the furthest adjacent position a player can move to from given starting position
-//     */
-//    protected PlayerPosition moveAlongPath(PlayerPosition startingPosition, Board board) throws Exception{
-//        PlayerPosition position = new PlayerPosition(startingPosition);
-//        Tile currTile = board.getTile(position.getY(), position.getX());
-//        while (currTile != null){
-//            int nextSpot = currTile.getConnected(position.getSpot());
-//            position.setSpot(nextSpot);
-//            //if at edge, return edge coordinates
-//            if (board.isBorder(position))
-//                return position;
-//
-//            position = board.flip(position);
-//            currTile = board.getTile(position.getY(), position.getX());
-//        }
-//        return position;
-//    }
+    public void checkState(PlayerState desiredState) throws IllegalStateException {
+        if (this.state != desiredState) {
+            throw new IllegalStateException("Expect State " + desiredState + " actual state " + this.state);
+        }
+    }
 
 
 

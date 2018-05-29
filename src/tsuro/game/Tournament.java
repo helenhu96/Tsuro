@@ -6,9 +6,6 @@ import java.util.Set;
 
 class Tournament {
     public static void main(String argv[]) throws Exception {
-        int rWins = 0;
-        int mWins = 0;
-        int lWins = 0;
         for (int i=0; i<4000; i++) {
             Administrator admin = new Administrator();
             MPlayer p1 = new RandPlayer("1");

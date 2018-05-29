@@ -32,7 +32,7 @@ public interface IPlayer {
      * are the ones the player has, the number is the
      * count of tiles that are not yet handed out to players.
      */
-    Tile playTurn(Board board, Set<Tile> tiles, int numTiles) throws Exception;
+    Tile playTurn(Board board, Set<Tile> tiles, int numTiles);
 
     /**
      *

@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement (name = "list")
-public class ListofSPlayer extends XmlMaybe{
+public class ListofSPlayer {
     @XmlElements(value = {
             @XmlElement(name="splayer-dragon",
                     type=SPlayerwithDragon.class),

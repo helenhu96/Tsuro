@@ -16,9 +16,6 @@ public class PlayerDecoder extends Decoder{
 
     }
 
-
-
-
     public void decode(String docString) throws Exception{
         try {
             Document doc = getDocument(docString);
@@ -63,11 +60,6 @@ public class PlayerDecoder extends Decoder{
         }
 
     }
-
-
-
-
-
 
 
     // Argument is a node with <map> tag
@@ -247,13 +239,6 @@ public class PlayerDecoder extends Decoder{
         }
         throw new IllegalArgumentException("Input is not a valid setoftiles node object!");
     }
-
-
-
-
-
-
-
 
 
 

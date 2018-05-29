@@ -3,8 +3,6 @@ package tsuro.game;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.*;
 
-import static org.junit.Assert.assertEquals;
-
 @XmlRootElement
 public class Board {
 

@@ -3,7 +3,7 @@ package tsuro.game;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-import com.google.common.base.Preconditions;
+//import com.google.common.base.Preconditions;
 
 
 class LeastSymmetricPlayer extends SymmetricPlayer {
@@ -18,7 +18,7 @@ class LeastSymmetricPlayer extends SymmetricPlayer {
     public Tile chooseSymmetricTile(Map<Integer, List<Tile>> scores) throws Exception{
         int[] array = new int[]{0,1,2,4};
         //loop through all possible levels of symmetricity
-        for (int i = 0; i < array.length; i++){
+        for (int i =0; i < array.length; i++){
             List<Tile> target = scores.get(array[i]);
             if (target!=null) {
                 int randomIndex = ThreadLocalRandom.current().nextInt(target.size());

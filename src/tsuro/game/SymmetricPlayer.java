@@ -14,13 +14,18 @@ public abstract class SymmetricPlayer extends MPlayer{
     public Board board;
     public Set<Tile> hand;
 
-    //TODO: choose legal here
-    public Tile playTurn(Board board, Set<Tile> hand, int tilesInDeck) throws Exception {
+    //TODO: check exception handling here!!!
+    public Tile playTurn(Board board, Set<Tile> hand, int tilesInDeck) {
         this.board = board;
         this.hand = hand;
-        Preconditions.checkArgument(this.state == PlayerState.PLAYING, "Expected PLAYING state, got " + this.state);
+        checkState(PlayerState.PLAYING);
         Map<Integer, List<Tile>> scores = new HashMap<>();
-        legalTiles = chooseLegalRotations(board, hand);
+        try {
+            legalTiles = chooseLegalRotations(board, hand);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
         for (Tile t: legalTiles){
             int score = t.getScore();
             if (!scores.containsKey(score)){
@@ -28,8 +33,13 @@ public abstract class SymmetricPlayer extends MPlayer{
             }
             scores.get(score).add(t);
         }
-
-        return chooseSymmetricTile(scores);
+        Tile tile = null;
+        try {
+            tile = chooseSymmetricTile(scores);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        return tile;
     }
 
     protected abstract Tile chooseSymmetricTile(Map<Integer, List<Tile>> scores) throws Exception;

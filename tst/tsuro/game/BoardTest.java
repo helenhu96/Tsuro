@@ -1,9 +1,10 @@
 package tsuro.game;
 
 import org.junit.Test;
-import tsuro.game.*;
 
-import static org.junit.Assert.*;
+import static junit.framework.TestCase.*;
+
+
 
 public class BoardTest {
 

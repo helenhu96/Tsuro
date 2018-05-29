@@ -43,7 +43,11 @@ public class Administrator {
         String color = COLORS[numPlayer];
         SPlayer splayer = new SPlayer(color);
         splayer.associatePlayer(player);
-        player.initialize(color, Lists.newArrayList(COLORS));
+        List<String> colorlist = new ArrayList<>();
+        for (String c: COLORS) {
+            colorlist.add(c);
+        }
+        player.initialize(color, colorlist);
         activePlayers.add(splayer);
         numPlayer++;
     }
