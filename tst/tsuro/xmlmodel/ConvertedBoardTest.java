@@ -32,13 +32,13 @@ public class ConvertedBoardTest {
 
     @Test
     public void testBoard1() throws Exception {
-        PlayerDecoder decoder = new PlayerDecoder();
         String input = "<board><map><ent><xy><x>0</x><y>0</y></xy><tile><connect><n>0</n><n>1</n></connect>" +
                 "<connect><n>2</n><n>4</n></connect><connect><n>3</n><n>6</n></connect>" +
                 "<connect><n>5</n><n>7</n></connect></tile></ent></map><map><ent><color>red</color>" +
                 "<pawn-loc><v></v><n>1</n><n>1</n></pawn-loc></ent></map></board>";
-        Document doc = getDocument(input);
-        Board b = PlayerDecoder.decodeBoard(input);
+        Document doc = Decoder.getDocument(input);
+        Node boardNode = doc.getElementsByTagName("board").item(0);
+        Board b = Decoder.decode_board(boardNode);
         Tile tile = new Tile(new int[]{0, 1, 2, 4, 3, 6, 5, 7});
         assertEquals(tile, b.getTile(0, 0));
         assertEquals(b.getPlayerByPosition(new PlayerPosition(0,0,3)).getColor(), "red");

@@ -16,7 +16,7 @@ public class ServerPlayer implements IPlayer {
     Socket socket;
     PrintWriter toClient;
     BufferedReader fromClient;
-    PlayerDecoder playerDecoder = new PlayerDecoder();
+//    Decoder Decoder = new Decoder();
     PlayerState state;
     int PORT;
     public ServerPlayer() throws IOException{
@@ -36,7 +36,7 @@ public class ServerPlayer implements IPlayer {
         try {
             String outDocString = Encoder.encodeGetName();
             String result = sendXml(outDocString);
-            answer = playerDecoder.decodeGetName(result);
+            answer = Decoder.decodeGetName(result);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -79,7 +79,7 @@ public class ServerPlayer implements IPlayer {
             String outDocString = Encoder.encodePlacePawn(board);
             String in = sendXml(outDocString);
             Node pawnlocNode = Decoder.getDocument(in).getElementsByTagName("pawn-loc").item(0);
-            pp = playerDecoder.decodePawnLoc(pawnlocNode, board);
+            pp = Decoder.decodePawnLoc(pawnlocNode, board);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -103,7 +103,7 @@ public class ServerPlayer implements IPlayer {
         try {
             String outDocString = Encoder.encodePlayTurn(board, tiles, numTiles);
             String in = sendXml(outDocString);
-            tile = playerDecoder.decodeTile(in);
+            tile = Decoder.decodeTile(in);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -18,7 +18,7 @@ public class ClientPlayer {
     private String host = "localhost";
     private PrintWriter toServer;
     private BufferedReader fromServer;
-    private PlayerDecoder decoder;
+    private Decoder decoder;
     public ClientPlayer(IPlayer p) throws IOException {
         this.iplayer = p;
         this.PORT = 3000;
@@ -38,7 +38,7 @@ public class ClientPlayer {
     // then call the corresponding iplayer function and send back msg
     public void decode(String docString) throws Exception{
         try {
-            Document doc = decoder.getDocument(docString);
+            Document doc = Decoder.getDocument(docString);
             String function = doc.getDocumentElement().getTagName();
 
             // handle different cases based on the different function calls
@@ -51,29 +51,29 @@ public class ClientPlayer {
                 Node color = doc.getElementsByTagName("color").item(0);
                 Node list_of_color = doc.getElementsByTagName("list").item(0);
                 String c = color.getTextContent();
-                List<String> colors = PlayerDecoder.decode_listofColors(list_of_color);
+                List<String> colors = Decoder.decode_listofColors(list_of_color);
                 this.iplayer.initialize(c, colors);
                 sendXml(Encoder.encodeVoid());
 
             } else if (function.equals("place-pawn"))
             {
                 Node boardNode = doc.getElementsByTagName("board").item(0);
-                Board board = PlayerDecoder.decode_board(boardNode);
+                Board board = Decoder.decode_board(boardNode);
                 PlayerPosition playerPosition = this.iplayer.placePawn(board);
                 sendXml(Encoder.encodePawnLoc(playerPosition));
             }  else if (function.equals("play-turn")) {
                 Node boardNode = doc.getElementsByTagName("board").item(0);
                 Node tilesNode = doc.getElementsByTagName("set").item(0);
                 int n = Integer.parseInt(doc.getLastChild().getTextContent());
-                Board board = PlayerDecoder.decode_board(boardNode);
-                Set<Tile> tiles = PlayerDecoder.decode_setofTiles(tilesNode);
+                Board board = Decoder.decode_board(boardNode);
+                Set<Tile> tiles = Decoder.decode_setofTiles(tilesNode);
                 Tile t = this.iplayer.playTurn(board, tiles, n);
                 sendXml(Encoder.encodeTile(t));
             }  else if (function.equals("end-game")) {
                 Node boardNode = doc.getElementsByTagName("board").item(0);
                 Node colorSet = doc.getElementsByTagName("set").item(0);
-                Board board = PlayerDecoder.decode_board(boardNode);
-                Set<String> colors = PlayerDecoder.decode_setofColors(colorSet);
+                Board board = Decoder.decode_board(boardNode);
+                Set<String> colors = Decoder.decode_setofColors(colorSet);
                 this.iplayer.endGame(board, colors);
                 sendXml(Encoder.encodeVoid());
             } else {

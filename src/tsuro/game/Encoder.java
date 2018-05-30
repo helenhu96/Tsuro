@@ -15,7 +15,6 @@ public class Encoder {
         JAXBContext jaxbContext = JAXBContext.newInstance(ConvertedTile.class);
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 //        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-
         jaxbMarshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
         StringWriter sw = new StringWriter();
         jaxbMarshaller.marshal(ctile, sw);
