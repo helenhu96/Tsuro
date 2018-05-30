@@ -196,14 +196,7 @@ public class PlayerDecoder extends Decoder{
         return t;
     }
 
-    public static Board decodeBoard(String docString) throws Exception{
-        Document doc = getDocument(docString);
-        Board board = decode_board(doc.getElementsByTagName("board").item(0));
-        return board;
-    }
 
 
-//    public static Tile decodePlayTurn(String docString) {
-//
-//    }
+
 }

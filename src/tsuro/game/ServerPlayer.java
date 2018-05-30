@@ -1,6 +1,7 @@
 package tsuro.game;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -77,7 +78,8 @@ public class ServerPlayer implements IPlayer {
         try {
             String outDocString = Encoder.encodePlacePawn(board);
             String in = sendXml(outDocString);
-            pp = playerDecoder.decodePawnLoc(Decoder.getDocument(in), board);
+            Node pawnlocNode = Decoder.getDocument(in).getElementsByTagName("pawn-loc").item(0);
+            pp = playerDecoder.decodePawnLoc(pawnlocNode, board);
         } catch (Exception e) {
             e.printStackTrace();
         }
