@@ -5,7 +5,7 @@ import tsuro.game.PlayerPosition;
 
 import javax.xml.bind.annotation.*;
 
-@XmlRootElement
+@XmlRootElement (name = "pawn-loc")
 @XmlType (propOrder = {"h", "v", "a", "b"}, name = "pawn-loc")
 public class PawnLocation {
     String h;

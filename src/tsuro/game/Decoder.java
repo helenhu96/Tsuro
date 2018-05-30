@@ -74,7 +74,7 @@ public abstract class Decoder {
     }
 
 
-    public PlayerPosition decodePawnLoc(Node node, Board curr_board) throws IllegalArgumentException{
+    public static PlayerPosition decodePawnLoc(Node node, Board curr_board) throws IllegalArgumentException{
         if (node.getNodeType() == Node.ELEMENT_NODE){
             NodeList children = node.getChildNodes();
             Node hv = children.item(0);

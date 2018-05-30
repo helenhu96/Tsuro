@@ -24,6 +24,7 @@ public class ServerPlayer implements IPlayer {
         this.socket = serverSocket.accept();
         this.toClient = new PrintWriter(socket.getOutputStream(), true);
         this.fromClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        serverSocket.close();
         this.state = PlayerState.UNINITIALIZED;
     }
     /**
@@ -58,16 +59,18 @@ public class ServerPlayer implements IPlayer {
         }
         this.state = PlayerState.INITIALIZED;
     }
-//    // Called to indicate a game is starting.
-//    // The first argument is the player's color
-//    // and the second is all of the players'
-//    // colors, in the order that the game will be played.
-//
-//    /**
-//     * Called at the first step in a game; indicates where
-//     * the player wishes to place their pawn. The pawn must
-//     * be placed along the edge in an unoccupied space.
-//     */
+
+
+    // Called to indicate a game is starting.
+    // The first argument is the player's color
+    // and the second is all of the players'
+    // colors, in the order that the game will be played.
+
+    /**
+     * Called at the first step in a game; indicates where
+     * the player wishes to place their pawn. The pawn must
+     * be placed along the edge in an unoccupied space.
+     */
     public PlayerPosition placePawn(Board board) {
         checkState(PlayerState.INITIALIZED);
         PlayerPosition pp = null;

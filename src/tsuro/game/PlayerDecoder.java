@@ -1,69 +1,14 @@
 package tsuro.game;
 
 import org.w3c.dom.*;
-import tsuro.xmlmodel.PawnLocation;
 
 import java.util.*;
 
 public class PlayerDecoder extends Decoder{
 
-    private String function;
-    private List<Object> arguments;
-
-    public PlayerDecoder(){
-        function = null;
-        arguments = new ArrayList<>();
-
-    }
-
-    //function call in a string
-    public void decode(String docString) throws Exception{
-        try {
-            Document doc = getDocument(docString);
-            this.function = doc.getDocumentElement().getTagName();
-
-            // handle different cases based on the different function calls
-            if (function.equals("get-name")) {
-                String str = doc.getFirstChild().getTextContent();
-                arguments.add(str);
-
-            } else if (function.equals("initialize")) {
-                Node color = doc.getFirstChild();
-                Node list_of_color = doc.getFirstChild().getNextSibling();
-
-                arguments.add(color.getTextContent());
-                arguments.add(decode_listofColors(list_of_color));
-
-            } else if (function.equals("place-pawn")) {
-                Node board = doc.getFirstChild();
-
-                arguments.add(decode_board(board));
-
-            }  else if (function.equals("play-turn")) {
-                Node board = doc.getFirstChild();
-                Node setofTiles = doc.getFirstChild().getNextSibling();
-                String n = doc.getLastChild().getTextContent();
-
-                arguments.add(decode_board(board));
-                arguments.add(decode_setofTiles(setofTiles));
-                arguments.add(n);
-
-
-            }  else if (function.equals("end-game")) {
-
-            } else {
-                throw new IllegalArgumentException("Not a legal xml file!");
-            }
-
-        } catch (Exception e){
-            throw new Exception(e.getMessage());
-        }
-
-    }
-
 
     // Argument is a node with <map> tag
-    public Board decode_tiles(Node node) throws IllegalArgumentException {
+    public static Board decode_tiles(Node node) throws IllegalArgumentException {
         if (node.getNodeType() == Node.ELEMENT_NODE) {
 
             Board board = new Board();
@@ -73,7 +18,7 @@ public class PlayerDecoder extends Decoder{
                 Node curr = children.item(i);
 
                 int[] pos = decode_xy(curr.getFirstChild());
-                Tile tile = decode_tile(curr.getLastChild());
+                Tile tile = decode_tile1(curr.getLastChild());
 
                 board.placeTile(new Tile(tile), pos[0], pos[1]);
             }
@@ -85,7 +30,7 @@ public class PlayerDecoder extends Decoder{
     }
 
 
-    public int[] decode_xy(Node node) throws IllegalArgumentException {
+    public static int[] decode_xy(Node node) throws IllegalArgumentException {
         if (node.getNodeType() == Node.ELEMENT_NODE) {
             int[] xy = new int[2];
             xy[1] = Integer.parseInt(node.getFirstChild().getTextContent());
@@ -96,7 +41,7 @@ public class PlayerDecoder extends Decoder{
     }
 
 
-    public Tile decode_tile(Node node) throws IllegalArgumentException {
+    public static Tile decode_tile1(Node node) throws IllegalArgumentException {
         if (node.getNodeType() == Node.ELEMENT_NODE) {
             NodeList connectList = node.getChildNodes();
             if (connectList.getLength() != 4) {
@@ -105,7 +50,7 @@ public class PlayerDecoder extends Decoder{
             int[] input = new int[8];
             int count = 0;
             for (int i = 0; i < 4; i++){
-                int[] curr = decode_connect(connectList.item(i));
+                int[] curr = decodeConnect(connectList.item(i));
                 input[count] = curr[0];
                 count++;
                 input[count] = curr[1];
@@ -116,7 +61,7 @@ public class PlayerDecoder extends Decoder{
         throw new IllegalArgumentException("Input is not a valid node object!");
     }
 
-    public int[] decode_connect(Node node) throws IllegalArgumentException {
+    public static int[] decodeConnect(Node node) throws IllegalArgumentException {
         if (node.getNodeType() == Node.ELEMENT_NODE) {
             NodeList nList = node.getChildNodes();
             if (nList.getLength() != 2) {
@@ -124,14 +69,14 @@ public class PlayerDecoder extends Decoder{
             }
             int[] result = new int[2];
             for (int i = 0; i < 2; i++) {
-                result[i] = decode_n(nList.item(i));
+                result[i] = decodeN(nList.item(i));
             }
             return result;
         }
         throw new IllegalArgumentException("Input is not a valid node object!");
     }
 
-    public int decode_n(Node node) throws IllegalArgumentException{
+    public static int decodeN(Node node) throws IllegalArgumentException{
         if (node.getNodeType() == Node.ELEMENT_NODE){
             return Integer.parseInt(node.getTextContent());
         }
@@ -139,7 +84,7 @@ public class PlayerDecoder extends Decoder{
     }
 
     // the argument is a node with <map> tag
-    public Map<SPlayer, PlayerPosition> decode_pawns(Node node, Board board) throws IllegalArgumentException {
+    public static Map<SPlayer, PlayerPosition> decode_pawns(Node node, Board board) throws IllegalArgumentException {
         if (node.getNodeType() == Node.ELEMENT_NODE){
             Map<SPlayer, PlayerPosition> return_map = new HashMap<>();
 
@@ -161,8 +106,8 @@ public class PlayerDecoder extends Decoder{
     }
 
 
-    public Board decode_board(Node node) throws IllegalArgumentException{
-        if (node.getNodeType() == Node.ELEMENT_NODE){
+    public static Board decode_board(Node node) throws IllegalArgumentException{
+//        if (node.getNodeType() == Node.ELEMENT_NODE){
 
             // the two nodes with <map> tag
             NodeList children = node.getChildNodes();
@@ -175,11 +120,11 @@ public class PlayerDecoder extends Decoder{
 
             return new_board;
 
-        }
-        throw new IllegalArgumentException("Input is not a valid board node object!");
+//        }
+//        throw new IllegalArgumentException("Input is not a valid board node object!");
     }
 
-    public List<String> decode_listofColors (Node node) throws IllegalArgumentException{
+    public static List<String> decode_listofColors (Node node) throws IllegalArgumentException{
         if (node.getNodeType() == Node.ELEMENT_NODE){
             List<String> list = new ArrayList<>();
             NodeList children = node.getChildNodes();
@@ -193,13 +138,26 @@ public class PlayerDecoder extends Decoder{
         throw new IllegalArgumentException("Input is not a valid listofcolors node object!");
     }
 
-    public List<Tile> decode_listofTiles (Node node) throws IllegalArgumentException{
+    public static Set<String> decode_setofColors (Node node) throws IllegalArgumentException{
+        if (node.getNodeType() == Node.ELEMENT_NODE){
+            Set<String> set = new HashSet<>();
+            NodeList children = node.getChildNodes();
+            for (int i = 0; i < children.getLength(); i++){
+                set.add(children.item(i).getTextContent());
+            }
+
+            return set;
+        }
+        throw new IllegalArgumentException("Input is not a valid listofcolors node object!");
+    }
+
+    public static List<Tile> decode_listofTiles (Node node) throws IllegalArgumentException{
         if (node.getNodeType() == Node.ELEMENT_NODE){
             List<Tile> list = new ArrayList<>();
             NodeList children = node.getChildNodes();
 
             for (int i = 0; i < children.getLength(); i++){
-                list.add(decode_tile(children.item(i)));
+                list.add(decode_tile1(children.item(i)));
             }
 
             return list;
@@ -207,13 +165,13 @@ public class PlayerDecoder extends Decoder{
         throw new IllegalArgumentException("Input is not a valid listoftiles node object!");
     }
 
-    public Set<Tile> decode_setofTiles (Node node) throws IllegalArgumentException{
+    public static Set<Tile> decode_setofTiles (Node node) throws IllegalArgumentException{
         if (node.getNodeType() == Node.ELEMENT_NODE){
             Set<Tile> set = new HashSet<>();
             NodeList children = node.getChildNodes();
 
             for (int i = 0; i < children.getLength(); i++){
-                set.add(decode_tile(children.item(i)));
+                set.add(decode_tile1(children.item(i)));
             }
 
             return set;
@@ -223,7 +181,7 @@ public class PlayerDecoder extends Decoder{
 
     //<player-name> str </player-name> to string
 
-    public String decodeGetName(String docString) throws Exception{
+    public static String decodeGetName(String docString) throws Exception{
         Document doc = getDocument(docString);
         Node type = doc.getElementsByTagName("player-name").item(0);
         String answer = type.getTextContent();
@@ -231,16 +189,21 @@ public class PlayerDecoder extends Decoder{
     }
 
 
-    public Tile decodeTile(String docString) throws Exception {
+    public static Tile decodeTile(String docString) throws Exception {
         Document doc = getDocument(docString);
         Node node = doc.getElementsByTagName("tile").item(0);
-        Tile t = decode_tile(node);
+        Tile t = decode_tile1(node);
         return t;
     }
 
+    public static Board decodeBoard(String docString) throws Exception{
+        Document doc = getDocument(docString);
+        Board board = decode_board(doc.getElementsByTagName("board").item(0));
+        return board;
+    }
 
 
-//    public Tile decodePlayTurn(String docString) {
+//    public static Tile decodePlayTurn(String docString) {
 //
 //    }
 }
