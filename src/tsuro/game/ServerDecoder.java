@@ -1,8 +1,6 @@
 package tsuro.game;
 
-import org.xml.sax.*;
 import org.w3c.dom.*;
-import javax.xml.parsers.*;
 
 public class ServerDecoder extends Decoder{
 
@@ -15,6 +13,10 @@ public class ServerDecoder extends Decoder{
         object = null;
         board = null;
     }
+
+
+
+
 
     public void decode(String docString) throws Exception{
         try {
@@ -35,7 +37,7 @@ public class ServerDecoder extends Decoder{
 
 
                 //TODO: Think about how to handle this situation!!
-                object = decode_pawnLoc(doc.getElementsByTagName("pawn-loc").item(0), board);
+                object = decodePawnLoc(doc.getElementsByTagName("pawn-loc").item(0), board);
 
             } else {
                 throw new IllegalArgumentException("Not a legal xml file!");

@@ -69,28 +69,28 @@ public class ConvertedTileTest {
 //        Encoder.encodeBoard(board);
 //    }
 //
-//    @Test
-//    public void testPawnLoc() throws Exception{
-//        PlayerPosition position = new PlayerPosition(0,0,1);
-//        Encoder.encodePawnLoc(position);
-//
-//    }
-//
-//
-//    @Test
-//    public void testPawns() throws Exception{
-//        Board board = new Board();
-//        SPlayer player1 = new SPlayer("red");
-//        SPlayer player2 = new SPlayer("blue");
-//        PlayerPosition position = new PlayerPosition(0,0,1);
-//        board.playerToPosition.put(player1, position);
-//        PlayerPosition position1 = new PlayerPosition(0,5,2);
-//        board.playerToPosition.put(player2, position1);
-//        PawnEntry entry = new PawnEntry("red", new PawnLocation(position));
-//        PawnEntry entry1 = new PawnEntry("blue", new PawnLocation(position1));
-//        Pawns pawns = new Pawns(board);
-//        Encoder.encodePawns(pawns);
-//    }
+    @Test
+    public void testPawnLoc() throws Exception{
+        PlayerPosition position = new PlayerPosition(0,0,1);
+        Encoder.encodePawnLoc(position);
+
+    }
+
+
+    @Test
+    public void testPawns() throws Exception{
+        Board board = new Board();
+        SPlayer player1 = new SPlayer("red");
+        SPlayer player2 = new SPlayer("blue");
+        PlayerPosition position = new PlayerPosition(0,0,1);
+        board.playerToPosition.put(player1, position);
+        PlayerPosition position1 = new PlayerPosition(0,5,2);
+        board.playerToPosition.put(player2, position1);
+        PawnEntry entry = new PawnEntry("red", new PawnLocation(position));
+        PawnEntry entry1 = new PawnEntry("blue", new PawnLocation(position1));
+        Pawns pawns = new Pawns(board);
+        Encoder.encodePawns(pawns);
+    }
 
     @Test
     public void testListofTile1() throws Exception{

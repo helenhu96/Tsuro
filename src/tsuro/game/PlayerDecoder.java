@@ -16,14 +16,14 @@ public class PlayerDecoder extends Decoder{
 
     }
 
+    //function call in a string
     public void decode(String docString) throws Exception{
         try {
             Document doc = getDocument(docString);
             this.function = doc.getDocumentElement().getTagName();
 
-
             // handle different cases based on the different function calls
-            if (function.equals("player-name")) {
+            if (function.equals("get-name")) {
                 String str = doc.getFirstChild().getTextContent();
                 arguments.add(str);
 
@@ -138,25 +138,6 @@ public class PlayerDecoder extends Decoder{
         throw new IllegalArgumentException("Input is not a valid node object!");
     }
 
-    public PlayerPosition decode_pawnLoc(Node node, Board curr_board) throws IllegalArgumentException{
-        if (node.getNodeType() == Node.ELEMENT_NODE){
-            NodeList children = node.getChildNodes();
-            Node hv = children.item(0);
-            int a = Integer.parseInt(children.item(1).getTextContent());
-            int b = Integer.parseInt(children.item(2).getTextContent());
-
-            PawnLocation pawnloc = new PawnLocation(null, null, a, b);
-            if (hv.getNodeName().equals("h")){
-                pawnloc.h = "h";
-            } else {
-                pawnloc.v = "v";
-            }
-
-            return pawnloc.backtoPlayerPosition(curr_board);
-        }
-        throw new IllegalArgumentException("Input is not a valid pawnLoc node object!");
-    }
-
     // the argument is a node with <map> tag
     public Map<SPlayer, PlayerPosition> decode_pawns(Node node, Board board) throws IllegalArgumentException {
         if (node.getNodeType() == Node.ELEMENT_NODE){
@@ -170,7 +151,7 @@ public class PlayerDecoder extends Decoder{
                 Node pawnLoc = curr.getLastChild();
 
                 String color = color_node.getTextContent();
-                PlayerPosition pp = decode_pawnLoc(pawnLoc, board);
+                PlayerPosition pp = decodePawnLoc(pawnLoc, board);
                 return_map.put(new SPlayer(color), pp);
             }
 
@@ -240,23 +221,24 @@ public class PlayerDecoder extends Decoder{
         throw new IllegalArgumentException("Input is not a valid setoftiles node object!");
     }
 
-
-
-
-    public static void main(String argv[]) throws Exception {
-
-        Document doc = getDocument("./src/tsuro/tile.xml");
-
-        NodeList tile = doc.getElementsByTagName("tile");
-
-        PlayerDecoder par = new PlayerDecoder();
-        Tile t = par.decode_tile(tile.item(0));
-
-
-        /*
-        Tile my_tile = new Tile(input);
-        assertTrue(my_tile.sameTile(new Tile(new int[]{0, 5, 1, 3, 2, 6, 4, 7})));
-        */
+    //<player-name> str </player-name> to string
+    public String decodeGetName(String docString) throws Exception{
+        Document doc = getDocument(docString);
+        Node type = doc.getElementsByTagName("player-name").item(0);
+        String answer = type.getTextContent();
+        return answer;
     }
 
+
+    public Tile decodeTile(String docString) throws Exception {
+        Document doc = getDocument(docString);
+        Node node = doc.getElementsByTagName("tile").item(0);
+        Tile t = decode_tile(node);
+        return t;
+    }
+
+
+//    public Tile decodePlayTurn(String docString) {
+//
+//    }
 }

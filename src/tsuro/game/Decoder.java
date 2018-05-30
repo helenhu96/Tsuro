@@ -74,7 +74,7 @@ public abstract class Decoder {
     }
 
 
-    public PlayerPosition decode_pawnLoc(Node node, Board curr_board) throws IllegalArgumentException{
+    public PlayerPosition decodePawnLoc(Node node, Board curr_board) throws IllegalArgumentException{
         if (node.getNodeType() == Node.ELEMENT_NODE){
             NodeList children = node.getChildNodes();
             Node hv = children.item(0);
@@ -83,9 +83,9 @@ public abstract class Decoder {
 
             PawnLocation pawnloc = new PawnLocation(null, null, a, b);
             if (hv.getNodeName().equals("h")){
-                pawnloc.h = "h";
+                pawnloc.setH("h");
             } else {
-                pawnloc.v = "v";
+                pawnloc.setV("v");
             }
 
             return pawnloc.backtoPlayerPosition(curr_board);

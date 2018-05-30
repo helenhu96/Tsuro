@@ -10,5 +10,4 @@ test: DNE
 	java -jar lib/junit-platform-console-standalone-1.2.0.jar --class-path bin/ -c tsuro.game.SPlayerTest
 	java -jar lib/junit-platform-console-standalone-1.2.0.jar --class-path bin/ -c tsuro.game.TileTest
 	java -jar lib/junit-platform-console-standalone-1.2.0.jar --class-path bin/ -c tsuro.xmlmodel.ConvertedTileTest
-
 DNE:

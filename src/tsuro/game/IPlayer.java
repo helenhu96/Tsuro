@@ -42,11 +42,4 @@ public interface IPlayer {
      */
     void endGame(Board board, Set<String> winnerColors);
 
-
-    /**
-     *
-     * @param color
-     * @return whether the color is valid
-     */
-    //boolean isColorValid(String color);
 }

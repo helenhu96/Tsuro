@@ -16,10 +16,10 @@ public class PawnTest {
         PlayerPosition pp = new PlayerPosition(1,2,4);
         PawnLocation pl = new PawnLocation(pp);
         PawnLocation expected = new PawnLocation("", null, 2,5);
-        assertEquals(pl.h, expected.h);
-        assertNull(pl.v);
-        assertEquals(2, pl.a);
-        assertEquals(5, pl.b);
+        assertEquals(pl.getH(), expected.getH());
+        assertNull(pl.getV());
+        assertEquals(2, pl.getA());
+        assertEquals(5, pl.getB());
 
     }
 

@@ -3,17 +3,15 @@ package tsuro.xmlmodel;
 import tsuro.game.Board;
 import tsuro.game.PlayerPosition;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 
 @XmlRootElement
 @XmlType (propOrder = {"h", "v", "a", "b"}, name = "pawn-loc")
 public class PawnLocation {
-    public String h;
-    public String v;
-    public int a;
-    public int b;
+    String h;
+    String v;
+    int a;
+    int b;
     public PawnLocation() {}
 
     public PawnLocation(String h, String v, int a, int b){
@@ -75,7 +73,6 @@ public class PawnLocation {
                 } else {
                     spot = 4;
                 }
-
                 PlayerPosition testpp = new PlayerPosition(y, x, spot);
 
                 if (board.isTileOnBoard(testpp)) {
@@ -129,7 +126,6 @@ public class PawnLocation {
     public void setA(int n) {
         this.a = n;
     }
-
     public int getA() {
         return this.a;
     }
@@ -143,7 +139,7 @@ public class PawnLocation {
         return this.b;
     }
 
-    @XmlElement ()
+    @XmlElement
     public void setH(String h) {
         this.h = h;
     }
@@ -159,6 +155,5 @@ public class PawnLocation {
     public String getV() {
         return this.v;
     }
-
 
 }
