@@ -14,8 +14,6 @@ import java.io.StringReader;
 import java.rmi.server.ExportException;
 
 import static org.junit.Assert.assertTrue;
-import static tsuro.game.Decoder.getDocument;
-
 public class PlayerDecoderTest {
 
 //    public static Document getDocument(String docString) throws Exception{
@@ -37,19 +35,18 @@ public class PlayerDecoderTest {
 //    }
 
     @Test
-    // Test the decode_tile function of PlayerDecoder
+    // Test the decode_tile function of Decoder
     public void decodeTileTest() throws Exception {
         try {
-            Decoder dec = new PlayerDecoder();
-            Document doc = getDocument("<tile><connect><n>0</n><n>1</n></connect><connect><n>2</n><n>3</n></connect><connect><n>4</n><n>5</n></connect><connect><n>6</n><n>7</n></connect></tile>");
+            Document doc = Decoder.getDocument("<tile><connect><n>0</n><n>1</n></connect><connect><n>2</n><n>3</n></connect><connect><n>4</n><n>5</n></connect><connect><n>6</n><n>7</n></connect></tile>");
 
-            Tile result = dec.decode_tile(doc.getElementsByTagName("tile").item(0));
+            Tile result = Decoder.decode_tile(doc.getElementsByTagName("tile").item(0));
             Tile expected = new Tile(new int[]{0, 1, 2, 3, 4, 5, 6, 7});
 
             assertTrue(result.sameTile(expected));
 
-            doc = getDocument("<tile><connect><n>0</n><n>5</n></connect><connect><n>1</n><n>7</n></connect><connect><n>2</n><n>3</n></connect><connect><n>4</n><n>6</n></connect></tile>");
-            Tile result2 = dec.decode_tile(doc.getElementsByTagName("tile").item(0));
+            doc = Decoder.getDocument("<tile><connect><n>0</n><n>5</n></connect><connect><n>1</n><n>7</n></connect><connect><n>2</n><n>3</n></connect><connect><n>4</n><n>6</n></connect></tile>");
+            Tile result2 = Decoder.decode_tile(doc.getElementsByTagName("tile").item(0));
             Tile expected2 = new Tile(new int[]{0, 5, 1, 7, 2, 3, 4, 6});
 
             assertTrue(result2.sameTile(expected2));
@@ -64,43 +61,40 @@ public class PlayerDecoderTest {
     @Test
     public void decodePawnLocTest() throws Exception {
         try {
-
-            Decoder dec = new PlayerDecoder();
-
             Board b = new Board();
             Tile t = new Tile(new int[]{0,1,2,3,4,5,6,7});
             b.placeTile(t, 1, 1);
 
-            Document doc = getDocument("<test><pawn-loc><h></h><n>2</n><n>3</n></pawn-loc><pawn-loc><v></v><n>5</n><n>8</n></pawn-loc><pawn-loc><h></h><n>6</n><n>0</n></pawn-loc><pawn-loc><h></h><n>1</n><n>9</n></pawn-loc><pawn-loc><v></v><n>0</n><n>6</n></pawn-loc></test>");
-            PlayerPosition result = dec.decodePawnLoc(doc.getElementsByTagName("pawn-loc").item(0), b);
+            Document doc = Decoder.getDocument("<test><pawn-loc><h></h><n>2</n><n>3</n></pawn-loc><pawn-loc><v></v><n>5</n><n>8</n></pawn-loc><pawn-loc><h></h><n>6</n><n>0</n></pawn-loc><pawn-loc><h></h><n>1</n><n>9</n></pawn-loc><pawn-loc><v></v><n>0</n><n>6</n></pawn-loc></test>");
+            PlayerPosition result = Decoder.decodePawnLoc(doc.getElementsByTagName("pawn-loc").item(0), b);
             PlayerPosition expected = new PlayerPosition(1,1,4);
 
             assertTrue(result.equals(expected));
 
 
             b.placeTile(new Tile(new int[]{0,6,1,2,3,4,5,7}), 4, 5);
-            PlayerPosition result2 = dec.decodePawnLoc(doc.getElementsByTagName("pawn-loc").item(1), b);
+            PlayerPosition result2 = Decoder.decodePawnLoc(doc.getElementsByTagName("pawn-loc").item(1), b);
             PlayerPosition expected2 = new PlayerPosition(4,5,7);
 
             assertTrue(result2.equals(expected2));
 
 
             b.placeTile(new Tile(new int[]{0,2,1,5,3,7,4,6}), 5,0);
-            PlayerPosition result3 = dec.decodePawnLoc(doc.getElementsByTagName("pawn-loc").item(2), b);
+            PlayerPosition result3 = Decoder.decodePawnLoc(doc.getElementsByTagName("pawn-loc").item(2), b);
             PlayerPosition expected3 = new PlayerPosition(5,0,5);
 
             assertTrue(result3.equals(expected3));
 
 
             b.placeTile(new Tile(new int[]{0,7,1,2,3,4,5,6}), 0, 4);
-            PlayerPosition result4 = dec.decodePawnLoc(doc.getElementsByTagName("pawn-loc").item(3), b);
+            PlayerPosition result4 = Decoder.decodePawnLoc(doc.getElementsByTagName("pawn-loc").item(3), b);
             PlayerPosition expected4 = new PlayerPosition(0, 4, 4);
 
             assertTrue(result4.equals(expected4));
 
 
             b.placeTile(new Tile(new int[]{0,1,2,3,4,5,6,7}), 3, 0);
-            PlayerPosition result5 = dec.decodePawnLoc(doc.getElementsByTagName("pawn-loc").item(4), b);
+            PlayerPosition result5 = Decoder.decodePawnLoc(doc.getElementsByTagName("pawn-loc").item(4), b);
             PlayerPosition expected5 = new PlayerPosition(3, 0, 7);
 
             assertTrue(result5.equals(expected5));
@@ -117,14 +111,12 @@ public class PlayerDecoderTest {
     public void decodeBoardTest() throws Exception{
         try {
 
-            PlayerDecoder dec = new PlayerDecoder();
-
-            Document doc = getDocument("<board><map><ent><xy><x>2</x><y>2</y></xy><tile><connect><n>0</n><n>4</n></connect><connect><n>1</n><n>5</n></connect><connect><n>2</n><n>6</n></connect><connect><n>3</n><n>7</n></connect></tile></ent><ent><xy><x>0</x><y>0</y></xy><tile><connect><n>0</n><n>1</n></connect><connect><n>2</n><n>3</n></connect><connect><n>4</n><n>5</n></connect><connect><n>6</n><n>7</n></connect></tile></ent><ent><xy><x>1</x><y>1</y></xy><tile><connect><n>0</n><n>2</n></connect><connect><n>1</n><n>4</n></connect><connect><n>3</n><n>7</n></connect><connect><n>5</n><n>6</n></connect></tile></ent>" +
+            Document doc = Decoder.getDocument("<board><map><ent><xy><x>2</x><y>2</y></xy><tile><connect><n>0</n><n>4</n></connect><connect><n>1</n><n>5</n></connect><connect><n>2</n><n>6</n></connect><connect><n>3</n><n>7</n></connect></tile></ent><ent><xy><x>0</x><y>0</y></xy><tile><connect><n>0</n><n>1</n></connect><connect><n>2</n><n>3</n></connect><connect><n>4</n><n>5</n></connect><connect><n>6</n><n>7</n></connect></tile></ent><ent><xy><x>1</x><y>1</y></xy><tile><connect><n>0</n><n>2</n></connect><connect><n>1</n><n>4</n></connect><connect><n>3</n><n>7</n></connect><connect><n>5</n><n>6</n></connect></tile></ent>" +
                     "<ent><xy><x>2</x><y>0</y></xy><tile><connect><n>0</n><n>1</n></connect><connect><n>2</n><n>6</n></connect><connect><n>3</n><n>7</n></connect><connect><n>4</n><n>5</n></connect></tile></ent><ent><xy><x>0</x><y>2</y></xy><tile><connect><n>0</n><n>6</n></connect><connect><n>1</n><n>5</n></connect><connect><n>2</n><n>4</n></connect><connect><n>3</n><n>7</n></connect></tile></ent><ent><xy><x>2</x><y>1</y></xy><tile><connect><n>0</n><n>2</n></connect><connect><n>1</n><n>6</n></connect><connect><n>3</n><n>7</n></connect><connect><n>4</n><n>5</n></connect></tile></ent><ent><xy><x>3</x><y>0</y></xy><tile><connect><n>0</n><n>1</n></connect><connect><n>2</n><n>7</n></connect><connect><n>3</n><n>4</n></connect><connect><n>5</n><n>6</n></connect></tile></ent>" +
                     "<ent><xy><x>1</x><y>0</y></xy><tile><connect><n>0</n><n>5</n></connect><connect><n>1</n><n>4</n></connect><connect><n>2</n><n>7</n></connect><connect><n>3</n><n>6</n></connect></tile></ent><ent><xy><x>0</x><y>1</y></xy><tile><connect><n>0</n><n>1</n></connect><connect><n>2</n><n>4</n></connect><connect><n>3</n><n>6</n></connect><connect><n>5</n><n>7</n></connect></tile></ent><ent><xy><x>1</x><y>2</y></xy><tile><connect><n>0</n><n>4</n>" +
                     "</connect><connect><n>1</n><n>7</n></connect><connect><n>2</n><n>3</n></connect><connect><n>5</n><n>6</n></connect></tile></ent></map>" + "<map><ent><color>blue</color><pawn-loc><v></v><n>0</n><n>2</n></pawn-loc></ent><ent><color>orange</color><pawn-loc><h></h><n>3</n><n>3</n></pawn-loc></ent><ent><color>green</color><pawn-loc><h></h><n>3</n><n>2</n></pawn-loc></ent><ent><color>red</color><pawn-loc><h></h><n>3</n><n>1</n></pawn-loc></ent><ent><color>sienna</color><pawn-loc><v></v><n>3</n><n>3</n></pawn-loc></ent></map></board>");
             Node boardNode = doc.getElementsByTagName("board").item(0);
-            Board result = PlayerDecoder.decode_board(boardNode);
+            Board result = Decoder.decode_board(boardNode);
 
 
             Tile t1 = new Tile(new int[]{0,1,2,3,4,5,6,7});
