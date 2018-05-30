@@ -77,6 +77,7 @@ public class ConvertedTileTest {
     }
 
 
+
     @Test
     public void testPawns() throws Exception{
         Board board = new Board();
@@ -92,6 +93,7 @@ public class ConvertedTileTest {
         Encoder.encodePawns(pawns);
     }
 
+
     @Test
     public void testListofTile1() throws Exception{
         Tile tile = new Tile(new int[]{0, 7, 1, 2, 3, 4, 5, 6});
@@ -103,16 +105,6 @@ public class ConvertedTileTest {
         Encoder.encodeListofTile(tiles);
     }
 
-    @Test
-    public void testSetofTile() throws Exception{
-        Tile tile = new Tile(new int[]{0, 7, 1, 2, 3, 4, 5, 6});
-        Tile tile1 = new Tile(new int[]{0, 1, 2, 3, 4, 5, 6, 7});
-        Set <Tile> set = new HashSet<>();
-        set.add(tile);
-        set.add(tile1);
-        String a = Encoder.encodeSetofTile(set);
-        assertEquals(a, "<set><tile><connect><n>0</n><n>1</n></connect><connect><n>2</n><n>3</n></connect><connect><n>4</n><n>5</n></connect><connect><n>6</n><n>7</n></connect></tile><tile><connect><n>0</n><n>7</n></connect><connect><n>1</n><n>2</n></connect><connect><n>3</n><n>4</n></connect><connect><n>5</n><n>6</n></connect></tile></set>");
-    }
 
 
     @Test

@@ -88,8 +88,8 @@ public class PlayerDecoder extends Decoder{
     public int[] decode_xy(Node node) throws IllegalArgumentException {
         if (node.getNodeType() == Node.ELEMENT_NODE) {
             int[] xy = new int[2];
-            xy[0] = Integer.parseInt(node.getFirstChild().getTextContent());
-            xy[1] = Integer.parseInt(node.getFirstChild().getNextSibling().getTextContent());
+            xy[1] = Integer.parseInt(node.getFirstChild().getTextContent());
+            xy[0] = Integer.parseInt(node.getFirstChild().getNextSibling().getTextContent());
             return xy;
         }
         throw new IllegalArgumentException("Input is not a valid xy node object!");
@@ -222,6 +222,7 @@ public class PlayerDecoder extends Decoder{
     }
 
     //<player-name> str </player-name> to string
+
     public String decodeGetName(String docString) throws Exception{
         Document doc = getDocument(docString);
         Node type = doc.getElementsByTagName("player-name").item(0);
@@ -236,6 +237,7 @@ public class PlayerDecoder extends Decoder{
         Tile t = decode_tile(node);
         return t;
     }
+
 
 
 //    public Tile decodePlayTurn(String docString) {

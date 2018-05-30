@@ -92,7 +92,7 @@ public class PawnLocation {
 
                 return new PlayerPosition(y,x,spot);
 
-            } else if (a == 5){
+            } else if (a == 6){
                 x = 5;
                 y = b/2;
                 if (a%2 == 0){spot = 2;}

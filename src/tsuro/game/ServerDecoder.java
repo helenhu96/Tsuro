@@ -39,7 +39,10 @@ public class ServerDecoder extends Decoder{
                 //TODO: Think about how to handle this situation!!
                 object = decodePawnLoc(doc.getElementsByTagName("pawn-loc").item(0), board);
 
-            } else {
+            } else if (returnType.equals("player-name")){
+
+            }
+            else {
                 throw new IllegalArgumentException("Not a legal xml file!");
             }
 
