@@ -18,37 +18,37 @@ import static tsuro.game.Decoder.getDocument;
 
 public class PlayerDecoderTest {
 
-    public static Document getDocument(String docString) throws Exception{
-        try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            factory.setIgnoringComments(true);
-            factory.setIgnoringElementContentWhitespace(true);
-            factory.setValidating(true);
-
-            DocumentBuilder builder = factory.newDocumentBuilder();
-
-            return builder.parse(new InputSource(docString));
-
-        }
-        catch (Exception ex){
-            throw new Exception(ex.getMessage());
-        }
-
-    }
+//    public static Document getDocument(String docString) throws Exception{
+//        try {
+//            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+//            factory.setIgnoringComments(true);
+//            factory.setIgnoringElementContentWhitespace(true);
+//            factory.setValidating(true);
+//
+//            DocumentBuilder builder = factory.newDocumentBuilder();
+//
+//            return builder.parse(new InputSource(docString));
+//
+//        }
+//        catch (Exception ex){
+//            throw new Exception(ex.getMessage());
+//        }
+//
+//    }
 
     @Test
     // Test the decode_tile function of PlayerDecoder
     public void decodeTileTest() throws Exception {
         try {
             Decoder dec = new PlayerDecoder();
-            Document doc = getDocument("./tst/tsuro/xmlmodel/tiletest1.xml");
+            Document doc = getDocument("<tile><connect><n>0</n><n>1</n></connect><connect><n>2</n><n>3</n></connect><connect><n>4</n><n>5</n></connect><connect><n>6</n><n>7</n></connect></tile>");
 
             Tile result = dec.decode_tile(doc.getElementsByTagName("tile").item(0));
             Tile expected = new Tile(new int[]{0, 1, 2, 3, 4, 5, 6, 7});
 
             assertTrue(result.sameTile(expected));
 
-            doc = getDocument("./tst/tsuro/xmlmodel/tiletest2.xml");
+            doc = getDocument("<tile><connect><n>0</n><n>5</n></connect><connect><n>1</n><n>7</n></connect><connect><n>2</n><n>3</n></connect><connect><n>4</n><n>6</n></connect></tile>");
             Tile result2 = dec.decode_tile(doc.getElementsByTagName("tile").item(0));
             Tile expected2 = new Tile(new int[]{0, 5, 1, 7, 2, 3, 4, 6});
 
@@ -71,7 +71,7 @@ public class PlayerDecoderTest {
             Tile t = new Tile(new int[]{0,1,2,3,4,5,6,7});
             b.placeTile(t, 1, 1);
 
-            Document doc = getDocument("./tst/tsuro/xmlmodel/pawnloctest1.xml");
+            Document doc = getDocument("<test><pawn-loc><h></h><n>2</n><n>3</n></pawn-loc><pawn-loc><v></v><n>5</n><n>8</n></pawn-loc><pawn-loc><h></h><n>6</n><n>0</n></pawn-loc><pawn-loc><h></h><n>1</n><n>9</n></pawn-loc><pawn-loc><v></v><n>0</n><n>6</n></pawn-loc></test>");
             PlayerPosition result = dec.decodePawnLoc(doc.getElementsByTagName("pawn-loc").item(0), b);
             PlayerPosition expected = new PlayerPosition(1,1,4);
 
@@ -119,7 +119,10 @@ public class PlayerDecoderTest {
 
             PlayerDecoder dec = new PlayerDecoder();
 
-            Document doc = getDocument("./tst/tsuro/xmlmodel/boardtest.xml");
+            Document doc = getDocument("<board><map><ent><xy><x>2</x><y>2</y></xy><tile><connect><n>0</n><n>4</n></connect><connect><n>1</n><n>5</n></connect><connect><n>2</n><n>6</n></connect><connect><n>3</n><n>7</n></connect></tile></ent><ent><xy><x>0</x><y>0</y></xy><tile><connect><n>0</n><n>1</n></connect><connect><n>2</n><n>3</n></connect><connect><n>4</n><n>5</n></connect><connect><n>6</n><n>7</n></connect></tile></ent><ent><xy><x>1</x><y>1</y></xy><tile><connect><n>0</n><n>2</n></connect><connect><n>1</n><n>4</n></connect><connect><n>3</n><n>7</n></connect><connect><n>5</n><n>6</n></connect></tile></ent>" +
+                    "<ent><xy><x>2</x><y>0</y></xy><tile><connect><n>0</n><n>1</n></connect><connect><n>2</n><n>6</n></connect><connect><n>3</n><n>7</n></connect><connect><n>4</n><n>5</n></connect></tile></ent><ent><xy><x>0</x><y>2</y></xy><tile><connect><n>0</n><n>6</n></connect><connect><n>1</n><n>5</n></connect><connect><n>2</n><n>4</n></connect><connect><n>3</n><n>7</n></connect></tile></ent><ent><xy><x>2</x><y>1</y></xy><tile><connect><n>0</n><n>2</n></connect><connect><n>1</n><n>6</n></connect><connect><n>3</n><n>7</n></connect><connect><n>4</n><n>5</n></connect></tile></ent><ent><xy><x>3</x><y>0</y></xy><tile><connect><n>0</n><n>1</n></connect><connect><n>2</n><n>7</n></connect><connect><n>3</n><n>4</n></connect><connect><n>5</n><n>6</n></connect></tile></ent>" +
+                    "<ent><xy><x>1</x><y>0</y></xy><tile><connect><n>0</n><n>5</n></connect><connect><n>1</n><n>4</n></connect><connect><n>2</n><n>7</n></connect><connect><n>3</n><n>6</n></connect></tile></ent><ent><xy><x>0</x><y>1</y></xy><tile><connect><n>0</n><n>1</n></connect><connect><n>2</n><n>4</n></connect><connect><n>3</n><n>6</n></connect><connect><n>5</n><n>7</n></connect></tile></ent><ent><xy><x>1</x><y>2</y></xy><tile><connect><n>0</n><n>4</n>" +
+                    "</connect><connect><n>1</n><n>7</n></connect><connect><n>2</n><n>3</n></connect><connect><n>5</n><n>6</n></connect></tile></ent></map>" + "<map><ent><color>blue</color><pawn-loc><v></v><n>0</n><n>2</n></pawn-loc></ent><ent><color>orange</color><pawn-loc><h></h><n>3</n><n>3</n></pawn-loc></ent><ent><color>green</color><pawn-loc><h></h><n>3</n><n>2</n></pawn-loc></ent><ent><color>red</color><pawn-loc><h></h><n>3</n><n>1</n></pawn-loc></ent><ent><color>sienna</color><pawn-loc><v></v><n>3</n><n>3</n></pawn-loc></ent></map></board>");
             Board result = dec.decode_board(doc.getElementsByTagName("board").item(0));
 
             Tile t1 = new Tile(new int[]{0,1,2,3,4,5,6,7});
