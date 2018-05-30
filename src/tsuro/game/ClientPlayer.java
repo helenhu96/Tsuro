@@ -18,7 +18,6 @@ public class ClientPlayer {
     private String host = "localhost";
     private PrintWriter toServer;
     private BufferedReader fromServer;
-    private Decoder decoder;
     public ClientPlayer(IPlayer p) throws IOException {
         this.iplayer = p;
         this.PORT = 3000;
