@@ -43,11 +43,10 @@ public class LeastSymmetricPlayerTest {
         board.placeTile(new Tile(new int[]{0,6,1,2,3,4,5,7}), 5, 0);
         Set<Tile> set = new HashSet<>();
         set.add(new Tile(new int[]{0,3,1,6,2,7,4,5}));
-        set.add(new Tile(new int[]{0,4,1,3,2,7,5,6}));
+        set.add(new Tile(new int[]{0,7,1,2,3,4,5,6}));
         set.add(new Tile(new int[]{0,2,1,5,3,7,4,6}));
         Tile actual = m.playTurn(board, set,9);
-        Tile expected = new Tile(new int[]{0,4,1,3,2,7,5,6});
-        expected.rotateClockwise();
+        Tile expected = new Tile(new int[]{0,2,1,5,3,7,4,6});
         assertTrue(expected.sameTile(actual));
     }
 

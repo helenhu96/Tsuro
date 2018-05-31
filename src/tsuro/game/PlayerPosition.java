@@ -80,6 +80,24 @@ public class PlayerPosition {
         return new PlayerPosition(y+1, x, getCorrespondingSpot());
     }
 
+    public PlayerPosition flip(){
+        if ((x == 0 && (spot == 6 || spot == 7))
+                || (x == 5 && (spot == 2 || spot == 3))
+                || (y == 0 && (spot == 0 || spot == 1))
+                || (y == 5 && (spot == 4 || spot == 5))){return this;}
+        if (spot == 0 || spot == 1){
+            return new PlayerPosition(y-1, x, getCorrespondingSpot());
+        }
+        if (spot == 2 || spot == 3){
+            return new PlayerPosition(y, x+1, getCorrespondingSpot());
+        }
+        if (spot == 4 || spot == 5){
+            return new PlayerPosition(y+1, x, getCorrespondingSpot());
+        }
+        else{
+            return new PlayerPosition(y, x-1, getCorrespondingSpot());
+        }
+    }
 
     public boolean equals(PlayerPosition p) {
         return (this.getX() == p.getX() && this.getY() == p.getY() && this.getSpot() == p.getSpot());

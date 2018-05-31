@@ -55,7 +55,7 @@ public class PawnLocation {
             if (a == 0) {
                 y = 0;
                 x = b / 2;
-                return new PlayerPosition(y, x, b % 2);
+                return new PlayerPosition(y, x, b % 2).flip();
             } else if (a == 6) {
                 y = 5;
                 x = b / 2;
@@ -64,7 +64,7 @@ public class PawnLocation {
                 } else {
                     spot = 4;
                 }
-                return new PlayerPosition(y, x, spot);
+                return new PlayerPosition(y, x, spot).flip();
             } else {
                 y = a-1;
                 x = b / 2;
@@ -76,9 +76,9 @@ public class PawnLocation {
                 PlayerPosition testpp = new PlayerPosition(y, x, spot);
 
                 if (board.isTileOnBoard(testpp)) {
-                    return testpp;
+                    return testpp.flip();
                 } else {
-                    return testpp.getBelowPosition();
+                    return testpp.getBelowPosition().flip();
                 }
             }
 
@@ -90,14 +90,14 @@ public class PawnLocation {
                 if (a%2 == 0){spot = 7;}
                 else {spot = 6;}
 
-                return new PlayerPosition(y,x,spot);
+                return new PlayerPosition(y,x,spot).flip();
 
             } else if (a == 6){
                 x = 5;
                 y = b/2;
                 if (a%2 == 0){spot = 2;}
                 else {spot = 3;}
-                return new PlayerPosition(y,x,spot);
+                return new PlayerPosition(y,x,spot).flip();
             }
             else {
                 x = a-1;
@@ -109,9 +109,9 @@ public class PawnLocation {
                 PlayerPosition testpp = new PlayerPosition(y,x,spot);
 
                 if (board.isTileOnBoard(testpp)){
-                    return testpp;
+                    return testpp.flip();
                 } else {
-                    return testpp.getRightPosition();
+                    return testpp.getRightPosition().flip();
                 }
 
             }

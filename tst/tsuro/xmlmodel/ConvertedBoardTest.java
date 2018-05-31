@@ -41,6 +41,6 @@ public class ConvertedBoardTest {
         Board b = Decoder.decode_board(boardNode);
         Tile tile = new Tile(new int[]{0, 1, 2, 4, 3, 6, 5, 7});
         assertEquals(tile, b.getTile(0, 0));
-        assertEquals(b.getPlayerByPosition(new PlayerPosition(0,0,3)).getColor(), "red");
+        assertEquals(b.getPlayerByPosition(new PlayerPosition(0,1,6)).getColor(), "red");
     }
 }

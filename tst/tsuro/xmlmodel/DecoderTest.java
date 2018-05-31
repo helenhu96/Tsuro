@@ -62,14 +62,14 @@ public class DecoderTest {
 
         Document doc = Decoder.getDocument("<test><pawn-loc><h></h><n>2</n><n>3</n></pawn-loc><pawn-loc><v></v><n>5</n><n>8</n></pawn-loc><pawn-loc><h></h><n>6</n><n>0</n></pawn-loc><pawn-loc><h></h><n>1</n><n>9</n></pawn-loc><pawn-loc><v></v><n>0</n><n>6</n></pawn-loc></test>");
         PlayerPosition result = Decoder.decodePawnLoc(doc.getElementsByTagName("pawn-loc").item(0), b);
-        PlayerPosition expected = new PlayerPosition(1,1,4);
+        PlayerPosition expected = new PlayerPosition(2,1,1);
 
         assertTrue(result.equals(expected));
 
 
         b.placeTile(new Tile(new int[]{0,6,1,2,3,4,5,7}), 4, 5);
         PlayerPosition result2 = Decoder.decodePawnLoc(doc.getElementsByTagName("pawn-loc").item(1), b);
-        PlayerPosition expected2 = new PlayerPosition(4,5,7);
+        PlayerPosition expected2 = new PlayerPosition(4,4,2);
 
         assertTrue(result2.equals(expected2));
 
@@ -83,7 +83,7 @@ public class DecoderTest {
 
         b.placeTile(new Tile(new int[]{0,7,1,2,3,4,5,6}), 0, 4);
         PlayerPosition result4 = Decoder.decodePawnLoc(doc.getElementsByTagName("pawn-loc").item(3), b);
-        PlayerPosition expected4 = new PlayerPosition(0, 4, 4);
+        PlayerPosition expected4 = new PlayerPosition(1, 4, 1);
 
         assertTrue(result4.equals(expected4));
 
@@ -141,10 +141,10 @@ public class DecoderTest {
         assertTrue(result.getTile(2, 2).sameTile(expected.getTile(2,2)));
 
         PlayerPosition expected_blue = new PlayerPosition(1,0,7);
-        PlayerPosition expected_red = new PlayerPosition(2,0,4);
-        PlayerPosition expected_green = new PlayerPosition(2,1,5);
-        PlayerPosition expected_orange = new PlayerPosition(2,1,4);
-        PlayerPosition expected_sienna = new PlayerPosition(1,2,3);
+        PlayerPosition expected_red = new PlayerPosition(3,0,1);
+        PlayerPosition expected_green = new PlayerPosition(3,1,0);
+        PlayerPosition expected_orange = new PlayerPosition(3,1,1);
+        PlayerPosition expected_sienna = new PlayerPosition(1,3,6);
 
 
         assertTrue(result.getPlayerPositionByColor("blue").equals(expected_blue));
