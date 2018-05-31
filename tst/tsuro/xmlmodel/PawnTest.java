@@ -27,7 +27,6 @@ public class PawnTest {
     public void testPawnPtoPlayerP(){
         Tile t = new Tile();
         Board b = new Board();
-
         b.placeTile(t, 5,3);
         PawnLocation pl = new PawnLocation("", null, 5, 7);
         PlayerPosition pp = pl.backtoPlayerPosition(b);

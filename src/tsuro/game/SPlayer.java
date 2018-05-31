@@ -29,10 +29,10 @@ public class SPlayer {
         return color;
     }
 
-    public void dealWithCheater(){
+    public void dealWithCheater(List<String> colors){
         String name = iplayer.getName() + "replaced";
         this.iplayer = new RandPlayer(name);
-        this.iplayer.initialize(color, null);
+        this.iplayer.initialize(color, colors);
     }
 
     //returns hand tiles

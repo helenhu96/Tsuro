@@ -16,17 +16,22 @@ public class ServerPlayer implements IPlayer {
     Socket socket;
     PrintWriter toClient;
     BufferedReader fromClient;
-//    Decoder Decoder = new Decoder();
     PlayerState state;
     int PORT;
-    public ServerPlayer() throws IOException{
+    Administrator admin;
+    public ServerPlayer(Administrator admin) throws IOException{
+        this.admin = admin;
         this.PORT = 3000;
+        this.state = PlayerState.UNINITIALIZED;
+    }
+
+    public void connect() throws Exception
+    {
         ServerSocket serverSocket = new ServerSocket(PORT);
         this.socket = serverSocket.accept();
         this.toClient = new PrintWriter(socket.getOutputStream(), true);
         this.fromClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         serverSocket.close();
-        this.state = PlayerState.UNINITIALIZED;
     }
     /**
      * return player's name
@@ -45,8 +50,10 @@ public class ServerPlayer implements IPlayer {
     }
 
     public String sendXml(String s) throws IOException{
+        System.out.println("send message to client: " + s);
         toClient.println(s);
         String msg = fromClient.readLine();
+        System.out.println("receive message from client: " + msg);
         return msg;
     }
 

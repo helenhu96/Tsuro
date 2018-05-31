@@ -69,7 +69,7 @@ public class Administrator {
         while (!board.isBorder(pos) || board.positionHasPlayer(pos)) {
             //player cheated
             System.out.println(s.getColor() + " cheated.");
-            s.dealWithCheater();
+            s.dealWithCheater(Arrays.asList(COLORS));
             pos = s.getIplayer().placePawn(board);
         }
         board.updatePlayerPosition(s, pos);
@@ -101,7 +101,7 @@ public class Administrator {
                 //handle illegal play
                 while (!this.legalPlay(currPlayer, board, t)) {
                     System.out.println(currPlayer.getColor() + "cheated");
-                    currPlayer.dealWithCheater();
+                    currPlayer.dealWithCheater(Arrays.asList(COLORS));
                     ((RandPlayer) currPlayer.getIplayer()).setState(PlayerState.PLAYING);
                     t = currPlayer.getIplayer().playTurn(board, currPlayer.getHandTiles(), drawPile.size());
                 }
