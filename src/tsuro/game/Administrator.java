@@ -45,6 +45,8 @@ public class Administrator {
         SPlayer splayer = new SPlayer(color);
         splayer.associatePlayer(player);
         List<String> colorlist = new ArrayList<>();
+
+        // TODO: fix the color list, -> with order, only the players on board
         for (String c: COLORS) {
             colorlist.add(c);
         }
@@ -105,6 +107,7 @@ public class Administrator {
                     ((RandPlayer) currPlayer.getIplayer()).setState(PlayerState.PLAYING);
                     t = currPlayer.getIplayer().playTurn(board, currPlayer.getHandTiles(), drawPile.size());
                 }
+                // the tile player removed here
                 currPlayer.removeTile(t);
                 winners = playATurn(drawPile, activePlayers, deadPlayers, board, t);
             }
@@ -144,16 +147,19 @@ public class Administrator {
 
         // check if given tile is one of the player's handTiles
         if (!player.hasTile(tile)){
+            System.err.println("no such tile in hand!");
             return false;
         }
 
         //check if the given tile is already on the board
         if (checkTileOnBoard(tile)) {
+            System.err.println("tile on board already!!");
             return false;
         }
 
         //if tile won't lead player to elimination, return true
         if (!board.tileLegal(player, tile)) {
+            System.err.println("leads to elimination!");
             return false;
         }
         return true;

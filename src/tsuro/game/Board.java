@@ -10,6 +10,8 @@ public class Board {
     private Tile[][] tiles;
     private int numTiles;
     private static int boardsize = 6;
+
+    // TODO: refactor to delete redundant field
     public Map<SPlayer, PlayerPosition> playerToPosition;
 
     private List<Tile> tilesOnBoard;
@@ -166,10 +168,13 @@ public class Board {
             return true;
         }
         // if the tile kills the player
+        System.err.println("this tile kills player, checking other tiles in hand");
+        System.err.println("checking all tiles in player's hand! a total of " + player.numHandTiles() );
         for (Tile currTile: player.getHandTiles()) {
             Tile tempHandTile = new Tile(currTile);
             for (int i=0; i<4; i++) {
                 if (!tileKillsPlayer(player, tempHandTile)) {
+                    System.err.println("this rotation does not kill player");
                     return false;
                 }
                 tempHandTile.rotateClockwise();
