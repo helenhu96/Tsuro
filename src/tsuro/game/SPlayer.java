@@ -116,7 +116,18 @@ public class SPlayer {
         if (o == null || !(o instanceof SPlayer)) {
             return false;
         }
-        return this.color.equals(((SPlayer) o).getColor());
+        SPlayer p = (SPlayer) o;
+        if  (!this.color.equals(p.getColor())) {
+            return false;
+        }
+        if (this.numHandTiles() != p.numHandTiles()) {
+            return false;
+        }
+
+        if (this.doIHaveDragon() != p.doIHaveDragon()) {
+            return false;
+        }
+        return true;
     }
 
 }

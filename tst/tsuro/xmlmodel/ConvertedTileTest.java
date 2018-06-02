@@ -106,6 +106,24 @@ public class ConvertedTileTest {
     }
 
 
+    @Test
+    public void testSPlayer() throws Exception{
+        SPlayer sp = new SPlayer("red");
+        Tile tile = new Tile(new int[]{0, 7, 1, 2, 3, 4, 5, 6});
+        Tile tile1 = new Tile(new int[]{0, 1, 2, 3, 4, 5, 6, 7});
+        sp.receiveTile(tile);
+        sp.receiveTile(tile1);
+        List<SPlayer> list = new ArrayList<>();
+        list.add(sp);
+        System.out.println(Encoder.encodeSPlayers(list));
+        String docString = Encoder.encodeSPlayers(list);
+        Document doc = Decoder.getDocument(docString);
+        List<SPlayer> SPlayers = Decoder.decode_listofSPlayer(doc.getElementsByTagName("list").item(0));
+        assertEquals(list.size(), SPlayers.size());
+        for (SPlayer player: list) {
+            assertEquals(SPlayers.get(SPlayers.indexOf(player)), player);
+        }
+    }
 
     @Test
     public void testSPlayers() throws Exception{
@@ -119,11 +137,18 @@ public class ConvertedTileTest {
         List<SPlayer> list = new ArrayList<>();
         list.add(sp);
         list.add(sp1);
-        System.out.println(Encoder.encodeSPlayers(list));
+
+        String docString = Encoder.encodeSPlayers(list);
+        Document doc = Decoder.getDocument(docString);
+        List<SPlayer> SPlayers = Decoder.decode_listofSPlayer(doc.getElementsByTagName("list").item(0));
+        assertEquals(list.size(), SPlayers.size());
+        for (SPlayer player: list) {
+            assertEquals(SPlayers.get(SPlayers.indexOf(player)), player);
+        }
     }
 
     @Test
-    public void testMayberSPlayers() throws Exception{
+    public void testMaybeSPlayers() throws Exception{
         SPlayer sp = new SPlayer("red");
         Tile tile = new Tile(new int[]{0, 7, 1, 2, 3, 4, 5, 6});
         Tile tile1 = new Tile(new int[]{0, 1, 2, 3, 4, 5, 6, 7});

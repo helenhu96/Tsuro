@@ -168,8 +168,6 @@ public class Board {
             return true;
         }
         // if the tile kills the player
-        System.err.println("this tile kills player, checking other tiles in hand");
-        System.err.println("checking all tiles in player's hand! a total of " + player.numHandTiles() );
         for (Tile currTile: player.getHandTiles()) {
             Tile tempHandTile = new Tile(currTile);
             for (int i=0; i<4; i++) {

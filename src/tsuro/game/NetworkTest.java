@@ -42,9 +42,10 @@ public class NetworkTest {
     @Test
     public void startNetworkTest() throws Exception{
         Administrator admin = new Administrator();
+        Administrator admin1 = new Administrator();
         // client side
-        IPlayer iPlayer1 = new RandPlayer("a");
-        IPlayer iPlayer2 = new RandPlayer("b");
+        IPlayer iPlayer1 = new MostSymmetricPlayer("a");
+        IPlayer iPlayer2 = new LeastSymmetricPlayer("b");
         ClientPlayer c1 = new ClientPlayer(iPlayer1);
         ClientPlayer c2 = new ClientPlayer(iPlayer2);
         ClientThread clientThread1 = new ClientThread(c1);
@@ -58,7 +59,7 @@ public class NetworkTest {
 
         serverThread1.start();
         clientThread1.start();
-        Thread.sleep(2000);
+        Thread.sleep(1000);
         serverThread2.start();
         clientThread2.start();
 
