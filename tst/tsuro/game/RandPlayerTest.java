@@ -22,6 +22,7 @@ public class RandPlayerTest {
         board.updatePlayerPosition(testP2, new PlayerPosition( 5, 3, 5));
         Administrator admin = new Administrator();
         admin.registerPlayer(randP);
+        admin.initPlayers();
         PlayerPosition test = randP.placePawn(board);
         assertTrue(board.isBorder(test));
     }

@@ -2,6 +2,7 @@ package tsuro.xmlmodel;
 
 import tsuro.game.Board;
 
+import javax.xml.bind.Marshaller;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
@@ -10,7 +11,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType (propOrder = {"tiles", "pawns"})
 public class ConvertedBoard {
 
-    Tiles tiles;
+    Tiles tiles = new Tiles();
     Pawns pawns;
     public ConvertedBoard() {}
 
@@ -39,42 +40,22 @@ public class ConvertedBoard {
     }
 
 
-
-
-
-
-//    public Board backtoBoard(){
-//
-//        Board ob = new Board();
-//
-//        Map<Tile, int[]> tileLocations = backtoTiles(tiles.entries);
-//        for (Tile t: tileLocations.keySet()){
-//            ob.placeTile(t, tileLocations.get(t)[0], tileLocations.get(t)[1]);
+//    private void beforeMarshal(Marshaller marshaller) {
+//        if(tiles == null) {
+//            tiles = new Tiles();
 //        }
-//
-//
-//        //unhandled pawn positions
-//
-//
-//
-//        return ob;
+//        if (pawns == null) {
+//            pawns = new Pawns();
+//        }
 //    }
 //
-//
-//    public static Map<Tile, int[]> backtoTiles(List<TileEntry> entries){
-//
-//        Map<Tile, int[]> tile_map = new HashMap<>();
-//
-//        for (int i = 0; i < entries.size(); i++) {
-//            TileEntry curr = entries.get(i);
-//
-//            Tile t = curr.getCtile().backtoTile();
-//            int[] loc = curr.getXy().backtoXY();
-//
-//            tile_map.put(t, loc);
+//    private void afterMarshal(Marshaller marshaller) {
+//        if(tiles.entries.size() == 0) {
+//            tiles = null;
 //        }
-//
-//        return tile_map;
+//        if (pawns.entries.size() == 0) {
+//            pawns = null;
+//        }
 //    }
 
 }

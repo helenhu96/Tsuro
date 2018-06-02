@@ -15,6 +15,7 @@ public class ConvertedBoardTest {
     @Test
     public void testBoard() throws Exception{
         Board board = new Board();
+        Encoder.encodeBoard(board);
         Tile tile = new Tile(new int[]{0, 7, 1, 2, 3, 4, 5, 6});
         Tile tile1 = new Tile(new int[]{0, 1, 2, 3, 4, 5, 6, 7});
         board.placeTile(tile, 0,0);
@@ -26,8 +27,8 @@ public class ConvertedBoardTest {
         board.playerToPosition.put(player1, position);
         PlayerPosition position1 = new PlayerPosition(0,5,2);
         board.playerToPosition.put(player2, position1);
-        String s = Encoder.encodeBoard(board);
-        System.out.println(s);
+//        String s = Encoder.encodeBoard(board);
+//        System.out.println(s);
     }
 
     @Test

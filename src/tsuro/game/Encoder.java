@@ -29,11 +29,11 @@ public class Encoder {
         StringWriter sw = new StringWriter();
         JAXBContext jaxbContext = JAXBContext.newInstance(ConvertedBoard.class);
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-//        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+//        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         jaxbMarshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
         jaxbMarshaller.marshal(cboard, sw);
         String xmlString = sw.toString();
-//        System.out.println(xmlString);
+        xmlString = xmlString.replace("<map/>", "<map></map>");
         return xmlString;
     }
 

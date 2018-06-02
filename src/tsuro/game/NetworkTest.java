@@ -42,7 +42,6 @@ public class NetworkTest {
     @Test
     public void startNetworkTest() throws Exception{
         Administrator admin = new Administrator();
-        Administrator admin1 = new Administrator();
         // client side
         IPlayer iPlayer1 = new MostSymmetricPlayer("a");
         IPlayer iPlayer2 = new LeastSymmetricPlayer("b");
@@ -65,7 +64,14 @@ public class NetworkTest {
 
         admin.registerPlayer(s1);
         admin.registerPlayer(s2);
-
+        admin.initPlayers();
         System.out.println(admin.play());
+
+//
+//        Administrator admin1 = new Administrator();
+//        admin1.registerPlayer(iPlayer1);
+//        admin1.registerPlayer(iPlayer2);
+//        admin1.initPlayers();
+//        System.out.println(admin1.play());
     }
 }

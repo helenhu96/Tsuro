@@ -172,7 +172,6 @@ public class Board {
             Tile tempHandTile = new Tile(currTile);
             for (int i=0; i<4; i++) {
                 if (!tileKillsPlayer(player, tempHandTile)) {
-                    System.err.println("this rotation does not kill player");
                     return false;
                 }
                 tempHandTile.rotateClockwise();

@@ -24,7 +24,7 @@ abstract class MPlayer implements IPlayer {
     protected final static int LEFT = 3;
 
 
-    protected final static Set<String> COLORS_SET= new HashSet<>(Arrays.asList(COLOR_VALUES));
+    //protected final static Set<String> COLORS_SET= new HashSet<>(Arrays.asList(COLOR_VALUES));
 
 
     public String getName() { return this.name; }

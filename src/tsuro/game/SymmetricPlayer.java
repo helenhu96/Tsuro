@@ -19,7 +19,7 @@ public abstract class SymmetricPlayer extends MPlayer{
         this.board = board;
         this.hand = hand;
         checkState(PlayerState.PLAYING);
-        Map<Integer, List<Tile>> scores = new HashMap<>();
+        Map<Integer, Set<Tile>> scores = new HashMap<>();
         try {
             legalTiles = chooseLegalRotations(board, hand);
         } catch (Exception e) {
@@ -29,7 +29,7 @@ public abstract class SymmetricPlayer extends MPlayer{
         for (Tile t: legalTiles){
             int score = t.getScore();
             if (!scores.containsKey(score)){
-                scores.put(score, new ArrayList<>());
+                scores.put(score, new HashSet<>());
             }
             scores.get(score).add(t);
         }
@@ -42,5 +42,5 @@ public abstract class SymmetricPlayer extends MPlayer{
         return tile;
     }
 
-    protected abstract Tile chooseSymmetricTile(Map<Integer, List<Tile>> scores) throws Exception;
+    protected abstract Tile chooseSymmetricTile(Map<Integer, Set<Tile>> scores) throws Exception;
 }

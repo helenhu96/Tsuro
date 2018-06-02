@@ -17,7 +17,6 @@ public class Administrator {
     private DrawPile drawPile;
     private List<SPlayer> deadPlayers;
     private SPlayer playerWithDragonTile;
-    private int numPlayer;
     private List<SPlayer> winners;
 
     public static final int HAND_SIZE = 3;
@@ -32,11 +31,11 @@ public class Administrator {
         this.drawPile = drawPile;
         this.deadPlayers = deadPlayers;
         this.playerWithDragonTile = playerWithDragonTile;
-        numPlayer = 0;
         this.winners = new ArrayList<>();
     }
 
     public void registerPlayer(IPlayer player){
+        int numPlayer = activePlayers.size();
         if (numPlayer>7) {
             System.err.println("Game is full");
             return;
@@ -44,15 +43,19 @@ public class Administrator {
         String color = COLORS[numPlayer];
         SPlayer splayer = new SPlayer(color);
         splayer.associatePlayer(player);
-        List<String> colorlist = new ArrayList<>();
-
-        // TODO: fix the color list, -> with order, only the players on board
-        for (String c: COLORS) {
-            colorlist.add(c);
-        }
-        player.initialize(color, colorlist);
         activePlayers.add(splayer);
-        numPlayer++;
+    }
+
+    public void initPlayers() {
+        int numPlayer = activePlayers.size();
+        List<String> colorlist = new ArrayList<>();
+        for (int i = 0; i < numPlayer; i++) {
+            colorlist.add(COLORS[i]);
+        }
+        for (SPlayer sp: activePlayers) {
+            sp.getIplayer().initialize(sp.getColor(), colorlist);
+        }
+
     }
 
     public void setupGame() throws Exception{
@@ -122,8 +125,8 @@ public class Administrator {
         for (SPlayer s : activePlayers) {
             s.getIplayer().endGame(board, winningColors);
         }
-
         for (SPlayer s : deadPlayers) {
+            System.out.println(s.getColor());
             s.getIplayer().endGame(board, winningColors);
         }
 
@@ -194,7 +197,7 @@ public class Administrator {
 
 
     //returns the list of winners if game is over, otherwise returns null
-    public List<SPlayer> playATurn(DrawPile pile, List<SPlayer> activePlayers, List<SPlayer> deadPlayers, Board board, Tile tile) throws Exception{
+    public List<SPlayer> playATurn(DrawPile pile, List<SPlayer> activePlayers, List<SPlayer> dead, Board board, Tile tile) throws Exception{
 
         //list of players that died in this turn
         List<SPlayer> playersDiedThisTurn = new ArrayList<>();
@@ -210,7 +213,7 @@ public class Administrator {
         }
 
         //return eliminated player's hand tiles to draw pile and then re-shuffle.
-        handleDeadPlayers(playersDiedThisTurn, pile);
+        handleDeadPlayers(playersDiedThisTurn, pile, dead);
         List<SPlayer> winners = getWinners(board, activePlayers, playersDiedThisTurn);
 
         if (winners.size() != 0) {
@@ -246,7 +249,7 @@ public class Administrator {
         return drawOrder;
     }
 
-    public void handleDeadPlayers(List<SPlayer> playersDiedThisTurn, DrawPile pile) throws Exception{
+    public void handleDeadPlayers(List<SPlayer> playersDiedThisTurn, DrawPile pile, List<SPlayer> Deadsplayers) throws Exception{
         for (SPlayer dead: playersDiedThisTurn){
             if (dead.equals(playerWithDragonTile)) {
                 dead.returnDragon();
@@ -257,7 +260,7 @@ public class Administrator {
             activePlayers.remove(dead);
             pile.addTilesAndShuffle(dead.getHandTiles());
             dead.removeHandTiles();
-            deadPlayers.add(dead);
+            Deadsplayers.add(dead);
             dead.setDead();
         }
     }
@@ -302,16 +305,11 @@ public class Administrator {
         return drawOrder.get((index+1) % drawOrder.size());
     }
 
-    //TODO: handle exceptions
     // returns the dragon to the pile
     public DrawPile returnDragon(DrawPile pile) throws Exception{
         this.playerWithDragonTile.returnDragon();
         this.playerWithDragonTile = null;
-        try {
-            pile.addDragon();
-        } catch (Exception e) {
-            throw e;
-        }
+        pile.addDragon();
         return pile;
     }
 

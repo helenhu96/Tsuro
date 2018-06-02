@@ -58,7 +58,7 @@ public class ServerPlayer implements IPlayer {
     }
 
     public void initialize(String color, List<String> colors) {
-        checkState(PlayerState.UNINITIALIZED);
+//        checkState(PlayerState.UNINITIALIZED);
         try {
             String outDocString = Encoder.encodeInitialize(color, colors);
             String in = sendXml(outDocString);

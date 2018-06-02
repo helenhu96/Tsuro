@@ -17,6 +17,7 @@ public class AdministratorTest {
         MPlayer player1 = new RandPlayer("green");
         Administrator admin = new Administrator();
         admin.registerPlayer(player1);
+        admin.initPlayers();
         SPlayer splayer1 = admin.getSPlayer(0);
         Board board = new Board();
         board.updatePlayerPosition(splayer1, new PlayerPosition(3,1, 6));

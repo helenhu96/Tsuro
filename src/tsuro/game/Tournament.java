@@ -6,7 +6,7 @@ import java.util.Set;
 
 class Tournament {
     public static void main(String argv[]) throws Exception {
-        for (int i=0; i<4000; i++) {
+        for (int i=0; i<200; i++) {
             Administrator admin = new Administrator();
             MPlayer p1 = new RandPlayer("1");
             MPlayer p2 = new MostSymmetricPlayer("2");
@@ -25,9 +25,10 @@ class Tournament {
             admin.registerPlayer(p6);
             admin.registerPlayer(p7);
             admin.registerPlayer(p8);
-
+            admin.initPlayers();
             Set<String> winners = admin.play();
-            System.out.println(winners);
+            System.out.println("winners are   " + winners);
+            System.out.println();
         }
     }
 }
