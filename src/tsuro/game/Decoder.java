@@ -262,6 +262,39 @@ public class Decoder {
         throw new IllegalArgumentException("Input is not a valid setoftiles node object!");
     }
 
+    public static SPlayer decode_SPlayer(Node node) throws IllegalArgumentException{
+        if (node.getNodeType() == Node.ELEMENT_NODE){
+            SPlayer sp = new SPlayer(node.getFirstChild().getTextContent());
+            if (node.getNodeName().equals("splayer-dragon")){
+                sp.getDragon();
+            }
+
+            Set<Tile> tiles = decode_setofTiles(node.getFirstChild().getNextSibling());
+            for (Tile t: tiles){
+                sp.receiveTile(t);
+            }
+            return sp;
+
+        }
+        throw new IllegalArgumentException("Input is not a valid splayer node object!");
+    }
+
+    public static List<SPlayer> decode_listofSPlayer(Node node) throws IllegalArgumentException{
+        if (node.getNodeType() == Node.ELEMENT_NODE){
+            List<SPlayer> list = new ArrayList<>();
+
+            NodeList children = node.getChildNodes();
+
+            for (int i = 0; i < children.getLength(); i++){
+                list.add(decode_SPlayer(children.item(i)));
+            }
+
+            return list;
+
+        }
+        throw new IllegalArgumentException("Input is not a valid set of splayer node object!");
+    }
+
     //<player-name> str </player-name> to string
 
     public static String decodeGetName(String docString) throws Exception{
@@ -278,6 +311,8 @@ public class Decoder {
         Tile t = decode_tile1(node);
         return t;
     }
+
+
 
 
 }
