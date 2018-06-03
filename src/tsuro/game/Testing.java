@@ -15,6 +15,7 @@ public  class Testing {
 
 
     public static void main(String[] args) throws Exception {
+        System.out.println("ily<3");
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 
         while (true) {

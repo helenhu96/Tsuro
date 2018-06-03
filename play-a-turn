@@ -1,0 +1,2 @@
+javac -cp lib/guava.jar:lib/hamcrest.jar -d bin/ src/tsuro/game/*.java src/tsuro/xmlmodel/*.java tst/tsuro/game/*.java tst/tsuro/xmlmodel/*.java
+java - --class-path bin/ -c tsuro/game/Testing
