@@ -16,21 +16,20 @@ public class Administrator {
     private Board board;
     private DrawPile drawPile;
     private List<SPlayer> deadPlayers;
-    private SPlayer playerWithDragonTile;
+//    private SPlayer playerWithDragonTile;
     private List<SPlayer> winners;
 
     public static final int HAND_SIZE = 3;
     public Administrator(){
-        this(new ArrayList<>(), new Board(), new DrawPile(), new ArrayList<>(), null);
+        this(new ArrayList<>(), new Board(), new DrawPile(), new ArrayList<>());
     }
 
     public Administrator(List<SPlayer> activePlayers, Board board, DrawPile drawPile,
-                         List<SPlayer> deadPlayers, SPlayer playerWithDragonTile){
+                         List<SPlayer> deadPlayers){
         this.activePlayers = activePlayers;
         this.board = board;
         this.drawPile = drawPile;
         this.deadPlayers = deadPlayers;
-        this.playerWithDragonTile = playerWithDragonTile;
         this.winners = new ArrayList<>();
     }
 
@@ -200,6 +199,14 @@ public class Administrator {
         }
     }
 
+    public SPlayer getPlayerWithDragonTile() {
+        for (SPlayer sp: activePlayers) {
+            if (sp.doIHaveDragon()) {
+                return sp;
+            }
+        }
+        return null;
+    }
 
     public List<SPlayer> playATurnHelp(DrawPile pile, List<SPlayer> activePlayers, List<SPlayer> dead, Board board, Tile tile) throws Exception {
         //list of players that died in this turn
@@ -238,7 +245,8 @@ public class Administrator {
     //returns the list of winners if game is over, otherwise returns null
     public List<SPlayer> playATurn(List<Tile> tiles, List<SPlayer> activePlayers, List<SPlayer> dead, Board board, Tile tile) throws Exception{
         boolean pileHasDragon = true;
-        if (this.playerWithDragonTile != null)  {
+        SPlayer playerWithDragonTile = getPlayerWithDragonTile();
+        if (playerWithDragonTile != null)  {
             pileHasDragon = false;
         }
         DrawPile pile = new DrawPile(tiles, pileHasDragon);
@@ -247,6 +255,7 @@ public class Administrator {
 
     public List<SPlayer> changeDrawOrder(List<SPlayer> activePlayers) {
         List<SPlayer> drawOrder = new ArrayList<>();
+        SPlayer playerWithDragonTile = getPlayerWithDragonTile();
         if (playerWithDragonTile != null) {
             // if some player has dragon tile, change the order of drawing
             int index = activePlayers.indexOf(playerWithDragonTile);
@@ -263,6 +272,7 @@ public class Administrator {
     }
 
     public void handleDeadPlayers(List<SPlayer> playersDiedThisTurn, DrawPile pile, List<SPlayer> Deadsplayers) throws Exception{
+        SPlayer playerWithDragonTile = getPlayerWithDragonTile();
         for (SPlayer dead: playersDiedThisTurn){
             if (dead.equals(playerWithDragonTile)) {
                 dead.returnDragon();
@@ -280,6 +290,7 @@ public class Administrator {
 
     public void drawTiles(DrawPile pile, SPlayer currentDrawer, List<SPlayer> drawOrder) throws Exception{
         // if current player is the dragon owner, return the dragon to pile first
+        SPlayer playerWithDragonTile = getPlayerWithDragonTile();
         if (playerWithDragonTile != null) {
             pile = returnDragon(pile);
         }
@@ -320,8 +331,8 @@ public class Administrator {
 
     // returns the dragon to the pile
     public DrawPile returnDragon(DrawPile pile) throws Exception{
-        this.playerWithDragonTile.returnDragon();
-        this.playerWithDragonTile = null;
+        SPlayer playerWithDragonTile = getPlayerWithDragonTile();
+        playerWithDragonTile.returnDragon();
         pile.addDragon();
         return pile;
     }
@@ -361,9 +372,9 @@ public class Administrator {
     }
 
 
-    public SPlayer getPlayerWithDragonTile() {
-        return this.playerWithDragonTile;
-    }
+//    public SPlayer getPlayerWithDragonTile() {
+//        return this.playerWithDragonTile;
+//    }
 
 
     public SPlayer getSPlayerFromColor(String color) throws IllegalArgumentException{

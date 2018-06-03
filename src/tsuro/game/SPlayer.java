@@ -30,7 +30,7 @@ public class SPlayer {
     }
 
     public void dealWithCheater(List<String> colors){
-        String name = iplayer.getName() + " replaced";
+        String name = iplayer.getName() + "replaced";
         this.iplayer = new RandPlayer(name);
         this.iplayer.initialize(color, colors);
     }
@@ -120,13 +120,13 @@ public class SPlayer {
         if  (!this.color.equals(p.getColor())) {
             return false;
         }
-        if (this.numHandTiles() != p.numHandTiles()) {
-            return false;
-        }
-
-        if (this.doIHaveDragon() != p.doIHaveDragon()) {
-            return false;
-        }
+//        if (this.numHandTiles() != p.numHandTiles()) {
+//            return false;
+//        }
+//
+//        if (this.doIHaveDragon() != p.doIHaveDragon()) {
+//            return false;
+//        }
         return true;
     }
 

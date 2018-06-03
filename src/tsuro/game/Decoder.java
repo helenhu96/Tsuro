@@ -14,17 +14,12 @@ import java.util.*;
 public class Decoder {
 
     public static Document getDocument(String docString) throws Exception{
-        try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            factory.setIgnoringComments(true);
-            factory.setIgnoringElementContentWhitespace(true);
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setIgnoringComments(true);
+        factory.setIgnoringElementContentWhitespace(true);
 //            factory.setValidating(true);
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            return builder.parse(new InputSource(new StringReader(docString)));
-        }
-        catch (Exception ex){
-            throw new Exception(ex.getMessage());
-        }
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        return builder.parse(new InputSource(new StringReader(docString)));
 
     }
 
