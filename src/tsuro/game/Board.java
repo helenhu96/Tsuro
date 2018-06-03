@@ -82,7 +82,7 @@ public class Board {
         PlayerPosition pp = null;
         try {
             for (SPlayer sp : this.playerToPosition.keySet()) {
-                if (sp.equals(player)) {
+                if (sp.getColor().equals(player.getColor())) {
                     pp = new PlayerPosition(playerToPosition.get(sp));
                 }
             }

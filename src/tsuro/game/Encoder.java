@@ -74,6 +74,7 @@ public class Encoder {
 //        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         jaxbMarshaller.marshal(tiles, sw);
         String xmlString = sw.toString();
+        xmlString = xmlString.replace("<list/>", "<list></list>");
         return xmlString;
     }
 
@@ -103,6 +104,7 @@ public class Encoder {
         jaxbMarshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
         jaxbMarshaller.marshal(lsplayer, sw);
         String xmlString = sw.toString();
+        xmlString = xmlString.replace("<list/>", "<list></list>");
         return xmlString;
     }
 

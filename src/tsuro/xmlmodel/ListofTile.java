@@ -16,8 +16,9 @@ public class ListofTile {
     public ListofTile(List<Tile> tiles) {
         setListofTile(new ArrayList<>());
         for (Tile t: tiles) {
-            ConvertedTile ctile = new ConvertedTile(t);
+            addListofTile(t);
         }
+
     }
 
     @XmlElement (name = "tile")
