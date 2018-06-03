@@ -44,10 +44,8 @@ public class Encoder {
         JAXBContext jaxbContext = JAXBContext.newInstance(PawnLocation.class);
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
         jaxbMarshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
-//        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         jaxbMarshaller.marshal(pawn, sw);
         String xmlString = sw.toString();
-        System.out.println(xmlString);
         return xmlString;
     }
 
@@ -66,8 +64,9 @@ public class Encoder {
         return xmlString;
     }
 
-    public static void encodeListofTile(ListofTile tiles) throws Exception
+    public static String encodeListofTile(List<Tile> alltiles) throws Exception
     {
+        ListofTile tiles = new ListofTile(alltiles);
         StringWriter sw = new StringWriter();
         JAXBContext jaxbContext = JAXBContext.newInstance(ListofTile.class);
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
@@ -75,6 +74,7 @@ public class Encoder {
 //        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         jaxbMarshaller.marshal(tiles, sw);
         String xmlString = sw.toString();
+        return xmlString;
     }
 
     public static String encodeSetofTile(Set<Tile> t) throws Exception

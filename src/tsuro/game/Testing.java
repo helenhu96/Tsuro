@@ -12,40 +12,47 @@ import java.net.Socket;
 import java.util.List;
 
 public  class Testing {
-    Socket socket;
-    int PORT;
-    static BufferedReader bf;
-    static PrintWriter pw;
-    public Testing() throws IOException{
-        ServerSocket serverSocket = new ServerSocket(PORT);
-        this.socket = serverSocket.accept();
-        this.pw = new PrintWriter(socket.getOutputStream(), true);
-        this.bf = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        serverSocket.close();
-    }
+
 
     public static void main(String[] args) throws Exception {
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+
         while (true) {
+            // Drawpile
             Document doc = Decoder.getDocument(bf.readLine());
             Node tilesNode = doc.getElementsByTagName("list").item(0);
             List<Tile> tiles =  Decoder.decode_listofTiles(tilesNode);
 
+            // winners
             doc = Decoder.getDocument(bf.readLine());
             Node activePlayersNode = doc.getElementsByTagName("list").item(0);
             List<SPlayer> activePlayers =  Decoder.decode_listofSPlayer(activePlayersNode);
 
+            // losers
             doc = Decoder.getDocument(bf.readLine());
-            Node losersNode = doc.getElementsByTagName("list").item(0);
-            List<SPlayer> lostPlayers =  Decoder.decode_listofSPlayer(losersNode);
+            Node outNode = doc.getElementsByTagName("list").item(0);
+            List<SPlayer> outPlayers =  Decoder.decode_listofSPlayer(outNode);
 
+            // board
             doc = Decoder.getDocument(bf.readLine());
             Node boardNode = doc.getElementsByTagName("board").item(0);
             Board board =  Decoder.decode_board(boardNode);
 
+            //tile
             Tile tile =  Decoder.decodeTile(bf.readLine());
 
             Administrator admin = new Administrator();
-            admin.playATurn(tiles, activePlayers, lostPlayers, board, tile);
+            List<SPlayer> winners = admin.playATurn(tiles, activePlayers, outPlayers, board, tile);
+            String tilesString = Encoder.encodeListofTile(tiles);
+            System.out.println(tilesString);
+            String winnerString = Encoder.encodeMaybeListofSPlayers(winners);
+            System.out.println(winnerString);
+            String outString = Encoder.encodeMaybeListofSPlayers(outPlayers);
+            System.out.println(outString);
+            String boardString = Encoder.encodeBoard(board);
+            System.out.println(boardString);
+            String tileString = Encoder.encodeTile(tile);
+            System.out.println(tilesString);
         }
     }
 }

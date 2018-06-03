@@ -99,10 +99,9 @@ public class ConvertedTileTest {
         Tile tile = new Tile(new int[]{0, 7, 1, 2, 3, 4, 5, 6});
         Tile tile1 = new Tile(new int[]{0, 1, 2, 3, 4, 5, 6, 7});
         List <Tile> list = new ArrayList<>();
-        ListofTile tiles = new ListofTile(list);
-        tiles.addListofTile(tile);
-        tiles.addListofTile(tile1);
-        Encoder.encodeListofTile(tiles);
+        list.add(tile);
+        list.add(tile1);
+        Encoder.encodeListofTile(list);
     }
 
 
@@ -115,7 +114,6 @@ public class ConvertedTileTest {
         sp.receiveTile(tile1);
         List<SPlayer> list = new ArrayList<>();
         list.add(sp);
-        System.out.println(Encoder.encodeSPlayers(list));
         String docString = Encoder.encodeSPlayers(list);
         Document doc = Decoder.getDocument(docString);
         List<SPlayer> SPlayers = Decoder.decode_listofSPlayer(doc.getElementsByTagName("list").item(0));
