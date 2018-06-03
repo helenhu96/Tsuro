@@ -6,12 +6,17 @@ import java.util.List;
 import java.util.Set;
 
 public class DrawPile {
-    private List<Tile> tiles;
+    public List<Tile> tiles;
     private boolean hasDragon;
 
     public DrawPile() {
         this.tiles = new ArrayList<>();
         this.hasDragon = true;
+    }
+
+    public DrawPile(List<Tile> tiles, boolean hasDragon) {
+        this.tiles = tiles;
+        this.hasDragon = hasDragon;
     }
 
     // initialize the draw pile as all the legal tiles

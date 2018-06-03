@@ -91,6 +91,7 @@ public class Administrator {
         }
     }
 
+    //TODO: handle cheating
     public Set<String> play() throws Exception {
         setupGame();
 
@@ -112,7 +113,7 @@ public class Administrator {
                 }
                 // the tile player removed here
                 currPlayer.removeTile(t);
-                winners = playATurn(drawPile, activePlayers, deadPlayers, board, t);
+                winners = playATurnHelp(drawPile, activePlayers, deadPlayers, board, t);
             }
 
         }
@@ -196,9 +197,7 @@ public class Administrator {
     }
 
 
-    //returns the list of winners if game is over, otherwise returns null
-    public List<SPlayer> playATurn(DrawPile pile, List<SPlayer> activePlayers, List<SPlayer> dead, Board board, Tile tile) throws Exception{
-
+    public List<SPlayer> playATurnHelp(DrawPile pile, List<SPlayer> activePlayers, List<SPlayer> dead, Board board, Tile tile) throws Exception {
         //list of players that died in this turn
         List<SPlayer> playersDiedThisTurn = new ArrayList<>();
         //get current player
@@ -230,6 +229,16 @@ public class Administrator {
 
         //check if there are any players left
         return getWinners(board, activePlayers, playersDiedThisTurn);
+    }
+
+    //returns the list of winners if game is over, otherwise returns null
+    public List<SPlayer> playATurn(List<Tile> tiles, List<SPlayer> activePlayers, List<SPlayer> dead, Board board, Tile tile) throws Exception{
+        boolean pileHasDragon = true;
+        if (this.playerWithDragonTile != null)  {
+            pileHasDragon = false;
+        }
+        DrawPile pile = new DrawPile(tiles, pileHasDragon);
+        return playATurnHelp(pile, activePlayers, dead, board, tile);
     }
 
     public List<SPlayer> changeDrawOrder(List<SPlayer> activePlayers) {
