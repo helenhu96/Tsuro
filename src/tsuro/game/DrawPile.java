@@ -61,4 +61,8 @@ public class DrawPile {
         return tiles.size();
     }
 
+    public List<Tile> getPile() {
+        return this.tiles;
+    }
+
 }

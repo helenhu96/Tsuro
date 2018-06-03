@@ -40,22 +40,4 @@ public class ConvertedBoard {
     }
 
 
-//    private void beforeMarshal(Marshaller marshaller) {
-//        if(tiles == null) {
-//            tiles = new Tiles();
-//        }
-//        if (pawns == null) {
-//            pawns = new Pawns();
-//        }
-//    }
-//
-//    private void afterMarshal(Marshaller marshaller) {
-//        if(tiles.entries.size() == 0) {
-//            tiles = null;
-//        }
-//        if (pawns.entries.size() == 0) {
-//            pawns = null;
-//        }
-//    }
-
 }
