@@ -154,4 +154,7 @@ public class DecoderTest {
         assertTrue(result.getPlayerPositionByColor("sienna").equals(expected_sienna));
 
     }
+
+    
+
 }

@@ -24,33 +24,33 @@ public  class Testing {
 //        while (true) {
 
             // Drawpile
-//            Document doc = Decoder.getDocument(bf.readLine());
-            Document doc  = Decoder.getDocument(a);
+            Document doc = Decoder.getDocument(bf.readLine());
+//            Document doc  = Decoder.getDocument(a);
             Node tilesNode = doc.getElementsByTagName("list").item(0);
             List<Tile> tiles =  Decoder.decode_listofTiles(tilesNode);
 
             // winners
-//            doc = Decoder.getDocument(bf.readLine());
-            doc = Decoder.getDocument(b);
+            doc = Decoder.getDocument(bf.readLine());
+//            doc = Decoder.getDocument(b);
             Node activePlayersNode = doc.getElementsByTagName("list").item(0);
             List<SPlayer> activePlayers =  Decoder.decode_listofSPlayer(activePlayersNode);
 
             // losers
-//            doc = Decoder.getDocument(bf.readLine());
-            doc = Decoder.getDocument(c);
+            doc = Decoder.getDocument(bf.readLine());
+//            doc = Decoder.getDocument(c);
             Node outNode = doc.getElementsByTagName("list").item(0);
             List<SPlayer> outPlayers =  Decoder.decode_listofSPlayer(outNode);
 
             // board
-//            doc = Decoder.getDocument(bf.readLine());
-            doc = Decoder.getDocument(d);
+            doc = Decoder.getDocument(bf.readLine());
+//            doc = Decoder.getDocument(d);
             Node boardNode = doc.getElementsByTagName("board").item(0);
             Board board =  Decoder.decode_board(boardNode);
 
 
             //tile
 //          doc = Decoder.getDocument(bf.readLine());
-            Tile tile =  Decoder.decodeTile(e);
+            Tile tile =  Decoder.decodeTile(bf.readLine());
 
 
             Administrator admin = new Administrator(activePlayers, board, new DrawPile(tiles, true), outPlayers, null);

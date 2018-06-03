@@ -46,6 +46,8 @@ public class Encoder {
         jaxbMarshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
         jaxbMarshaller.marshal(pawn, sw);
         String xmlString = sw.toString();
+        xmlString = xmlString.replace("<v/>", "<v></v>");
+        xmlString = xmlString.replace("<h/>", "<h></h>");
         return xmlString;
     }
 
@@ -127,7 +129,7 @@ public class Encoder {
 
     public static String encodeMaybeListofSPlayers(List<SPlayer> splayers) throws Exception{
         if (splayers.size() == 0) {
-            return "<false> </false>";
+            return "<false></false>";
         }
         return encodeSPlayers(splayers);
     }

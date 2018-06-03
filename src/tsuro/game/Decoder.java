@@ -190,7 +190,6 @@ public class Decoder {
 
 
     public static Board decode_board(Node node) throws IllegalArgumentException{
-//        if (node.getNodeType() == Node.ELEMENT_NODE){
 
         // the two nodes with <map> tag
         NodeList children = node.getChildNodes();
@@ -203,8 +202,6 @@ public class Decoder {
 
         return new_board;
 
-//        }
-//        throw new IllegalArgumentException("Input is not a valid board node object!");
     }
 
     public static List<String> decode_listofColors (Node node) throws IllegalArgumentException{

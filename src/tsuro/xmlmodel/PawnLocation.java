@@ -56,7 +56,8 @@ public class PawnLocation {
                 y = 0;
                 x = b / 2;
                 return new PlayerPosition(y, x, b % 2).flip();
-            } else if (a == 6) {
+            }
+            if (a == 6) {
                 y = 5;
                 x = b / 2;
                 if (b % 2 == 0) {
@@ -83,28 +84,23 @@ public class PawnLocation {
             }
 
         }else {
-
             if (a == 0){
                 x = 0;
                 y = b/2;
-                if (a%2 == 0){spot = 7;}
-                else {spot = 6;}
+                spot = 7 - b % 2;
+                return new PlayerPosition(y,x,spot);
 
-                return new PlayerPosition(y,x,spot).flip();
-
-            } else if (a == 6){
+            }
+            if (a == 6){
                 x = 5;
                 y = b/2;
-                if (a%2 == 0){spot = 2;}
-                else {spot = 3;}
-                return new PlayerPosition(y,x,spot).flip();
+                spot = 2 + b % 2;
+                return new PlayerPosition(y,x,spot);
             }
             else {
-                x = a-1;
-                y = b/2;
-                if (b%2 == 0){
-                    spot = 2;
-                } else {spot = 3;}
+                x = a - 1;
+                y = b / 2;
+                spot = 2 + spot % 2;
 
                 PlayerPosition testpp = new PlayerPosition(y,x,spot);
 
