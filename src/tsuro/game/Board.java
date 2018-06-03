@@ -79,7 +79,17 @@ public class Board {
 
     //returns copy of player's position
     public PlayerPosition getPlayerPosition(SPlayer player) {
-        return new PlayerPosition(playerToPosition.get(player));
+        PlayerPosition pp = null;
+        try {
+            for (SPlayer sp : this.playerToPosition.keySet()) {
+                if (sp.equals(player)) {
+                    pp = new PlayerPosition(playerToPosition.get(sp));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return pp;
     }
 
     //returns copy of token's position

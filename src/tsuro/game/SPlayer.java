@@ -130,4 +130,13 @@ public class SPlayer {
         return true;
     }
 
+    @Override
+    public int hashCode() {
+        int sum = 0;
+        for (char c: this.color.toCharArray()) {
+            sum += c - 'a';
+        }
+        return sum;
+    }
+
 }
