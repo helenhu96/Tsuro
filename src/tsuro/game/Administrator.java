@@ -74,7 +74,11 @@ public class Administrator {
         while (!board.isBorder(pos) || board.positionHasPlayer(pos)) {
             //player cheated
             System.out.println(s.getColor() + " cheated.");
-            s.dealWithCheater(Arrays.asList(COLORS));
+            List<String> colorlist = new ArrayList<>();
+            for (SPlayer sp: activePlayers) {
+                colorlist.add(sp.getColor());
+            }
+            s.dealWithCheater(colorlist);
             pos = s.getIplayer().placePawn(board);
         }
         board.updatePlayerPosition(s, pos);

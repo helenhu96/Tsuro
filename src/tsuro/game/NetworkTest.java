@@ -4,7 +4,6 @@ import org.junit.Test;
 
 public class NetworkTest {
 
-    //TODO: FIX COLORS!!!!
     public class ServerThread extends Thread {
         ServerPlayer serverPlayer;
         public ServerThread(ServerPlayer sp) {
