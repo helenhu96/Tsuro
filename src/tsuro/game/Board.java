@@ -65,7 +65,7 @@ public class Board {
 
     //updates token's next position
     public void updatePlayerPosition(SPlayer player, PlayerPosition newPos) {
-        playerToPosition.put(player, new PlayerPosition(newPos));
+        playerToPosition.replace(player, new PlayerPosition(newPos));
     }
 
     //returns the set of colors of the players in this game

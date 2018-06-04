@@ -120,6 +120,7 @@ public class SPlayer {
         if  (!this.color.equals(p.getColor())) {
             return false;
         }
+
         if (this.numHandTiles() != p.numHandTiles()) {
             return false;
         }
@@ -127,6 +128,7 @@ public class SPlayer {
         if (this.doIHaveDragon() != p.doIHaveDragon()) {
             return false;
         }
+
         return true;
     }
 

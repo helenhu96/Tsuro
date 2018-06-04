@@ -100,7 +100,7 @@ public class PawnLocation {
             else {
                 x = a - 1;
                 y = b / 2;
-                spot = 2 + spot % 2;
+                spot = 2 + b % 2;
 
                 PlayerPosition testpp = new PlayerPosition(y,x,spot);
 
