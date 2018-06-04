@@ -23,7 +23,7 @@ public abstract class SymmetricPlayer extends MPlayer{
         try {
             legalTiles = chooseLegalRotations(board, hand);
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            e.printStackTrace();
         }
 
         for (Tile t: legalTiles){
@@ -37,7 +37,7 @@ public abstract class SymmetricPlayer extends MPlayer{
         try {
             tile = chooseSymmetricTile(scores);
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            e.printStackTrace();
         }
         return tile;
     }

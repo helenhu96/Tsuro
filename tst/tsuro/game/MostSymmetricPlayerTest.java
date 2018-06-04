@@ -120,4 +120,30 @@ public class MostSymmetricPlayerTest {
         assertTrue(actual.sameTile(t3) || actual.sameTile(t1));
 
     }
+
+    @Test
+    public void playerEliminatesItself() throws Exception{
+        Board board = new Board();
+        SPlayer p = new SPlayer("green");
+        MPlayer m = new MostSymmetricPlayer("G");
+        List<String> colors = new ArrayList<>();
+        colors.add("green");
+        m.initialize("green", colors);
+        m.setState(PlayerState.PLAYING);
+        board.updatePlayerPosition(p, new PlayerPosition(5, 5, 2));
+
+        Set<Tile> set = new HashSet<>();
+        Tile t1 = new Tile(new int[]{0,3,1,6,2,5,4,7});
+        set.add(t1);
+        p.receiveTile(t1);
+        Tile t2 = new Tile(new int[]{0,4,1,5,2,7,3,6});
+        set.add(t2);
+        p.receiveTile(t2);
+//        Tile t3 = new Tile(new int[]{0,5,1,4,2,6,3,7});
+//        set.add(t3);
+        assertTrue(board.tileKillsPlayer(p, t1));
+        Tile actual = m.playTurn(board,set,9);
+        assertTrue(actual.sameTile(t2));
+
+    }
 }

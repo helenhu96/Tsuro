@@ -72,7 +72,7 @@ public class Administrator {
         PlayerPosition pos = s.getIplayer().placePawn(board);
         while (!board.isBorder(pos) || board.positionHasPlayer(pos)) {
             //player cheated
-            System.out.println(s.getColor() + " cheated.");
+            System.err.println(s.getColor() + " cheated- not initialized at appropriate place.");
             List<String> colorlist = new ArrayList<>();
             for (SPlayer sp: activePlayers) {
                 colorlist.add(sp.getColor());
@@ -108,8 +108,8 @@ public class Administrator {
             } else {
                 Tile t = currPlayer.getIplayer().playTurn(board, currPlayer.getHandTiles(), drawPile.size());
                 //handle illegal play
-                while (!this.legalPlay(currPlayer, board, t)) {
-                    System.out.println(currPlayer.getColor() + "cheated");
+                if (!this.legalPlay(currPlayer, board, t)) {
+                    System.err.println(currPlayer.getColor() + " cheated, not legal play");
                     currPlayer.dealWithCheater(Arrays.asList(COLORS));
                     ((RandPlayer) currPlayer.getIplayer()).setState(PlayerState.PLAYING);
                     t = currPlayer.getIplayer().playTurn(board, currPlayer.getHandTiles(), drawPile.size());
@@ -130,7 +130,6 @@ public class Administrator {
             s.getIplayer().endGame(board, winningColors);
         }
         for (SPlayer s : deadPlayers) {
-            System.out.println(s.getColor());
             s.getIplayer().endGame(board, winningColors);
         }
 
@@ -166,7 +165,11 @@ public class Administrator {
 
         //if tile won't lead player to elimination, return true
         if (!board.tileLegal(player, tile)) {
-            System.err.println("leads to elimination!");
+            System.out.println(player.getColor());
+            System.err.println("move not legal!");
+            System.out.println(Encoder.encodeBoard(board));
+            System.out.println("tile is ");
+            System.out.println(Encoder.encodeTile(tile));
             return false;
         }
         return true;

@@ -231,60 +231,61 @@ public class AdministratorTest {
 
     }
 
-//    @Test  //player who has the dragon tile dies, dragon tile gets passed on to the next rightful successor
-//    public void playATurnDragonDies() throws Exception {
-//        SPlayer player1 = new SPlayer("green");
-//        SPlayer player2 = new SPlayer("red");
-//        SPlayer player3 = new SPlayer("blue");
-//
-//        Board board = new Board();
-//        board.updatePlayerPosition(player1, new PlayerPosition(5, 0, 0));
-//        board.updatePlayerPosition(player2, new PlayerPosition(3, 1, 0));
-//        board.updatePlayerPosition(player3, new PlayerPosition(3, 1, 3));
-//
-//        board.updatePlayerPosition(player1, new PlayerPosition(5, 0, 0));
-//        board.placeTile(new Tile(new int[]{0, 5, 1, 2, 3, 6, 4, 7}), 4, 0);
-//        board.placeTile(new Tile(new int[]{0, 7, 1, 2, 3, 4, 5, 6}), 4, 1);
-//        board.placeTile(new Tile(new int[]{0, 6, 1, 2, 3, 4, 5, 7}), 5, 1);
-//
-//        Tile tile3 = new Tile(new int[]{0, 5, 1, 4, 2, 6, 3, 7});
-//        Tile tile2 = new Tile(new int[]{0, 3, 1, 7, 2, 6, 4, 5});
-//        Tile tile1 = new Tile(new int[]{0, 2, 1, 3, 4, 6, 5, 7});
-//        Tile tile4 = new Tile(new int[]{0, 5, 2, 3, 4, 6, 1, 7});
-//        Tile tile5 = new Tile(new int[]{0, 1, 2, 3, 4, 5, 6, 7});
-//        Tile tile6 = new Tile(new int[]{0, 1, 2, 3, 4, 6, 5, 7});
-//        player1.receiveTile(tile2);
-//        player2.receiveTile(tile1);
-//        player2.receiveTile(tile4);
-//        player3.receiveTile(tile5);
-//        player3.receiveTile(tile6);
-//
-//        List<SPlayer> activePlayers = new ArrayList<>();
-//        activePlayers.add(player1);
-//        activePlayers.add(player2);
-//        activePlayers.add(player3);
-//
-//        List<SPlayer> deadPlayers = new ArrayList<>();
-//        DrawPile drawPile = new DrawPile();
-//
-//        Administrator admin = new Administrator(activePlayers, board, drawPile, deadPlayers);
-//        drawPile.giveDragon();
-//        assertFalse(drawPile.hasDrogon());
-//        assertEquals(admin.getPlayerWithDragonTile(), player1);
-//        List<SPlayer> winners = admin.playATurn(drawPile.tiles, activePlayers, deadPlayers, board, tile3);
-//
-//        assertEquals(0, drawPile.size());
-//        assertEquals(winners.size(), 0);
-//        assertEquals(2, activePlayers.size());
-//        assertEquals(player2, activePlayers.get(0));
-//        assertEquals(player3, activePlayers.get(1));
-//        assertEquals(1, deadPlayers.size());
-//        assertEquals(player1, deadPlayers.get(0));
-//        assertEquals(0, player1.numHandTiles());
-//        assertEquals(3, player2.numHandTiles());
-//        assertEquals(2, player3.numHandTiles());
-//        assertEquals(admin.getPlayerWithDragonTile(), player3);
-//    }
+    @Test  //player who has the dragon tile dies, dragon tile gets passed on to the next rightful successor
+    public void playATurnDragonDies() throws Exception {
+        SPlayer player1 = new SPlayer("green");
+        SPlayer player2 = new SPlayer("red");
+        SPlayer player3 = new SPlayer("blue");
+
+        Board board = new Board();
+        board.updatePlayerPosition(player1, new PlayerPosition(5, 0, 0));
+        board.updatePlayerPosition(player2, new PlayerPosition(3, 1, 0));
+        board.updatePlayerPosition(player3, new PlayerPosition(3, 1, 3));
+
+        board.updatePlayerPosition(player1, new PlayerPosition(5, 0, 0));
+        board.placeTile(new Tile(new int[]{0, 5, 1, 2, 3, 6, 4, 7}), 4, 0);
+        board.placeTile(new Tile(new int[]{0, 7, 1, 2, 3, 4, 5, 6}), 4, 1);
+        board.placeTile(new Tile(new int[]{0, 6, 1, 2, 3, 4, 5, 7}), 5, 1);
+
+        Tile tile3 = new Tile(new int[]{0, 5, 1, 4, 2, 6, 3, 7});
+        Tile tile2 = new Tile(new int[]{0, 3, 1, 7, 2, 6, 4, 5});
+        Tile tile1 = new Tile(new int[]{0, 2, 1, 3, 4, 6, 5, 7});
+        Tile tile4 = new Tile(new int[]{0, 5, 2, 3, 4, 6, 1, 7});
+        Tile tile5 = new Tile(new int[]{0, 1, 2, 3, 4, 5, 6, 7});
+        Tile tile6 = new Tile(new int[]{0, 1, 2, 3, 4, 6, 5, 7});
+        player1.receiveTile(tile2);
+        player2.receiveTile(tile1);
+        player2.receiveTile(tile4);
+        player3.receiveTile(tile5);
+        player3.receiveTile(tile6);
+
+        List<SPlayer> activePlayers = new ArrayList<>();
+        activePlayers.add(player1);
+        activePlayers.add(player2);
+        activePlayers.add(player3);
+
+        List<SPlayer> deadPlayers = new ArrayList<>();
+        DrawPile drawPile = new DrawPile();
+
+        Administrator admin = new Administrator(activePlayers, board, drawPile, deadPlayers);
+        drawPile.giveDragon();
+        assertFalse(drawPile.hasDrogon());
+        player1.getDragon();
+        assertEquals(admin.getPlayerWithDragonTile(), player1);
+        List<SPlayer> winners = admin.playATurn(drawPile.tiles, activePlayers, deadPlayers, board, tile3);
+
+        assertEquals(0, drawPile.size());
+        assertEquals(winners.size(), 0);
+        assertEquals(2, activePlayers.size());
+        assertEquals(player2, activePlayers.get(0));
+        assertEquals(player3, activePlayers.get(1));
+        assertEquals(1, deadPlayers.size());
+        assertEquals(player1, deadPlayers.get(0));
+        assertEquals(0, player1.numHandTiles());
+        assertEquals(3, player2.numHandTiles());
+        assertEquals(2, player3.numHandTiles());
+        assertEquals(admin.getPlayerWithDragonTile(), player3);
+    }
 
 
 
@@ -353,5 +354,7 @@ public class AdministratorTest {
         tile.rotateClockwise();
         assertTrue(tile.isLegalTile());
     }
+
+
 
 }

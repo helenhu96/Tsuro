@@ -30,9 +30,9 @@ public class SPlayer {
     }
 
     public void dealWithCheater(List<String> colors){
-        String name = iplayer.getName() + "replaced";
+        String name = iplayer.getName() + " replaced";
         this.iplayer = new RandPlayer(name);
-        this.iplayer.initialize(color, colors);
+//        this.iplayer.initialize(color, colors);
     }
 
     //returns hand tiles

@@ -182,6 +182,7 @@ public class Board {
             Tile tempHandTile = new Tile(currTile);
             for (int i=0; i<4; i++) {
                 if (!tileKillsPlayer(player, tempHandTile)) {
+                    System.err.println("some rotation does not kill!");
                     return false;
                 }
                 tempHandTile.rotateClockwise();
@@ -197,7 +198,7 @@ public class Board {
      * @param tile
      * @return whether the tile kills the player
      */
-    private boolean tileKillsPlayer(SPlayer player, Tile tile) throws Exception{
+    public boolean tileKillsPlayer(SPlayer player, Tile tile) throws Exception{
         PlayerPosition position = this.getPlayerPosition(player);
         boolean result = false;
         this.placeTile(tile, position.getY(), position.getX());

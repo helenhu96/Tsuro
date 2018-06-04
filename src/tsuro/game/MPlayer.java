@@ -98,6 +98,7 @@ abstract class MPlayer implements IPlayer {
 
 
 
+    //TODO: consider change for loop
     public Set<Tile> chooseLegalRotations(Board board, Set<Tile> hand) throws Exception{
         Set<Tile> legalTiles = new HashSet<>();
         Map<SPlayer, PlayerPosition> SPlayers = board.getPlayerToPosition();
