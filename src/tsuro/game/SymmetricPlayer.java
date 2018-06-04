@@ -20,8 +20,9 @@ public abstract class SymmetricPlayer extends MPlayer{
         this.hand = hand;
         checkState(PlayerState.PLAYING);
         Map<Integer, Set<Tile>> scores = new HashMap<>();
+        PlayerPosition position = board.getPlayerPositionByColor(this.getColor());
         try {
-            legalTiles = chooseLegalRotations(board, hand);
+            legalTiles = chooseLegalRotations(board, hand, position);
         } catch (Exception e) {
             e.printStackTrace();
         }

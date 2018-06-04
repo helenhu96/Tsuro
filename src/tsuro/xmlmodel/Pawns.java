@@ -13,11 +13,10 @@ public class Pawns {
     public Pawns() {}
     public Pawns(Board board) {
         setPawnEntry(new ArrayList<>());
-        Map<SPlayer, PlayerPosition> map = board.getPlayerToPosition();
-        for (SPlayer player:map.keySet()) {
-            PlayerPosition position = map.get(player);
+        Map<String, PlayerPosition> map = board.getColorToPosition();
+        for (String color:map.keySet()) {
+            PlayerPosition position = map.get(color);
             PawnLocation pawnLoc = new PawnLocation(position);
-            String color = player.getColor();
             PawnEntry entry = new PawnEntry(color, pawnLoc);
             addEntry(entry);
         }

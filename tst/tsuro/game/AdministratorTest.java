@@ -155,8 +155,8 @@ public class AdministratorTest {
         assertEquals(0, deadPlayers.size());
 
         assertEquals(0, drawPile.size());
-        assertEquals(board.getPlayerByPosition(new PlayerPosition(3, 1, 1)), player1);
-        assertEquals(board.getPlayerByPosition(new PlayerPosition(1, 2, 6)), player2);
+        assertEquals(board.getPlayerByPosition(new PlayerPosition(3, 1, 1)), "green");
+        assertEquals(board.getPlayerByPosition(new PlayerPosition(1, 2, 6)), "red");
         assertEquals(board.getTile(1,1), tile1);
         assertEquals(board.getNumTiles(), 3);
         assertEquals(drawPile.size(), 0);
@@ -196,9 +196,9 @@ public class AdministratorTest {
         assertEquals(3, deadPlayers.size());
 
         assertEquals(0, drawPile.size());
-        assertEquals(board.getPlayerByPosition(new PlayerPosition(0, 0, 7)), player1);
-        assertEquals(board.getPlayerByPosition(new PlayerPosition(0, 0, 6)), player2);
-        assertEquals(board.getPlayerByPosition(new PlayerPosition(0, 0, 1)), player3);
+        assertEquals(board.getPlayerByPosition(new PlayerPosition(0, 0, 7)), "green");
+        assertEquals(board.getPlayerByPosition(new PlayerPosition(0, 0, 6)), "red");
+        assertEquals(board.getPlayerByPosition(new PlayerPosition(0, 0, 1)), "blue");
 
     }
 //

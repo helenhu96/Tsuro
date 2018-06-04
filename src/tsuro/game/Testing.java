@@ -22,38 +22,32 @@ public  class Testing {
 //        String e = "<tile><connect><n>0</n><n>4</n></connect><connect><n>1</n><n>7</n></connect><connect><n>2</n><n>6</n></connect><connect><n>3</n><n>5</n></connect></tile>";
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         while (true) {
-
             // Drawpile
             String s = bf.readLine();
             if (s == null) {
                 return;
             }
             Document doc = Decoder.getDocument(s);
-//            Document doc  = Decoder.getDocument(a);
             Node tilesNode = doc.getElementsByTagName("list").item(0);
             List<Tile> tiles =  Decoder.decode_listofTiles(tilesNode);
 
             // winners
             doc = Decoder.getDocument(bf.readLine());
-//            doc = Decoder.getDocument(b);
             Node activePlayersNode = doc.getElementsByTagName("list").item(0);
             List<SPlayer> activePlayers =  Decoder.decode_listofSPlayer(activePlayersNode);
 
             // losers
             doc = Decoder.getDocument(bf.readLine());
-//            doc = Decoder.getDocument(c);
             Node outNode = doc.getElementsByTagName("list").item(0);
             List<SPlayer> outPlayers =  Decoder.decode_listofSPlayer(outNode);
 
             // board
             doc = Decoder.getDocument(bf.readLine());
-//            doc = Decoder.getDocument(d);
             Node boardNode = doc.getElementsByTagName("board").item(0);
             Board board =  Decoder.decode_board(boardNode);
 
 
             //tile
-//          doc = Decoder.getDocument(bf.readLine());
             Tile tile =  Decoder.decodeTile(bf.readLine());
 
 

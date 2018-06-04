@@ -1,7 +1,5 @@
 package tsuro.game;
 
-import com.google.common.base.Preconditions;
-
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -99,22 +97,22 @@ abstract class MPlayer implements IPlayer {
 
 
     //TODO: consider change for loop
-    public Set<Tile> chooseLegalRotations(Board board, Set<Tile> hand) throws Exception{
+    public Set<Tile> chooseLegalRotations(Board board, Set<Tile> hand, PlayerPosition position) throws Exception{
         Set<Tile> legalTiles = new HashSet<>();
-        Map<SPlayer, PlayerPosition> SPlayers = board.getPlayerToPosition();
-        SPlayer mysplayer = null;
-        for (SPlayer splayer: SPlayers.keySet()) {
-            if (getColor().equals(splayer.getColor())) {
-                mysplayer = splayer;
-            }
-        }
-        if (mysplayer == null) {
-            throw new Exception("can't find corresponding splayer!");
-        }
+        Map<String, PlayerPosition> SPlayers = board.getColorToPosition();
+//        SPlayer mysplayer = null;
+//        for (String color: SPlayers.keySet()) {
+//            if (getColor().equals(color)) {
+//                mysplayer = splayer;
+//            }
+//        }
+//        if (mysplayer == null) {
+//            throw new Exception("can't find corresponding splayer!");
+//        }
         for (Tile tile: hand) {
             Tile copied = new Tile(tile);
             for (int i = 0; i < 4; i++) {
-                if (board.tileLegal(mysplayer, copied)) {
+                if (board.tileLegal(new PlayerPosition(position), copied, hand)) {
                     legalTiles.add(new Tile(copied));
                 }
                 copied.rotateClockwise();

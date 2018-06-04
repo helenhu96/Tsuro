@@ -162,9 +162,9 @@ public class Decoder {
     }
 
     // the argument is a node with <map> tag
-    public static Map<SPlayer, PlayerPosition> decode_pawns(Node node, Board board) throws IllegalArgumentException {
+    public static Map<String, PlayerPosition> decode_pawns(Node node, Board board) throws IllegalArgumentException {
         if (node.getNodeType() == Node.ELEMENT_NODE){
-            Map<SPlayer, PlayerPosition> return_map = new HashMap<>();
+            Map<String, PlayerPosition> return_map = new HashMap<>();
 
             NodeList children = node.getChildNodes();
 
@@ -175,7 +175,7 @@ public class Decoder {
 
                 String color = color_node.getTextContent();
                 PlayerPosition pp = decodePawnLoc(pawnLoc, board);
-                return_map.put(new SPlayer(color), pp);
+                return_map.put(color, pp);
             }
 
             return return_map;
@@ -191,9 +191,9 @@ public class Decoder {
 
         Board new_board = decode_tiles(children.item(0));
 
-        Map<SPlayer, PlayerPosition> map = decode_pawns(children.item(1), new_board);
+        Map<String, PlayerPosition> map = decode_pawns(children.item(1), new_board);
 
-        new_board.playerToPosition = map;
+        new_board.colorToPosition = map;
 
         return new_board;
 

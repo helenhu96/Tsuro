@@ -104,11 +104,10 @@ public class Administrator {
             //no tile in hand
             if (currPlayer.numHandTiles() == 0 && currPlayer.doIHaveDragon()) {
                 reorderPlayers(activePlayers, currPlayer);
-
             } else {
                 Tile t = currPlayer.getIplayer().playTurn(board, currPlayer.getHandTiles(), drawPile.size());
                 //handle illegal play
-                if (!this.legalPlay(currPlayer, board, t)) {
+                 if (!this.legalPlay(currPlayer, board, t)) {
                     System.err.println(currPlayer.getColor() + " cheated, not legal play");
                     currPlayer.dealWithCheater(Arrays.asList(COLORS));
                     ((RandPlayer) currPlayer.getIplayer()).setState(PlayerState.PLAYING);
@@ -164,7 +163,9 @@ public class Administrator {
         }
 
         //if tile won't lead player to elimination, return true
-        if (!board.tileLegal(player, tile)) {
+        PlayerPosition position = board.getPlayerPosition(player);
+        Set<Tile> hand = player.getHandTiles();
+        if (!board.tileLegal(position, tile, hand)) {
             System.out.println(player.getColor());
             System.err.println("move not legal!");
             System.out.println(Encoder.encodeBoard(board));
@@ -191,7 +192,8 @@ public class Administrator {
     }
 
     private void moveSPlayer(SPlayer splayer, List<SPlayer> playersDiedThisTurn) throws Exception{
-        PlayerPosition finalPosition = board.moveAlongPath(splayer);
+        PlayerPosition position = board.getPlayerPosition(splayer);
+        PlayerPosition finalPosition = board.moveAlongPath(position);
 
         this.setPlayerPosition(splayer, finalPosition);
         int y = finalPosition.getY();
