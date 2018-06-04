@@ -48,9 +48,9 @@ public class PawnLocation {
 
     // for the decoder
     public PlayerPosition backtoPlayerPosition(Board board){
-        int y = 0;
-        int x = 0;
-        int spot = 0;
+        int y = -1;
+        int x = -1;
+        int spot = -1;
         if (h != null) {
             if (a == 0) {
                 y = 0;

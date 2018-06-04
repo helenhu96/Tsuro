@@ -62,16 +62,18 @@ public class MostSymmetricPlayerTest {
         colors.add("green");
         m.initialize("green", colors);
         m.setState(PlayerState.PLAYING);
-        board.updatePlayerPosition(p, new PlayerPosition(4,1,2));
+        board.updatePlayerPosition(p, new PlayerPosition(4,1,3));
         board.placeTile(new Tile(new int[]{0,3,1,6,2,5,4,7}), 4, 0);
         board.placeTile(new Tile(new int[]{0,6,1,2,3,4,5,7}), 5, 0);
         Set<Tile> set = new HashSet<>();
-        set.add(new Tile(new int[]{0,3,1,2,4,7,5,6}));
-        set.add(new Tile(new int[]{0,5,1,4,2,7,3,6}));
-        set.add(new Tile(new int[]{0,5,1,6,2,7,3,4}));
+        Tile t1 = new Tile(new int[]{0,3,1,2,4,7,5,6});
+        Tile t2 = new Tile(new int[]{0,5,1,4,2,7,3,6});
+        Tile t3 = new Tile(new int[]{0,5,1,6,2,7,3,4});
+        set.add(t1);
+        set.add(t2);
+        set.add(t3);
         Tile actual = m.playTurn(board,set,9);
-        Tile expected = new Tile(new int[]{0,5,1,4,2,7,3,6});
-        assertTrue(expected.sameTile(actual));
+        assertTrue(t2.sameTile(actual));
     }
 
     @Test
@@ -118,6 +120,33 @@ public class MostSymmetricPlayerTest {
         Tile actual = m.playTurn(board,set,9);
 
         assertTrue(actual.sameTile(t3) || actual.sameTile(t1));
+
+    }
+
+    @Test
+    public void playerEliminatesItself() throws Exception{
+        Board board = new Board();
+        SPlayer p = new SPlayer("green");
+        MPlayer m = new MostSymmetricPlayer("G");
+        List<String> colors = new ArrayList<>();
+        colors.add("green");
+        m.initialize("green", colors);
+        m.setState(PlayerState.PLAYING);
+        board.updatePlayerPosition(p, new PlayerPosition(5, 5, 2));
+
+        Set<Tile> set = new HashSet<>();
+        Tile t1 = new Tile(new int[]{0,3,1,6,2,5,4,7});
+        set.add(t1);
+        p.receiveTile(t1);
+        Tile t2 = new Tile(new int[]{0,4,1,5,2,7,3,6});
+        set.add(t2);
+        p.receiveTile(t2);
+//        Tile t3 = new Tile(new int[]{0,5,1,4,2,6,3,7});
+//        set.add(t3);
+        PlayerPosition position = board.getPlayerPosition(p);
+        assertTrue(board.tileKillsPlayer(position, t1));
+        Tile actual = m.playTurn(board,set,9);
+        assertTrue(actual.sameTile(t2));
 
     }
 }

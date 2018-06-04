@@ -44,25 +44,36 @@ public class NetworkTest {
         // client side
         IPlayer iPlayer1 = new MostSymmetricPlayer("a");
         IPlayer iPlayer2 = new LeastSymmetricPlayer("b");
+        IPlayer iPlayer3 = new RandPlayer("c");
+        IPlayer iPlayer4 = new RandPlayer("d");
         ClientPlayer c1 = new ClientPlayer(iPlayer1);
         ClientPlayer c2 = new ClientPlayer(iPlayer2);
+        ClientPlayer c3 = new ClientPlayer(iPlayer4);
         ClientThread clientThread1 = new ClientThread(c1);
         ClientThread clientThread2 = new ClientThread(c2);
-
+        ClientThread clientThread3= new ClientThread(c3);
         // server side
         ServerPlayer s1 = new ServerPlayer(admin);
         ServerPlayer s2 = new ServerPlayer(admin);
+        ServerPlayer s3 = new ServerPlayer(admin);
         ServerThread serverThread1 = new ServerThread(s1);
         ServerThread serverThread2 = new ServerThread(s2);
+        ServerThread serverThread3 = new ServerThread(s3);
 
         serverThread1.start();
         clientThread1.start();
         Thread.sleep(1000);
         serverThread2.start();
         clientThread2.start();
+        Thread.sleep(1000);
+        serverThread3.start();
+        clientThread3.start();
 
         admin.registerPlayer(s1);
         admin.registerPlayer(s2);
+        admin.registerPlayer(iPlayer3);
+        admin.registerPlayer(s3);
+
         admin.initPlayers();
         System.out.println(admin.play());
 

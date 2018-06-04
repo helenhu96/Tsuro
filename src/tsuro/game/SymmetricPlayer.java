@@ -20,10 +20,11 @@ public abstract class SymmetricPlayer extends MPlayer{
         this.hand = hand;
         checkState(PlayerState.PLAYING);
         Map<Integer, Set<Tile>> scores = new HashMap<>();
+        PlayerPosition position = board.getPlayerPositionByColor(this.getColor());
         try {
-            legalTiles = chooseLegalRotations(board, hand);
+            legalTiles = chooseLegalRotations(board, hand, position);
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            e.printStackTrace();
         }
 
         for (Tile t: legalTiles){
@@ -37,7 +38,7 @@ public abstract class SymmetricPlayer extends MPlayer{
         try {
             tile = chooseSymmetricTile(scores);
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            e.printStackTrace();
         }
         return tile;
     }

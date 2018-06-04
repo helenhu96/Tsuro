@@ -12,14 +12,14 @@ public class Board {
     private static int boardsize = 6;
 
     // TODO: refactor to delete redundant field
-    public Map<SPlayer, PlayerPosition> playerToPosition;
+    public Map<String, PlayerPosition> colorToPosition;
 
     private List<Tile> tilesOnBoard;
 
 
     public Board() {
         this.tiles = new Tile[boardsize][boardsize];
-        this.playerToPosition = new HashMap<>();
+        this.colorToPosition = new HashMap<>();
         this.numTiles = 0;
         this.tilesOnBoard = new ArrayList<>();
     }
@@ -43,8 +43,8 @@ public class Board {
 
 
 
-    public Map<SPlayer, PlayerPosition> getPlayerToPosition() {
-        return this.playerToPosition;
+    public Map<String, PlayerPosition> getColorToPosition() {
+        return this.colorToPosition;
     }
 
 
@@ -63,17 +63,15 @@ public class Board {
         return numTiles;
     }
 
-    //updates token's next position
+    //TODO: consider pass in play OR color
     public void updatePlayerPosition(SPlayer player, PlayerPosition newPos) {
-        playerToPosition.replace(player, new PlayerPosition(newPos));
+        colorToPosition.put(player.getColor(), new PlayerPosition(newPos));
     }
 
     //returns the set of colors of the players in this game
     public Set<String> getPlayerColors(){
         Set<String> colors = new HashSet<>();
-        for (SPlayer p: playerToPosition.keySet()){
-            colors.add(p.getColor());
-        }
+        colors.addAll(this.colorToPosition.keySet());
         return colors;
     }
 
@@ -81,9 +79,9 @@ public class Board {
     public PlayerPosition getPlayerPosition(SPlayer player) {
         PlayerPosition pp = null;
         try {
-            for (SPlayer sp : this.playerToPosition.keySet()) {
-                if (sp.getColor().equals(player.getColor())) {
-                    pp = new PlayerPosition(playerToPosition.get(sp));
+            for (String color : this.colorToPosition.keySet()) {
+                if (color.equals(player.getColor())) {
+                    pp = new PlayerPosition(colorToPosition.get(color));
                 }
             }
         } catch (Exception e) {
@@ -94,9 +92,9 @@ public class Board {
 
     //returns copy of token's position
     public PlayerPosition getPlayerPositionByColor(String color) {
-        for (Map.Entry<SPlayer, PlayerPosition> entry : playerToPosition.entrySet()) {
-            if (entry.getKey().getColor().equals(color))
-                return new PlayerPosition(entry.getValue());
+        for (String c: this.colorToPosition.keySet()) {
+            if (c.equals(color))
+                return new PlayerPosition(colorToPosition.get(c));
         }
         throw new IllegalArgumentException("No such player");
     }
@@ -152,16 +150,16 @@ public class Board {
 
     //checks if an existing position has a player already
     public boolean positionHasPlayer(PlayerPosition position) {
-        for (PlayerPosition p: playerToPosition.values()) {
+        for (PlayerPosition p: colorToPosition.values()) {
             if (p.equals(position)) return true;
         }
         return false;
     }
 
-    public SPlayer getPlayerByPosition(PlayerPosition position) throws Exception{
-        for (SPlayer splayer: playerToPosition.keySet()) {
-            if (position.equals(playerToPosition.get(splayer))) {
-                return splayer;
+    public String getPlayerByPosition(PlayerPosition position) throws Exception{
+        for (String c: colorToPosition.keySet()) {
+            if (position.equals(colorToPosition.get(c))) {
+                return c;
             }
         }
         throw new Exception("no player here!");
@@ -169,19 +167,20 @@ public class Board {
 
     /**
      *
-     * @param player
+     * @param position
      * @param tile
      * @return whether the tile is a legal move, rotation specific
      */
-    public boolean tileLegal(SPlayer player, Tile tile) throws Exception{
-        if (!tileKillsPlayer(player, tile)) {
+    public boolean tileLegal(PlayerPosition position, Tile tile, Set<Tile> hand) throws Exception{
+        if (!tileKillsPlayer(position, tile)) {
             return true;
         }
         // if the tile kills the player
-        for (Tile currTile: player.getHandTiles()) {
+        for (Tile currTile: hand) {
             Tile tempHandTile = new Tile(currTile);
             for (int i=0; i<4; i++) {
-                if (!tileKillsPlayer(player, tempHandTile)) {
+                if (!tileKillsPlayer(position, tempHandTile)) {
+//                    System.err.println("some rotation does not kill!");
                     return false;
                 }
                 tempHandTile.rotateClockwise();
@@ -193,23 +192,22 @@ public class Board {
 
     /**
      *
-     * @param player
+     * @param p
      * @param tile
      * @return whether the tile kills the player
      */
-    private boolean tileKillsPlayer(SPlayer player, Tile tile) throws Exception{
-        PlayerPosition position = this.getPlayerPosition(player);
+    public boolean tileKillsPlayer(PlayerPosition p, Tile tile) throws Exception{
         boolean result = false;
+        PlayerPosition position = new PlayerPosition(p);
         this.placeTile(tile, position.getY(), position.getX());
-        if (this.isBorder(moveAlongPath(player))) {
+        if (this.isBorder(moveAlongPath(position))) {
             result = true;
         }
         this.removeTile(position.getY(), position.getX());
         return result;
     }
 
-    public PlayerPosition moveAlongPath(SPlayer splayer) throws Exception{
-        PlayerPosition position = this.getPlayerPosition(splayer);
+    public PlayerPosition moveAlongPath(PlayerPosition position) throws Exception{
         Tile currTile = this.getTile(position.getY(), position.getX());
         while (currTile != null){
             int nextSpot = currTile.getConnected(position.getSpot());

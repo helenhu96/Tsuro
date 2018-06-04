@@ -21,7 +21,7 @@ public class ClientPlayer {
 
     public ClientPlayer(IPlayer p) throws IOException {
         this.iplayer = p;
-        this.PORT = 3000;
+        this.PORT = 12345;
     }
 
     public void connect() throws Exception {
@@ -32,6 +32,7 @@ public class ClientPlayer {
 
 
     public void sendXml(String docString) {
+        System.out.println("send message to server: " + docString);
         toServer.println(docString);
     }
 

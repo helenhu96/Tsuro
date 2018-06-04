@@ -41,7 +41,7 @@ public class AdministratorTest {
         List<SPlayer> deadPlayers = new ArrayList<>();
         DrawPile drawPile = new DrawPile();
 
-        Administrator admin = new Administrator(activePlayers, board, drawPile, deadPlayers, null);
+        Administrator admin = new Administrator(activePlayers, board, drawPile, deadPlayers);
         assertTrue(tile.isLegalTile());
         assertTrue(admin.legalPlay(player1, board, tile));
     }
@@ -61,7 +61,7 @@ public class AdministratorTest {
         List<SPlayer> deadPlayers = new ArrayList<>();
         DrawPile drawPile = new DrawPile();
         //drawPile.initialize();
-        Administrator admin = new Administrator(activePlayers, board, drawPile, deadPlayers, null);
+        Administrator admin = new Administrator(activePlayers, board, drawPile, deadPlayers);
         assertFalse(admin.legalPlay(player1, board, tile));
 
 
@@ -82,7 +82,7 @@ public class AdministratorTest {
         List<SPlayer> deadPlayers = new ArrayList<>();
         DrawPile drawPile = new DrawPile();
         //drawPile.initialize();
-        Administrator admin = new Administrator(activePlayers, board, drawPile, deadPlayers, null);
+        Administrator admin = new Administrator(activePlayers, board, drawPile, deadPlayers);
         assertTrue(admin.legalPlay(player1, board, tile));
         assertTrue(admin.legalPlay(player1, board, tile1));
 
@@ -109,7 +109,7 @@ public class AdministratorTest {
         List<SPlayer> deadPlayers = new ArrayList<>();
         DrawPile drawPile = new DrawPile();
         System.out.println(drawPile.size());
-        Administrator admin = new Administrator(activePlayers, board, drawPile, deadPlayers, null);
+        Administrator admin = new Administrator(activePlayers, board, drawPile, deadPlayers);
 
         List<SPlayer> winners = admin.playATurnHelp(drawPile, activePlayers, deadPlayers, board, tile1);
 
@@ -145,7 +145,7 @@ public class AdministratorTest {
         activePlayers.add(player2);
         List<SPlayer> deadPlayers = new ArrayList<>();
         DrawPile drawPile = new DrawPile();
-        Administrator admin = new Administrator(activePlayers, board, drawPile, deadPlayers, null);
+        Administrator admin = new Administrator(activePlayers, board, drawPile, deadPlayers);
         List<SPlayer> winners = admin.playATurnHelp(drawPile, activePlayers, deadPlayers, board, tile1);
 
         assertTrue(winners.isEmpty());
@@ -155,8 +155,8 @@ public class AdministratorTest {
         assertEquals(0, deadPlayers.size());
 
         assertEquals(0, drawPile.size());
-        assertEquals(board.getPlayerByPosition(new PlayerPosition(3, 1, 1)), player1);
-        assertEquals(board.getPlayerByPosition(new PlayerPosition(1, 2, 6)), player2);
+        assertEquals(board.getPlayerByPosition(new PlayerPosition(3, 1, 1)), "green");
+        assertEquals(board.getPlayerByPosition(new PlayerPosition(1, 2, 6)), "red");
         assertEquals(board.getTile(1,1), tile1);
         assertEquals(board.getNumTiles(), 3);
         assertEquals(drawPile.size(), 0);
@@ -188,7 +188,7 @@ public class AdministratorTest {
         activePlayers.add(player3);
         List<SPlayer> deadPlayers = new ArrayList<>();
         DrawPile drawPile = new DrawPile();
-        Administrator admin = new Administrator(activePlayers, board, drawPile, deadPlayers, null);
+        Administrator admin = new Administrator(activePlayers, board, drawPile, deadPlayers);
         List<SPlayer> winners = admin.playATurnHelp(drawPile, activePlayers, deadPlayers, board, tile2);
 
         assertEquals(winners.size(), 3);
@@ -196,9 +196,9 @@ public class AdministratorTest {
         assertEquals(3, deadPlayers.size());
 
         assertEquals(0, drawPile.size());
-        assertEquals(board.getPlayerByPosition(new PlayerPosition(0, 0, 7)), player1);
-        assertEquals(board.getPlayerByPosition(new PlayerPosition(0, 0, 6)), player2);
-        assertEquals(board.getPlayerByPosition(new PlayerPosition(0, 0, 1)), player3);
+        assertEquals(board.getPlayerByPosition(new PlayerPosition(0, 0, 7)), "green");
+        assertEquals(board.getPlayerByPosition(new PlayerPosition(0, 0, 6)), "red");
+        assertEquals(board.getPlayerByPosition(new PlayerPosition(0, 0, 1)), "blue");
 
     }
 //
@@ -218,7 +218,7 @@ public class AdministratorTest {
         DrawPile drawPile = new DrawPile();
         drawPile.initialize();
 
-        Administrator admin = new Administrator(activePlayers, board, drawPile, deadPlayers, null);
+        Administrator admin = new Administrator(activePlayers, board, drawPile, deadPlayers);
         List<SPlayer> winners = admin.playATurnHelp(drawPile, activePlayers, deadPlayers, board, tile);
         assertEquals(29, drawPile.size());
         assertEquals(0, winners.size());
@@ -267,9 +267,10 @@ public class AdministratorTest {
         List<SPlayer> deadPlayers = new ArrayList<>();
         DrawPile drawPile = new DrawPile();
 
-        Administrator admin = new Administrator(activePlayers, board, drawPile, deadPlayers, player1);
+        Administrator admin = new Administrator(activePlayers, board, drawPile, deadPlayers);
         drawPile.giveDragon();
         assertFalse(drawPile.hasDrogon());
+        player1.getDragon();
         assertEquals(admin.getPlayerWithDragonTile(), player1);
         List<SPlayer> winners = admin.playATurn(drawPile.tiles, activePlayers, deadPlayers, board, tile3);
 
@@ -307,16 +308,16 @@ public class AdministratorTest {
         player1.receiveTile(drawPile.drawATile());
         player2.receiveTile(drawPile.drawATile());
         player2.receiveTile(drawPile.drawATile());
-        Administrator admin = new Administrator(activePlayers, board, drawPile, deadPlayers, player2);
-        drawPile.giveDragon();
-        assertEquals(admin.getPlayerWithDragonTile(), player2);
-        assertFalse(drawPile.hasDrogon());
+        Administrator admin = new Administrator(activePlayers, board, drawPile, deadPlayers);
+//        drawPile.giveDragon();
+//        assertEquals(admin.getPlayerWithDragonTile(), player2);
+//        assertFalse(drawPile.hasDrogon());
 
         List<SPlayer> winners = admin.playATurnHelp(drawPile, activePlayers, deadPlayers, board, tile1);
         assertEquals(1, winners.size());
         assertEquals(player1, winners.get(0));
 
-        assertEquals(admin.getPlayerWithDragonTile(), player1);
+//        assertEquals(admin.getPlayerWithDragonTile(), player1);
         assertEquals(1, activePlayers.size());
         assertEquals(player1, activePlayers.get(0));
         assertEquals(1, deadPlayers.size());
@@ -353,5 +354,7 @@ public class AdministratorTest {
         tile.rotateClockwise();
         assertTrue(tile.isLegalTile());
     }
+
+
 
 }

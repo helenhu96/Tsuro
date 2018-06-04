@@ -3,7 +3,6 @@ import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import tsuro.game.*;
-import tsuro.xmlmodel.*;
 
 import java.util.*;
 
@@ -84,9 +83,9 @@ public class ConvertedTileTest {
         SPlayer player1 = new SPlayer("red");
         SPlayer player2 = new SPlayer("blue");
         PlayerPosition position = new PlayerPosition(0,0,1);
-        board.playerToPosition.put(player1, position);
+        board.colorToPosition.put("red", position);
         PlayerPosition position1 = new PlayerPosition(0,5,2);
-        board.playerToPosition.put(player2, position1);
+        board.colorToPosition.put("blue", position1);
         PawnEntry entry = new PawnEntry("red", new PawnLocation(position));
         PawnEntry entry1 = new PawnEntry("blue", new PawnLocation(position1));
         Pawns pawns = new Pawns(board);
@@ -155,7 +154,7 @@ public class ConvertedTileTest {
         sp1.receiveTile(tile1);
         sp1.getDragon();
         List<SPlayer> list = new ArrayList<>();
-        assertEquals(Encoder.encodeMaybeListofSPlayers(list), "<false> </false>");
+        assertEquals(Encoder.encodeMaybeListofSPlayers(list), "<false></false>");
         list.add(sp);
         list.add(sp1);
         assertTrue(Encoder.encodeMaybeListofSPlayers(list).equals("<list><splayer-nodragon><color>red</color><set><tile><connect><n>0</n><n>7</n></connect><connect><n>1</n><n>2</n></connect><connect><n>3</n><n>4</n></connect><connect><n>5</n><n>6</n></connect></tile></set></splayer-nodragon><splayer-dragon><color>blue</color><set><tile><connect><n>0</n><n>1</n></connect><connect><n>2</n><n>3</n></connect><connect><n>4</n><n>5</n></connect><connect><n>6</n><n>7</n></connect></tile></set></splayer-dragon></list>"));

@@ -21,7 +21,7 @@ public class ServerPlayer implements IPlayer {
     Administrator admin;
     public ServerPlayer(Administrator admin) throws IOException{
         this.admin = admin;
-        this.PORT = 3000;
+        this.PORT = 12345;
         this.state = PlayerState.UNINITIALIZED;
     }
 
@@ -54,6 +54,7 @@ public class ServerPlayer implements IPlayer {
         toClient.println(s);
         String msg = fromClient.readLine();
         System.out.println("receive message from client: " + msg);
+        System.out.println();
         return msg;
     }
 

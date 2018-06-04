@@ -124,7 +124,7 @@ public class Encoder {
 //    }
 
     public static String encodeVoid() {
-        return "<void> </void>";
+        return "<void></void>";
     }
 
     public static String encodeMaybeListofSPlayers(List<SPlayer> splayers) throws Exception{

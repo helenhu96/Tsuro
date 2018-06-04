@@ -56,13 +56,14 @@ public class BoardTest {
     public void test_legal_play_1() throws Exception{
         SPlayer player1 = new SPlayer("green");
         Board board = new Board();
-        board.updatePlayerPosition(player1, new PlayerPosition(0,0, 7));
+        PlayerPosition position = new PlayerPosition(0,0, 7);
+        board.updatePlayerPosition(player1, position);
         Tile tile1 = new Tile(new int[]{0, 7, 1, 2, 3, 4, 5, 6});
         Tile tile2 = new Tile(new int[]{0, 5, 1, 4, 2, 7, 3, 6});
         player1.receiveTile(tile1);
         player1.receiveTile(tile2);
         Administrator admin = new Administrator();
-        assertFalse(board.tileLegal(player1, tile1));
+        assertFalse(board.tileLegal(position, tile1, player1.getHandTiles()));
         assertFalse(admin.legalPlay(player1, board, tile1));
     }
 
@@ -71,11 +72,13 @@ public class BoardTest {
     public void test_legal_play_2() throws Exception{
         SPlayer player1 = new SPlayer("green");
         Board board = new Board();
-        board.updatePlayerPosition(player1, new PlayerPosition(0,0, 7));
+        PlayerPosition position = new PlayerPosition(0,0, 7);
+        board.updatePlayerPosition(player1, position);
         Tile tile1 = new Tile(new int[]{0, 7, 1, 2, 3, 4, 5, 6});
         player1.receiveTile(tile1);
         Administrator admin = new Administrator();
-        assertTrue(board.tileLegal(player1, tile1));
+
+        assertTrue(board.tileLegal(position, tile1, player1.getHandTiles()));
         assertTrue(admin.legalPlay(player1, board, tile1));
     }
 

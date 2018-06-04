@@ -17,8 +17,9 @@ class RandPlayer extends MPlayer {
             throw new IllegalArgumentException("can't hand more than three cards in hand!");
         }
         Set<Tile> possibleMoves = new HashSet<>();
+        PlayerPosition position = board.getPlayerPositionByColor(this.getColor());
         try {
-            possibleMoves = chooseLegalRotations(board, hand);
+            possibleMoves = chooseLegalRotations(board, hand, position);
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }

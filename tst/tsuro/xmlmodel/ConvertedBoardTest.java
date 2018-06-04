@@ -4,12 +4,9 @@ import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import tsuro.game.*;
-import tsuro.xmlmodel.PawnEntry;
-import tsuro.xmlmodel.PawnLocation;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static tsuro.game.Decoder.getDocument;
 
 public class ConvertedBoardTest {
     @Test
@@ -24,9 +21,9 @@ public class ConvertedBoardTest {
         SPlayer player1 = new SPlayer("red");
         SPlayer player2 = new SPlayer("blue");
         PlayerPosition position = new PlayerPosition(0,0,1);
-        board.playerToPosition.put(player1, position);
+        board.colorToPosition.put(player1.getColor(), position);
         PlayerPosition position1 = new PlayerPosition(0,5,2);
-        board.playerToPosition.put(player2, position1);
+        board.colorToPosition.put(player2.getColor(), position1);
 //        String s = Encoder.encodeBoard(board);
 //        System.out.println(s);
     }
@@ -42,6 +39,6 @@ public class ConvertedBoardTest {
         Board b = Decoder.decode_board(boardNode);
         Tile tile = new Tile(new int[]{0, 1, 2, 4, 3, 6, 5, 7});
         assertEquals(tile, b.getTile(0, 0));
-        assertEquals(b.getPlayerByPosition(new PlayerPosition(0,1,6)).getColor(), "red");
+        assertEquals(b.getPlayerByPosition(new PlayerPosition(0,1,6)), "red");
     }
 }
