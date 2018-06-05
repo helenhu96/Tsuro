@@ -95,13 +95,7 @@ public class NetworkTest {
     public void startNetworkTest() throws Exception{
         Administrator admin = initNetworkPlayers();
         admin.initPlayers();
-        System.out.println(admin.play());
+//        System.out.println(admin.play());
 
-//
-//        Administrator admin1 = new Administrator();
-//        admin1.registerPlayer(iPlayer1);
-//        admin1.registerPlayer(iPlayer2);
-//        admin1.initPlayers();
-//        System.out.println(admin1.play());
     }
 }
