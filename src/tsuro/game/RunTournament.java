@@ -8,10 +8,16 @@ public class RunTournament {
         ClientThread clientThread1 = new ClientThread(c1);
         clientThread1.start();
         Thread.sleep(1000);
-        IPlayer iPlayer2 = new MostSymmetricPlayer("b");
+        IPlayer iPlayer2 = new LeastSymmetricPlayer("b");
         ClientPlayer c2 = new ClientPlayer(iPlayer2);
         ClientThread clientThread2 = new ClientThread(c2);
         clientThread2.start();
+        Thread.sleep(1000);
+        IPlayer iPlayer3 = new RandPlayer("c");
+        ClientPlayer c3 = new ClientPlayer(iPlayer3);
+        ClientThread clientThread3 = new ClientThread(c3);
+        clientThread3.start();
+
     }
 }
 

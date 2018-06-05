@@ -141,8 +141,6 @@ public class MostSymmetricPlayerTest {
         Tile t2 = new Tile(new int[]{0,4,1,5,2,7,3,6});
         set.add(t2);
         p.receiveTile(t2);
-//        Tile t3 = new Tile(new int[]{0,5,1,4,2,6,3,7});
-//        set.add(t3);
         PlayerPosition position = board.getPlayerPosition(p);
         assertTrue(board.tileKillsPlayer(position, t1));
         Tile actual = m.playTurn(board,set,9);

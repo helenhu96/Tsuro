@@ -23,6 +23,7 @@ public class PawnTest {
 
     }
 
+    //todo:finish this
     @Test
     public void testPawnPtoPlayerP(){
         Tile t = new Tile();
@@ -30,6 +31,6 @@ public class PawnTest {
         b.placeTile(t, 5,3);
         PawnLocation pl = new PawnLocation("", null, 5, 7);
         PlayerPosition pp = pl.backtoPlayerPosition(b);
-
+        assertEquals(pp.getX(), 3);
     }
 }

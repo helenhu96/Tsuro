@@ -1,7 +1,5 @@
 package tsuro.game;
 
-import com.google.common.base.Preconditions;
-
 import java.util.Set;
 
 class CrappyPlayer extends MPlayer {
@@ -18,7 +16,7 @@ class CrappyPlayer extends MPlayer {
     }
 
     public Tile playTurn(Board board, Set<Tile> tiles, int numTiles) {
-        Preconditions.checkArgument(this.state == PlayerState.PLAYING, "Expected PLAYING state, got " + this.state);
+        checkState(PlayerState.PLAYING);
         return new Tile(new int[]{0,2,3,1,4,5,6,7});
     }
 

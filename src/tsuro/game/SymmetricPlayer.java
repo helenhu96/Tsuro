@@ -1,7 +1,5 @@
 package tsuro.game;
 
-import com.google.common.base.Preconditions;
-
 import java.util.*;
 
 public abstract class SymmetricPlayer extends MPlayer{
@@ -14,7 +12,6 @@ public abstract class SymmetricPlayer extends MPlayer{
     public Board board;
     public Set<Tile> hand;
 
-    //TODO: check exception handling here!!!
     public Tile playTurn(Board board, Set<Tile> hand, int tilesInDeck) {
         this.board = board;
         this.hand = hand;

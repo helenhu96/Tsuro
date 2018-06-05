@@ -57,8 +57,8 @@ public class Encoder {
         StringWriter sw = new StringWriter();
         JAXBContext jaxbContext = JAXBContext.newInstance(Pawns.class);
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-        jaxbMarshaller.marshal(pawns, sw);
         jaxbMarshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
+        jaxbMarshaller.marshal(pawns, sw);
 //        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         jaxbMarshaller.marshal(pawns, sw);
         String xmlString = sw.toString();

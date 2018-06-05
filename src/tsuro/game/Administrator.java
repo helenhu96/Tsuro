@@ -1,5 +1,4 @@
 package tsuro.game;
-import com.google.common.collect.Lists;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -94,7 +93,6 @@ public class Administrator {
         }
     }
 
-    //TODO: handle cheating
     public Set<String> play() throws Exception {
         setupGame();
 
@@ -166,11 +164,7 @@ public class Administrator {
         PlayerPosition position = board.getPlayerPosition(player);
         Set<Tile> hand = player.getHandTiles();
         if (!board.tileLegal(position, tile, hand)) {
-            System.out.println(player.getColor());
             System.err.println("move not legal!");
-            System.out.println(Encoder.encodeBoard(board));
-            System.out.println("tile is ");
-            System.out.println(Encoder.encodeTile(tile));
             return false;
         }
         return true;

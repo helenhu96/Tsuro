@@ -27,10 +27,8 @@ public class RandPlayerTest {
         assertTrue(board.isBorder(test));
     }
 
-    //TODO: test this
     @Test
     public void playTurn() throws Exception{
-        //honestly not sure how to test this...
         Board board = new Board();
         SPlayer p = new SPlayer("green");
         MPlayer player = new RandPlayer("G");
