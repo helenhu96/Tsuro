@@ -58,39 +58,17 @@ public class ConvertedTileTest {
         assertEquals(a,"<n>5</n>");
     }
 
-//    @Test
-//    public void testListOfTile() throws Exception{
-//        Board board = new Board();
-//        Tile tile = new Tile(new int[]{0, 7, 1, 2, 3, 4, 5, 6});
-//        Tile tile1 = new Tile(new int[]{0, 1, 2, 3, 4, 5, 6, 7});
-//        board.placeTile(tile, 0,0);
-//        board.placeTile(tile1, 0,1);
-//        Encoder.encodeBoard(board);
-//    }
-//
+
+
     @Test
     public void testPawnLoc() throws Exception{
+        Board b = new Board();
         PlayerPosition position = new PlayerPosition(0,0,1);
-        Encoder.encodePawnLoc(position);
-
+        String decoded = Encoder.encodePawnLoc(position);
+        PlayerPosition p = Decoder.decodePawnLoc(Decoder.getDocument(decoded).getElementsByTagName("pawn-loc").item(0), b);
+        assertTrue(p.equals(position));
     }
 
-
-
-    @Test
-    public void testPawns() throws Exception{
-        Board board = new Board();
-        SPlayer player1 = new SPlayer("red");
-        SPlayer player2 = new SPlayer("blue");
-        PlayerPosition position = new PlayerPosition(0,0,1);
-        board.colorToPosition.put("red", position);
-        PlayerPosition position1 = new PlayerPosition(0,5,2);
-        board.colorToPosition.put("blue", position1);
-        PawnEntry entry = new PawnEntry("red", new PawnLocation(position));
-        PawnEntry entry1 = new PawnEntry("blue", new PawnLocation(position1));
-        Pawns pawns = new Pawns(board);
-        Encoder.encodePawns(pawns);
-    }
 
 
     @Test
@@ -100,7 +78,11 @@ public class ConvertedTileTest {
         List <Tile> list = new ArrayList<>();
         list.add(tile);
         list.add(tile1);
-        Encoder.encodeListofTile(list);
+        String encoded = Encoder.encodeListofTile(list);
+        List<Tile> tiles = Decoder.decode_listofTiles(Decoder.getDocument(encoded).getElementsByTagName("list").item(0));
+        for (Tile t: list) {
+            assertTrue(tiles.contains(t));
+        }
     }
 
 

@@ -9,7 +9,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class ConvertedBoardTest {
-    //TODO:finish this test
     @Test
     public void testBoard() throws Exception{
         Board board = new Board();
@@ -25,8 +24,8 @@ public class ConvertedBoardTest {
         board.colorToPosition.put(player1.getColor(), position);
         PlayerPosition position1 = new PlayerPosition(0,5,2);
         board.colorToPosition.put(player2.getColor(), position1);
-//        String s = Encoder.encodeBoard(board);
-//        System.out.println(s);
+        String s = Encoder.encodeBoard(board);
+        assertEquals(s, "<board><map><ent><xy><x>0</x><y>0</y></xy><tile><connect><n>0</n><n>7</n></connect><connect><n>1</n><n>2</n></connect><connect><n>3</n><n>4</n></connect><connect><n>5</n><n>6</n></connect></tile></ent><ent><xy><x>1</x><y>0</y></xy><tile><connect><n>0</n><n>1</n></connect><connect><n>2</n><n>3</n></connect><connect><n>4</n><n>5</n></connect><connect><n>6</n><n>7</n></connect></tile></ent></map><map><ent><color>red</color><pawn-loc><h></h><n>0</n><n>1</n></pawn-loc></ent><ent><color>blue</color><pawn-loc><v></v><n>6</n><n>0</n></pawn-loc></ent></map></board>");
     }
 
     @Test

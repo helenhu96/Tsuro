@@ -12,7 +12,6 @@ public abstract class SymmetricPlayer extends MPlayer{
     public Board board;
     public Set<Tile> hand;
 
-    //TODO: check exception handling here!!!
     public Tile playTurn(Board board, Set<Tile> hand, int tilesInDeck) {
         this.board = board;
         this.hand = hand;

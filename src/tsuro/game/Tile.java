@@ -105,7 +105,6 @@ public class Tile{
                 return path.get(i)[0];
             }
         }
-        //TODO: is throwing excepetion the right way to handle???
         throw new IllegalArgumentException("Given point does not exist on tile");
     }
 
