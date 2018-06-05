@@ -164,11 +164,7 @@ public class Administrator {
         PlayerPosition position = board.getPlayerPosition(player);
         Set<Tile> hand = player.getHandTiles();
         if (!board.tileLegal(position, tile, hand)) {
-            System.out.println(player.getColor());
             System.err.println("move not legal!");
-            System.out.println(Encoder.encodeBoard(board));
-            System.out.println("tile is ");
-            System.out.println(Encoder.encodeTile(tile));
             return false;
         }
         return true;
