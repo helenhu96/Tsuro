@@ -134,7 +134,6 @@ public class ServerPlayer implements IPlayer {
     }
 
 
-
     public void checkState(PlayerState desiredState) throws IllegalStateException {
         if (this.state != desiredState) {
             throw new IllegalStateException("Expect State " + desiredState + " actual state " + this.state);

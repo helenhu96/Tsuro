@@ -95,20 +95,9 @@ abstract class MPlayer implements IPlayer {
     abstract public Tile playTurn(Board b, Set<Tile> hand, int tilesInDeck);
 
 
-
-    //TODO: consider change for loop
     public Set<Tile> chooseLegalRotations(Board board, Set<Tile> hand, PlayerPosition position) throws Exception{
         Set<Tile> legalTiles = new HashSet<>();
         Map<String, PlayerPosition> SPlayers = board.getColorToPosition();
-//        SPlayer mysplayer = null;
-//        for (String color: SPlayers.keySet()) {
-//            if (getColor().equals(color)) {
-//                mysplayer = splayer;
-//            }
-//        }
-//        if (mysplayer == null) {
-//            throw new Exception("can't find corresponding splayer!");
-//        }
         for (Tile tile: hand) {
             Tile copied = new Tile(tile);
             for (int i = 0; i < 4; i++) {
@@ -136,8 +125,5 @@ abstract class MPlayer implements IPlayer {
             throw new IllegalStateException("Expect State " + desiredState + " actual state " + this.state);
         }
     }
-
-
-
 
 }

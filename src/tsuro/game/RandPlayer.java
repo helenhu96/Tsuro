@@ -2,15 +2,11 @@ package tsuro.game;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
-import com.google.common.base.Preconditions;
 
-//TODO: rewrite this
 class RandPlayer extends MPlayer {
-
 
     RandPlayer(String name) { super(name); }
 
-    //TODO: check exception handling
     public Tile playTurn(Board board, Set<Tile> hand, int tilesInDeck){
         checkState(PlayerState.PLAYING);
         if (hand.size() > 3) {
@@ -38,9 +34,5 @@ class RandPlayer extends MPlayer {
         }
         return ret;
     }
-
-
-
-
 
 }

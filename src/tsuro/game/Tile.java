@@ -9,8 +9,6 @@ public class Tile{
     //int in the range of [0, 1, 2, 3], each representing a different direction
     private int SymmetryScore;
 
-
-
     public Tile(){
         this.path = new ArrayList<>();
         this.SymmetryScore = -1;
@@ -83,7 +81,7 @@ public class Tile{
         return arePathsIdentical(tile);
     }
 
-    //TODO: hashcode legal??
+
     @Override
     public int hashCode() {
         int result = 0;
@@ -176,46 +174,6 @@ public class Tile{
     public int getScore() {
         return this.SymmetryScore;
     }
-
-//
-//    @XmlElement
-//    public void setConnect(List<n> list)
-//    {
-//
-//        this.connect = list;
-//
-//    }
-//
-//    public void addConnect(n node) {
-//        this.connect.add(node);
-//    }
-//
-//    public List<n> getConnect()
-//
-//    {
-//        return this.connect;
-//    }
-//
-//    @XmlType
-//    public static class n {
-//        private List<Integer> n;
-//
-//        public n() {
-//            this.n = new ArrayList<>();
-//        }
-//
-//        @XmlElement
-//        public List<Integer> getN() {
-//            return this.n;
-//        }
-//
-//        public void setN(List<Integer> n) {
-//            this.n = n;
-//        }
-//
-//    }
-
-
 
 }
 

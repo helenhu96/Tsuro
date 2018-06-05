@@ -1,7 +1,5 @@
 package tsuro.game;
 
-import com.google.common.base.Preconditions;
-
 import java.util.*;
 
 public abstract class SymmetricPlayer extends MPlayer{

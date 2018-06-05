@@ -95,7 +95,7 @@ public class NetworkTest {
     public void startNetworkTest() throws Exception{
         Administrator admin = initNetworkPlayers();
         admin.initPlayers();
-//        System.out.println(admin.play());
+        System.out.println(admin.play());
 
     }
 }

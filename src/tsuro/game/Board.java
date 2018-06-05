@@ -11,7 +11,6 @@ public class Board {
     private int numTiles;
     private static int boardsize = 6;
 
-    // TODO: refactor to delete redundant field
     public Map<String, PlayerPosition> colorToPosition;
 
     private List<Tile> tilesOnBoard;
@@ -24,7 +23,6 @@ public class Board {
         this.tilesOnBoard = new ArrayList<>();
     }
 
-    //TODO: return null here to represent it's empty??
     public Tile getTile(int y, int x){
         if (tiles[y][x]==null){
             return null;
@@ -63,7 +61,6 @@ public class Board {
         return numTiles;
     }
 
-    //TODO: consider pass in play OR color
     public void updatePlayerPosition(SPlayer player, PlayerPosition newPos) {
         colorToPosition.put(player.getColor(), new PlayerPosition(newPos));
     }
