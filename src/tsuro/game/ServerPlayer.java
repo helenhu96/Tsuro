@@ -21,7 +21,7 @@ public class ServerPlayer implements IPlayer {
     Administrator admin;
     public ServerPlayer(Administrator admin) throws IOException{
         this.admin = admin;
-        this.PORT = 12345;
+        this.PORT = 3000;
         this.state = PlayerState.UNINITIALIZED;
     }
 

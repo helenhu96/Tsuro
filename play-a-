@@ -1,0 +1,3 @@
+#!/bin/sh
+javac -cp lib/guava.jar:lib/hamcrest.jar:lib/junit.jar -d bin/ src/tsuro/game/*.java src/tsuro/xmlmodel/*.java tst/tsuro/game/*.java tst/tsuro/xmlmodel/*.java
+java -cp ./bin tsuro.game.Testing

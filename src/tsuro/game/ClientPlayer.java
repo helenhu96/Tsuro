@@ -21,7 +21,7 @@ public class ClientPlayer {
 
     public ClientPlayer(IPlayer p) throws IOException {
         this.iplayer = p;
-        this.PORT = 12345;
+        this.PORT = 3000;
     }
 
     public void connect() throws Exception {
