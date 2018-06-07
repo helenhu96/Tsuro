@@ -1,41 +1,20 @@
 package tsuro.game;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RunTournament {
 
     public static void main(String[] args) throws Exception{
+        List <IPlayer> iPlayers = new ArrayList<>();
         IPlayer iPlayer1 = new MostSymmetricPlayer("a");
-        ClientPlayer c1 = new ClientPlayer(iPlayer1);
-        ClientThread clientThread1 = new ClientThread(c1);
-        clientThread1.start();
-        Thread.sleep(1000);
         IPlayer iPlayer2 = new LeastSymmetricPlayer("b");
-        ClientPlayer c2 = new ClientPlayer(iPlayer2);
-        ClientThread clientThread2 = new ClientThread(c2);
-        clientThread2.start();
-        Thread.sleep(1000);
         IPlayer iPlayer3 = new RandPlayer("c");
-        ClientPlayer c3 = new ClientPlayer(iPlayer3);
-        ClientThread clientThread3 = new ClientThread(c3);
-        clientThread3.start();
+        iPlayers.add(iPlayer1);
+        iPlayers.add(iPlayer2);
+        iPlayers.add(iPlayer3);
 
-    }
-}
-
-
-class ClientThread extends Thread {
-    ClientPlayer clientPlayer;
-
-    public ClientThread (ClientPlayer cp) {
-        this.clientPlayer = cp;
-    }
-
-    @Override
-    public void run() {
-        try {
-            this.clientPlayer.connect();
-            this.clientPlayer.processMessage();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        NetworkAdmin network = new NetworkAdmin();
+        network.initNetworkPlayers(iPlayers);
     }
 }

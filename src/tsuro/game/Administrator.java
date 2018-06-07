@@ -17,8 +17,10 @@ public class Administrator {
     private List<SPlayer> deadPlayers;
 //    private SPlayer playerWithDragonTile;
     private List<SPlayer> winners;
-
     public static final int HAND_SIZE = 3;
+
+    private static Administrator admin = null;
+
     public Administrator(){
         this(new ArrayList<>(), new Board(), new DrawPile(), new ArrayList<>());
     }
@@ -31,6 +33,13 @@ public class Administrator {
         this.deadPlayers = deadPlayers;
         this.winners = new ArrayList<>();
     }
+//
+//    public static Administrator getInstance() {
+//        if (admin == null) {
+//            admin = new Administrator();
+//        }
+//        return admin;
+//    }
 
     public void registerPlayer(IPlayer player){
         int numPlayer = activePlayers.size();

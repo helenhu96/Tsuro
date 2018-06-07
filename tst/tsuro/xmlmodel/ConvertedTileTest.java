@@ -79,7 +79,7 @@ public class ConvertedTileTest {
         list.add(tile);
         list.add(tile1);
         String encoded = Encoder.encodeListofTile(list);
-        List<Tile> tiles = Decoder.decode_listofTiles(Decoder.getDocument(encoded).getElementsByTagName("list").item(0));
+        List<Tile> tiles = Decoder.decodeListofTiles(Decoder.getDocument(encoded).getElementsByTagName("list").item(0));
         for (Tile t: list) {
             assertTrue(tiles.contains(t));
         }
@@ -97,7 +97,7 @@ public class ConvertedTileTest {
         list.add(sp);
         String docString = Encoder.encodeSPlayers(list);
         Document doc = Decoder.getDocument(docString);
-        List<SPlayer> SPlayers = Decoder.decode_listofSPlayer(doc.getElementsByTagName("list").item(0));
+        List<SPlayer> SPlayers = Decoder.decodeListofsplayer(doc.getElementsByTagName("list").item(0));
         assertEquals(list.size(), SPlayers.size());
         for (SPlayer player: list) {
             assertEquals(SPlayers.get(SPlayers.indexOf(player)), player);
@@ -119,7 +119,7 @@ public class ConvertedTileTest {
 
         String docString = Encoder.encodeSPlayers(list);
         Document doc = Decoder.getDocument(docString);
-        List<SPlayer> SPlayers = Decoder.decode_listofSPlayer(doc.getElementsByTagName("list").item(0));
+        List<SPlayer> SPlayers = Decoder.decodeListofsplayer(doc.getElementsByTagName("list").item(0));
         assertEquals(list.size(), SPlayers.size());
         for (SPlayer player: list) {
             assertEquals(SPlayers.get(SPlayers.indexOf(player)), player);
