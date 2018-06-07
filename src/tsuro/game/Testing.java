@@ -10,12 +10,10 @@ import java.util.List;
 
 public  class Testing {
 
-
     public static void main(String[] args) throws Exception {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         while (true) {
             // Drawpile
-
             String s = bf.readLine();
             if (s == null) {
                 return;
