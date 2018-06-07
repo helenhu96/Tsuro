@@ -1,9 +1,10 @@
 # team21-working
 For play-a-turn:
-Run make- it will run all tests and generate a play-a-turn file, then just ./test-play-a-turn play-a-turn.
-If it exits without printing anything, it means the we pass the tests
+Run make- it will run all tests and generate a play-a-turn file, then just ./test-play-a-turn -v play-a-turn.
+
 
 For tournament player:
 Run ./tournament
-Go to src/tsuro/game/RunTournament.java and run its main- I have three players now.
-To change Port and host information, just go to ClientPlayer and change
+Then go to src/tsuro/game/RunTournament.java and run its main- I have three players now but you can change to how many players you want.
+You should be able to see the players in the tournament. Now I am using localhost and Port 12345.
+To change Port and host information, just go to ClientPlayer.java and change.
