@@ -15,4 +15,5 @@ test: DNE
 	java -jar lib/junit-platform-console-standalone-1.2.0.jar --class-path bin/ -c tsuro.xmlmodel.DecoderTest
 	java -jar lib/junit-platform-console-standalone-1.2.0.jar --class-path bin/ -c tsuro.xmlmodel.PawnTest
 	echo "#!/bin/sh\njavac -cp lib/guava.jar:lib/hamcrest.jar:lib/junit.jar -d bin/ src/tsuro/game/*.java src/tsuro/xmlmodel/*.java tst/tsuro/game/*.java tst/tsuro/xmlmodel/*.java\njava -cp ./bin tsuro.game.Testing" > play-a-turn
+	chmod 777 play-a-turn
 DNE:

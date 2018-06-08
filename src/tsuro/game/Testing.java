@@ -4,18 +4,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.List;
 
 public  class Testing {
-
 
     public static void main(String[] args) throws Exception {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         while (true) {
             // Drawpile
-
             String s = bf.readLine();
             if (s == null) {
                 return;
@@ -23,17 +19,17 @@ public  class Testing {
 
             Document doc = Decoder.getDocument(s);
             Node tilesNode = doc.getElementsByTagName("list").item(0);
-            List<Tile> tiles =  Decoder.decode_listofTiles(tilesNode);
+            List<Tile> tiles =  Decoder.decodeListofTiles(tilesNode);
 
             // winners
             doc = Decoder.getDocument(bf.readLine());
             Node activePlayersNode = doc.getElementsByTagName("list").item(0);
-            List<SPlayer> activePlayers =  Decoder.decode_listofSPlayer(activePlayersNode);
+            List<SPlayer> activePlayers =  Decoder.decodeListofsplayer(activePlayersNode);
 
             // losers
             doc = Decoder.getDocument(bf.readLine());
             Node outNode = doc.getElementsByTagName("list").item(0);
-            List<SPlayer> outPlayers =  Decoder.decode_listofSPlayer(outNode);
+            List<SPlayer> outPlayers =  Decoder.decodeListofsplayer(outNode);
 
             // board
             doc = Decoder.getDocument(bf.readLine());
@@ -42,7 +38,10 @@ public  class Testing {
 
 
             //tile
-            Tile tile =  Decoder.decodeTile(bf.readLine());
+            doc = Decoder.getDocument(bf.readLine());
+            Node tileNode = doc.getElementsByTagName("tile").item(0);
+            Tile tile =  Decoder.decode_tile(tileNode);
+
 
             Administrator admin = new Administrator(activePlayers, board, new DrawPile(tiles, true), outPlayers);
             List<SPlayer> winners = admin.playATurn(tiles, activePlayers, outPlayers, board, tile);

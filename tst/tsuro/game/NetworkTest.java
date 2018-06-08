@@ -2,45 +2,37 @@ package tsuro.game;
 
 import org.junit.Test;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class NetworkTest {
-
-    public class ServerThread extends Thread {
-        ServerPlayer serverPlayer;
-        public ServerThread(ServerPlayer sp) {
-            this.serverPlayer = sp;
-        }
-
-        @Override
-        public void run(){
-            try {
-                this.serverPlayer.connect();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+    @Test
+    public void startNetworkTest() throws Exception{
+        NetworkAdmin networkAdmin = new NetworkAdmin();
+        Administrator admin = new Administrator();
+        List<IPlayer> iPlayers = new ArrayList<>();
+        IPlayer iPlayer1 = new MostSymmetricPlayer("a");
+        IPlayer iPlayer2 = new LeastSymmetricPlayer("b");
+        IPlayer iPlayer3 = new RandPlayer("c");
+        IPlayer iPlayer4 = new RandPlayer("d");
+        IPlayer iPlayer5 = new RandPlayer("e");
+        IPlayer iPlayer6 = new RandPlayer("f");
+        IPlayer iPlayer7 = new RandPlayer("g");
+        iPlayers.add(iPlayer1);
+        iPlayers.add(iPlayer2);
+        iPlayers.add(iPlayer3);
+        iPlayers.add(iPlayer4);
+        iPlayers.add(iPlayer5);
+        iPlayers.add(iPlayer6);
+        iPlayers.add(iPlayer7);
+        networkAdmin.connectLocal(admin, iPlayers);
+        networkAdmin.registerPlayers(admin, iPlayers);
+        admin.initPlayers();
+        System.out.println(admin.play());
     }
 
-    public class ClientThread extends Thread {
-        ClientPlayer clientPlayer;
-
-        public ClientThread (ClientPlayer cp) {
-            this.clientPlayer = cp;
-        }
-
-        @Override
-        public void run() {
-            try {
-                this.clientPlayer.connect();
-                this.clientPlayer.processMessage();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public Administrator initNetworkPlayers() throws Exception{
+    @Test
+    public void NetworkTestPrint() throws Exception{
         Administrator admin = new Administrator();
         // client side
         IPlayer iPlayer1 = new MostSymmetricPlayer("a");
@@ -88,14 +80,43 @@ public class NetworkTest {
         admin.registerPlayer(iPlayer5);
         admin.registerPlayer(iPlayer6);
         admin.registerPlayer(s7);
-        return admin;
-    }
-
-    @Test
-    public void startNetworkTest() throws Exception{
-        Administrator admin = initNetworkPlayers();
         admin.initPlayers();
         System.out.println(admin.play());
 
+    }
+}
+
+
+class ServerThread extends Thread {
+    ServerPlayer serverPlayer;
+    public ServerThread(ServerPlayer sp) {
+        this.serverPlayer = sp;
+    }
+
+    @Override
+    public void run(){
+        try {
+            this.serverPlayer.connect();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+class ClientThread extends Thread {
+    ClientPlayer clientPlayer;
+
+    public ClientThread (ClientPlayer cp) {
+        this.clientPlayer = cp;
+    }
+
+    @Override
+    public void run() {
+        try {
+            this.clientPlayer.connect();
+            this.clientPlayer.processMessage();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

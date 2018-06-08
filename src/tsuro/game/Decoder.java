@@ -199,7 +199,7 @@ public class Decoder {
 
     }
 
-    public static List<String> decode_listofColors (Node node) throws IllegalArgumentException{
+    public static List<String> decodeListofColors(Node node) throws IllegalArgumentException{
         if (node.getNodeType() == Node.ELEMENT_NODE){
             List<String> list = new ArrayList<>();
             NodeList children = node.getChildNodes();
@@ -213,7 +213,7 @@ public class Decoder {
         throw new IllegalArgumentException("Input is not a valid listofcolors node object!");
     }
 
-    public static Set<String> decode_setofColors (Node node) throws IllegalArgumentException{
+    public static Set<String> decodeSetofColors(Node node) throws IllegalArgumentException{
         if (node.getNodeType() == Node.ELEMENT_NODE){
             Set<String> set = new HashSet<>();
             NodeList children = node.getChildNodes();
@@ -226,7 +226,7 @@ public class Decoder {
         throw new IllegalArgumentException("Input is not a valid listofcolors node object!");
     }
 
-    public static List<Tile> decode_listofTiles (Node node) throws IllegalArgumentException{
+    public static List<Tile> decodeListofTiles(Node node) throws IllegalArgumentException{
         if (node.getNodeType() == Node.ELEMENT_NODE){
             List<Tile> list = new ArrayList<>();
             NodeList children = node.getChildNodes();
@@ -240,7 +240,7 @@ public class Decoder {
         throw new IllegalArgumentException("Input is not a valid listoftiles node object!");
     }
 
-    public static Set<Tile> decode_setofTiles (Node node) throws IllegalArgumentException{
+    public static Set<Tile> decodeSetofTiles(Node node) throws IllegalArgumentException{
         if (node.getNodeType() == Node.ELEMENT_NODE){
             Set<Tile> set = new HashSet<>();
             NodeList children = node.getChildNodes();
@@ -254,14 +254,14 @@ public class Decoder {
         throw new IllegalArgumentException("Input is not a valid setoftiles node object!");
     }
 
-    public static SPlayer decode_SPlayer(Node node) throws IllegalArgumentException{
+    public static SPlayer decodeSPlayer(Node node) throws IllegalArgumentException{
         if (node.getNodeType() == Node.ELEMENT_NODE){
             SPlayer sp = new SPlayer(node.getFirstChild().getTextContent());
             if (node.getNodeName().equals("splayer-dragon")){
                 sp.getDragon();
             }
 
-            Set<Tile> tiles = decode_setofTiles(node.getFirstChild().getNextSibling());
+            Set<Tile> tiles = decodeSetofTiles(node.getFirstChild().getNextSibling());
             for (Tile t: tiles){
                 sp.receiveTile(t);
             }
@@ -271,14 +271,14 @@ public class Decoder {
         throw new IllegalArgumentException("Input is not a valid splayer node object!");
     }
 
-    public static List<SPlayer> decode_listofSPlayer(Node node) throws IllegalArgumentException{
+    public static List<SPlayer> decodeListofsplayer(Node node) throws IllegalArgumentException{
         if (node.getNodeType() == Node.ELEMENT_NODE){
             List<SPlayer> list = new ArrayList<>();
 
             NodeList children = node.getChildNodes();
 
             for (int i = 0; i < children.getLength(); i++){
-                list.add(decode_SPlayer(children.item(i)));
+                list.add(decodeSPlayer(children.item(i)));
             }
 
             return list;

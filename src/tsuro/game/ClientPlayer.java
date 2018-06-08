@@ -65,7 +65,7 @@ public class ClientPlayer {
             Node color = doc.getElementsByTagName("color").item(0);
             Node list_of_color = doc.getElementsByTagName("list").item(0);
             String c = color.getTextContent();
-            List<String> colors = Decoder.decode_listofColors(list_of_color);
+            List<String> colors = Decoder.decodeListofColors(list_of_color);
             this.iplayer.initialize(c, colors);
             sendXml(Encoder.encodeVoid());
 
@@ -84,7 +84,7 @@ public class ClientPlayer {
             Node tilesNode = doc.getElementsByTagName("set").item(0);
             int n = Integer.parseInt(doc.getElementsByTagName("play-turn").item(0).getLastChild().getTextContent());
             Board board = Decoder.decode_board(boardNode);
-            Set<Tile> tiles = Decoder.decode_setofTiles(tilesNode);
+            Set<Tile> tiles = Decoder.decodeSetofTiles(tilesNode);
             Tile t = this.iplayer.playTurn(board, tiles, n);
             sendXml(Encoder.encodeTile(t));
         }
@@ -93,7 +93,7 @@ public class ClientPlayer {
             Node boardNode = doc.getElementsByTagName("board").item(0);
             Node colorSet = doc.getElementsByTagName("set").item(0);
             Board board = Decoder.decode_board(boardNode);
-            Set<String> colors = Decoder.decode_setofColors(colorSet);
+            Set<String> colors = Decoder.decodeSetofColors(colorSet);
             this.iplayer.endGame(board, colors);
             sendXml(Encoder.encodeVoid());
         } else {
