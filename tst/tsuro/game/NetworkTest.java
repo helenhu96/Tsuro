@@ -8,7 +8,6 @@ import java.util.List;
 public class NetworkTest {
     @Test
     public void startNetworkTest() throws Exception{
-        NetworkAdmin networkAdmin = new NetworkAdmin();
         Administrator admin = new Administrator();
         List<IPlayer> iPlayers = new ArrayList<>();
         IPlayer iPlayer1 = new MostSymmetricPlayer("a");
@@ -25,8 +24,8 @@ public class NetworkTest {
         iPlayers.add(iPlayer5);
         iPlayers.add(iPlayer6);
         iPlayers.add(iPlayer7);
-        networkAdmin.connectLocal(admin, iPlayers);
-        networkAdmin.registerPlayers(admin, iPlayers);
+        NetworkAdmin.connectLocal(admin, iPlayers);
+//        NetworkAdmin.registerPlayers(admin, iPlayers);
         admin.initPlayers();
         System.out.println(admin.play());
     }
@@ -37,10 +36,10 @@ public class NetworkTest {
         // client side
         IPlayer iPlayer1 = new MostSymmetricPlayer("a");
         IPlayer iPlayer2 = new LeastSymmetricPlayer("b");
-        IPlayer iPlayer3 = new RandPlayer("c");
+//        IPlayer iPlayer3 = new RandPlayer("c");
         IPlayer iPlayer4 = new RandPlayer("d");
-        IPlayer iPlayer5 = new RandPlayer("e");
-        IPlayer iPlayer6 = new RandPlayer("f");
+//        IPlayer iPlayer5 = new RandPlayer("e");
+//        IPlayer iPlayer6 = new RandPlayer("f");
         IPlayer iPlayer7 = new RandPlayer("g");
 
         ClientPlayer c1 = new ClientPlayer(iPlayer1);
@@ -75,10 +74,10 @@ public class NetworkTest {
 
         admin.registerPlayer(s1);
         admin.registerPlayer(s2);
-        admin.registerPlayer(iPlayer3);
+//        admin.registerPlayer(iPlayer3);
         admin.registerPlayer(s4);
-        admin.registerPlayer(iPlayer5);
-        admin.registerPlayer(iPlayer6);
+//        admin.registerPlayer(iPlayer5);
+//        admin.registerPlayer(iPlayer6);
         admin.registerPlayer(s7);
         admin.initPlayers();
         System.out.println(admin.play());
