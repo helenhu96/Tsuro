@@ -54,12 +54,11 @@ public class ServerPlayer implements IPlayer {
         toClient.println(s);
         String msg = fromClient.readLine();
         System.out.println("receive message from client: " + msg);
-        System.out.println();
         return msg;
     }
 
     public void initialize(String color, List<String> colors) {
-//        checkState(PlayerState.UNINITIALIZED);
+        checkState(PlayerState.UNINITIALIZED);
         try {
             String outDocString = Encoder.encodeInitialize(color, colors);
             String in = sendXml(outDocString);

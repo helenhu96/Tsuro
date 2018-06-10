@@ -25,7 +25,6 @@ public class NetworkTest {
         iPlayers.add(iPlayer6);
         iPlayers.add(iPlayer7);
         NetworkAdmin.connectLocal(admin, iPlayers);
-//        NetworkAdmin.registerPlayers(admin, iPlayers);
         admin.initPlayers();
         System.out.println(admin.play());
     }

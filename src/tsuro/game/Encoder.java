@@ -51,21 +51,6 @@ public class Encoder {
         return xmlString;
     }
 
-
-    public static String encodePawns(Pawns pawns) throws Exception
-    {
-        StringWriter sw = new StringWriter();
-        JAXBContext jaxbContext = JAXBContext.newInstance(Pawns.class);
-        Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-        jaxbMarshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
-        jaxbMarshaller.marshal(pawns, sw);
-//        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-        jaxbMarshaller.marshal(pawns, sw);
-        String xmlString = sw.toString();
-//        System.out.println(xmlString);
-        return xmlString;
-    }
-
     public static String encodeListofTile(List<Tile> alltiles) throws Exception
     {
         ListofTile tiles = new ListofTile(alltiles);
@@ -73,7 +58,6 @@ public class Encoder {
         JAXBContext jaxbContext = JAXBContext.newInstance(ListofTile.class);
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
         jaxbMarshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
-//        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         jaxbMarshaller.marshal(tiles, sw);
         String xmlString = sw.toString();
         xmlString = xmlString.replace("<list/>", "<list></list>");
@@ -87,7 +71,6 @@ public class Encoder {
         JAXBContext jaxbContext = JAXBContext.newInstance(SetofTile.class);
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
         jaxbMarshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
-//        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         jaxbMarshaller.marshal(tiles, sw);
         String xmlString = sw.toString();
         return xmlString;
@@ -110,18 +93,6 @@ public class Encoder {
         return xmlString;
     }
 
-//    public static void encodeMayberSPlayers(List<SPlayer> splayers) throws Exception
-//    {
-//        MaybeListofSPlayer lsplayer = new MaybeListofSPlayer(splayers);
-//        StringWriter sw = new StringWriter();
-//        JAXBContext jaxbContext = JAXBContext.newInstance(MaybeListofSPlayer.class);
-//        Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-//        jaxbMarshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
-//        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-//        jaxbMarshaller.marshal(lsplayer, sw);
-//        String xmlString = sw.toString();
-//        System.out.println(xmlString);
-//    }
 
     public static String encodeVoid() {
         return "<void></void>";
