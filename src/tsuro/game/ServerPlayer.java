@@ -28,6 +28,7 @@ public class ServerPlayer implements IPlayer {
     public void connect() throws Exception
     {
         ServerSocket serverSocket = new ServerSocket(PORT);
+        // The method blocks until a connection is made.
         this.socket = serverSocket.accept();
         this.toClient = new PrintWriter(socket.getOutputStream(), true);
         this.fromClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -63,7 +64,7 @@ public class ServerPlayer implements IPlayer {
             String outDocString = Encoder.encodeInitialize(color, colors);
             String in = sendXml(outDocString);
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            e.printStackTrace();
         }
         this.state = PlayerState.INITIALIZED;
     }
