@@ -33,13 +33,7 @@ public class Administrator {
         this.deadPlayers = deadPlayers;
         this.winners = new ArrayList<>();
     }
-//
-//    public static Administrator getInstance() {
-//        if (admin == null) {
-//            admin = new Administrator();
-//        }
-//        return admin;
-//    }
+
 
     public void registerPlayer(IPlayer player){
         int numPlayer = activePlayers.size();
