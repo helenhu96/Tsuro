@@ -30,7 +30,7 @@ public class NetworkTest {
     }
 
     @Test
-    public void NetworkTestPrint() throws Exception{
+    public void NetworkTest2() throws Exception{
         Administrator admin = new Administrator();
         // client side
         IPlayer iPlayer1 = new MostSymmetricPlayer("a");

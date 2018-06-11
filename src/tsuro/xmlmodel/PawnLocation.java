@@ -25,7 +25,6 @@ public class PawnLocation {
         int spot = position.getSpot();
         int y = position.getY();
         int x = position.getX();
-        Number n = new Number();
         if (spot == 0 || spot == 1 ) {
             setA(y);
             setB(2 * x + spot);
@@ -105,7 +104,7 @@ public class PawnLocation {
                 y = b / 2;
                 spot = 2 + b % 2;
 
-                PlayerPosition testpp = new PlayerPosition(y,x,spot);
+                PlayerPosition testpp = new PlayerPosition(y, x, spot);
 
                 if (board.isTileOnBoard(testpp)){
                     return testpp.flip();

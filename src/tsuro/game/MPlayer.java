@@ -11,9 +11,6 @@ abstract class MPlayer implements IPlayer {
         this.name = name;
         state = PlayerState.UNINITIALIZED;
     }
-    final static String[] COLOR_VALUES =
-            new String[] {"blue", "red", "green", "orange", "sienna", "hotpink", "darkgreen", "purple"};
-
 
 
     protected final static int UP = 0;
@@ -86,10 +83,6 @@ abstract class MPlayer implements IPlayer {
 
     public void setState(PlayerState s) {
         this.state = s;
-    }
-
-    public PlayerState getState() {
-        return state;
     }
 
     abstract public Tile playTurn(Board b, Set<Tile> hand, int tilesInDeck);

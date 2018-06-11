@@ -148,7 +148,9 @@ public class Board {
     //checks if an existing position has a player already
     public boolean positionHasPlayer(PlayerPosition position) {
         for (PlayerPosition p: colorToPosition.values()) {
-            if (p.equals(position)) return true;
+            if (p.equals(position)) {
+                return true;
+            }
         }
         return false;
     }
