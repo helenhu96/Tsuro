@@ -32,13 +32,4 @@ public class SetofTile {
         this.ctiles.add(new ConvertedTile(t));
     }
 
-    public Set<Tile> backtoTiles(){
-        Set<Tile> result = new HashSet<>();
-
-        for (ConvertedTile ct: ctiles){
-            result.add(ct.backtoTile());
-        }
-
-        return result;
-    }
 }

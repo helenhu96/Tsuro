@@ -28,7 +28,7 @@ public class ConvertedTileTest {
         Tile expected = new Tile(new int[]{0, 7, 1, 2, 3, 4, 5, 6});
         Document doc = decoder.getDocument(input);
         Node node = doc.getElementsByTagName("tile").item(0);
-        Tile t = decoder.decode_tile(node);
+        Tile t = decoder.decodeTile(node);
         assertTrue(expected.sameTile(t));
     }
 

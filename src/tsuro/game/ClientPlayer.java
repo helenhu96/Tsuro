@@ -74,7 +74,7 @@ public class ClientPlayer {
         else if (function.equals("place-pawn"))
         {
             Node boardNode = doc.getElementsByTagName("board").item(0);
-            Board board = Decoder.decode_board(boardNode);
+            Board board = Decoder.decodeBoard(boardNode);
             PlayerPosition playerPosition = this.iplayer.placePawn(board);
             sendXml(Encoder.encodePawnLoc(playerPosition));
         }
@@ -83,7 +83,7 @@ public class ClientPlayer {
             Node boardNode = doc.getElementsByTagName("board").item(0);
             Node tilesNode = doc.getElementsByTagName("set").item(0);
             int n = Integer.parseInt(doc.getElementsByTagName("play-turn").item(0).getLastChild().getTextContent());
-            Board board = Decoder.decode_board(boardNode);
+            Board board = Decoder.decodeBoard(boardNode);
             Set<Tile> tiles = Decoder.decodeSetofTiles(tilesNode);
             Tile t = this.iplayer.playTurn(board, tiles, n);
             sendXml(Encoder.encodeTile(t));
@@ -92,7 +92,7 @@ public class ClientPlayer {
         else if (function.equals("end-game")) {
             Node boardNode = doc.getElementsByTagName("board").item(0);
             Node colorSet = doc.getElementsByTagName("set").item(0);
-            Board board = Decoder.decode_board(boardNode);
+            Board board = Decoder.decodeBoard(boardNode);
             Set<String> colors = Decoder.decodeSetofColors(colorSet);
             this.iplayer.endGame(board, colors);
             sendXml(Encoder.encodeVoid());

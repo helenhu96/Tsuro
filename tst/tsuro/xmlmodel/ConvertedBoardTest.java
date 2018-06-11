@@ -36,7 +36,7 @@ public class ConvertedBoardTest {
                 "<pawn-loc><v></v><n>1</n><n>1</n></pawn-loc></ent></map></board>";
         Document doc = Decoder.getDocument(input);
         Node boardNode = doc.getElementsByTagName("board").item(0);
-        Board b = Decoder.decode_board(boardNode);
+        Board b = Decoder.decodeBoard(boardNode);
         Tile tile = new Tile(new int[]{0, 1, 2, 4, 3, 6, 5, 7});
         assertEquals(tile, b.getTile(0, 0));
         assertEquals(b.getPlayerByPosition(new PlayerPosition(0,1,6)), "red");

@@ -23,50 +23,6 @@ public class Decoder {
 
     }
 
-    public static int decode_n(Node node) throws IllegalArgumentException{
-        if (node.getNodeType() == Node.ELEMENT_NODE){
-            return Integer.parseInt(node.getTextContent());
-        }
-        throw new IllegalArgumentException("Input is not a valid node object!");
-    }
-
-
-    public static int[] decode_connect(Node node) throws IllegalArgumentException {
-        if (node.getNodeType() == Node.ELEMENT_NODE) {
-            NodeList nList = node.getChildNodes();
-            if (nList.getLength() != 2) {
-                throw new IllegalArgumentException("Input is not a valid connect node object!");
-            }
-            int[] result = new int[2];
-            for (int i = 0; i < 2; i++) {
-                result[i] = decode_n(nList.item(i));
-            }
-            return result;
-        }
-        throw new IllegalArgumentException("Input is not a valid node object!");
-    }
-
-//    public static Tile decode_tile(Node node) throws IllegalArgumentException {
-//        if (node.getNodeType() == Node.ELEMENT_NODE) {
-//            NodeList connectList = node.getChildNodes();
-//            if (connectList.getLength() != 4) {
-//                throw new IllegalArgumentException("Input is not a valid tile node object!");
-//            }
-//            int[] input = new int[8];
-//            int count = 0;
-//            for (int i = 0; i < 4; i++){
-//                int[] curr = decode_connect(connectList.item(i));
-//                input[count] = curr[0];
-//                count++;
-//                input[count] = curr[1];
-//                count++;
-//            }
-//            return new Tile(input);
-//        }
-//        throw new IllegalArgumentException("Input is not a valid node object!");
-//    }
-
-
     public static PlayerPosition decodePawnLoc(Node node, Board curr_board) throws IllegalArgumentException{
         if (node.getNodeType() == Node.ELEMENT_NODE){
             NodeList children = node.getChildNodes();
@@ -86,7 +42,7 @@ public class Decoder {
         throw new IllegalArgumentException("Input is not a valid pawnLoc node object!");
     }
 
-    public static Board decode_tiles(Node node) throws IllegalArgumentException {
+    public static Board decodeTiles(Node node) throws IllegalArgumentException {
         if (node.getNodeType() == Node.ELEMENT_NODE) {
 
             Board board = new Board();
@@ -95,8 +51,8 @@ public class Decoder {
             for (int i = 0; i < children.getLength(); i++){
                 Node curr = children.item(i);
 
-                int[] pos = decode_xy(curr.getFirstChild());
-                Tile tile = decode_tile(curr.getLastChild());
+                int[] pos = decodeXy(curr.getFirstChild());
+                Tile tile = decodeTile(curr.getLastChild());
 
                 board.placeTile(new Tile(tile), pos[0], pos[1]);
             }
@@ -108,7 +64,7 @@ public class Decoder {
     }
 
 
-    public static int[] decode_xy(Node node) throws IllegalArgumentException {
+    public static int[] decodeXy(Node node) throws IllegalArgumentException {
         if (node.getNodeType() == Node.ELEMENT_NODE) {
             int[] xy = new int[2];
             xy[1] = Integer.parseInt(node.getFirstChild().getTextContent());
@@ -119,7 +75,7 @@ public class Decoder {
     }
 
 
-    public static Tile decode_tile(Node node) throws IllegalArgumentException {
+    public static Tile decodeTile(Node node) throws IllegalArgumentException {
         if (node.getNodeType() == Node.ELEMENT_NODE) {
             NodeList connectList = node.getChildNodes();
             if (connectList.getLength() != 4) {
@@ -162,7 +118,7 @@ public class Decoder {
     }
 
     // the argument is a node with <map> tag
-    public static Map<String, PlayerPosition> decode_pawns(Node node, Board board) throws IllegalArgumentException {
+    public static Map<String, PlayerPosition> decodePawns(Node node, Board board) throws IllegalArgumentException {
         if (node.getNodeType() == Node.ELEMENT_NODE){
             Map<String, PlayerPosition> return_map = new HashMap<>();
 
@@ -184,14 +140,14 @@ public class Decoder {
     }
 
 
-    public static Board decode_board(Node node) throws IllegalArgumentException{
+    public static Board decodeBoard(Node node) throws IllegalArgumentException{
 
         // the two nodes with <map> tag
         NodeList children = node.getChildNodes();
 
-        Board new_board = decode_tiles(children.item(0));
+        Board new_board = decodeTiles(children.item(0));
 
-        Map<String, PlayerPosition> map = decode_pawns(children.item(1), new_board);
+        Map<String, PlayerPosition> map = decodePawns(children.item(1), new_board);
 
         new_board.colorToPosition = map;
 
@@ -232,7 +188,7 @@ public class Decoder {
             NodeList children = node.getChildNodes();
 
             for (int i = 0; i < children.getLength(); i++){
-                list.add(decode_tile(children.item(i)));
+                list.add(decodeTile(children.item(i)));
             }
 
             return list;
@@ -246,7 +202,7 @@ public class Decoder {
             NodeList children = node.getChildNodes();
 
             for (int i = 0; i < children.getLength(); i++){
-                set.add(decode_tile(children.item(i)));
+                set.add(decodeTile(children.item(i)));
             }
 
             return set;
@@ -296,13 +252,6 @@ public class Decoder {
         return answer;
     }
 
-
-    public static Tile decodeTile(String docString) throws Exception {
-        Document doc = getDocument(docString);
-        Node node = doc.getElementsByTagName("tile").item(0);
-        Tile t = decode_tile(node);
-        return t;
-    }
 
 
 

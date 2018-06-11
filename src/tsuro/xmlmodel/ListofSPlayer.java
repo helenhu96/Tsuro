@@ -41,16 +41,4 @@ public class ListofSPlayer {
         }
     }
 
-    public List<SPlayer> backtoSPlayers(){
-        List<SPlayer> list = new ArrayList<>();
-
-        for (XmlSplayer player: splayers){
-            if (player instanceof SPlayerwithDragon){
-                list.add(((SPlayerwithDragon) player).backtoSPlayer());
-            } else {
-                list.add(((SPlayerNoDragon)player).backtoSPlayer());
-            }
-        }
-        return list;
-    }
 }

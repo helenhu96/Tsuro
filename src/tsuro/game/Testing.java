@@ -34,13 +34,13 @@ public  class Testing {
             // board
             doc = Decoder.getDocument(bf.readLine());
             Node boardNode = doc.getElementsByTagName("board").item(0);
-            Board board =  Decoder.decode_board(boardNode);
+            Board board =  Decoder.decodeBoard(boardNode);
 
 
             //tile
             doc = Decoder.getDocument(bf.readLine());
             Node tileNode = doc.getElementsByTagName("tile").item(0);
-            Tile tile =  Decoder.decode_tile(tileNode);
+            Tile tile =  Decoder.decodeTile(tileNode);
 
 
             Administrator admin = new Administrator(activePlayers, board, new DrawPile(tiles, true), outPlayers);

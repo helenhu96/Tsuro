@@ -34,11 +34,5 @@ public class ListofTile {
         this.ctiles.add(new ConvertedTile(t));
     }
 
-    public List<Tile> backtoTiles(){
-        List<Tile> result = new ArrayList<>();
-        for (int i = 0; i < ctiles.size(); i++){
-            result.add(ctiles.get(i).backtoTile());
-        }
-        return result;
-    }
+
 }

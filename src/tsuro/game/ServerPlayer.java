@@ -1,6 +1,5 @@
 package tsuro.game;
 
-import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import java.io.BufferedReader;
@@ -111,7 +110,8 @@ public class ServerPlayer implements IPlayer {
         try {
             String outDocString = Encoder.encodePlayTurn(board, tiles, numTiles);
             String in = sendXml(outDocString);
-            tile = Decoder.decodeTile(in);
+            Node node = Decoder.getDocument(in).getElementsByTagName("tile").item(0);
+            tile = Decoder.decodeTile(node);
         } catch (Exception e) {
             e.printStackTrace();
         }

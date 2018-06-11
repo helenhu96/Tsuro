@@ -380,9 +380,6 @@ public class Administrator {
     }
 
 
-//    public SPlayer getPlayerWithDragonTile() {
-//        return this.playerWithDragonTile;
-//    }
 
 
     public SPlayer getSPlayerFromColor(String color) throws IllegalArgumentException{

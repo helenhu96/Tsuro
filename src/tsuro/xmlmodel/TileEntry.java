@@ -32,13 +32,6 @@ public class TileEntry {
         return this.ctile;
     }
 
-//
-//    public Object[] backToPosandTile(){
-//        Object[] result = new Object[2];
-//        result[0] = xy.backtoYX();
-//        result[1] = ctile.backtoTile();
-//        return result;
-//    }
 
 
 }

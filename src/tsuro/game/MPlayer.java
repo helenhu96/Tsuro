@@ -97,7 +97,6 @@ abstract class MPlayer implements IPlayer {
 
     public Set<Tile> chooseLegalRotations(Board board, Set<Tile> hand, PlayerPosition position) throws Exception{
         Set<Tile> legalTiles = new HashSet<>();
-        Map<String, PlayerPosition> SPlayers = board.getColorToPosition();
         for (Tile tile: hand) {
             Tile copied = new Tile(tile);
             for (int i = 0; i < 4; i++) {

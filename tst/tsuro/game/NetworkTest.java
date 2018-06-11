@@ -35,10 +35,10 @@ public class NetworkTest {
         // client side
         IPlayer iPlayer1 = new MostSymmetricPlayer("a");
         IPlayer iPlayer2 = new LeastSymmetricPlayer("b");
-//        IPlayer iPlayer3 = new RandPlayer("c");
+        IPlayer iPlayer3 = new RandPlayer("c");
         IPlayer iPlayer4 = new RandPlayer("d");
-//        IPlayer iPlayer5 = new RandPlayer("e");
-//        IPlayer iPlayer6 = new RandPlayer("f");
+        IPlayer iPlayer5 = new RandPlayer("e");
+        IPlayer iPlayer6 = new RandPlayer("f");
         IPlayer iPlayer7 = new RandPlayer("g");
 
         ClientPlayer c1 = new ClientPlayer(iPlayer1);
@@ -73,10 +73,10 @@ public class NetworkTest {
 
         admin.registerPlayer(s1);
         admin.registerPlayer(s2);
-//        admin.registerPlayer(iPlayer3);
+        admin.registerPlayer(iPlayer3);
         admin.registerPlayer(s4);
-//        admin.registerPlayer(iPlayer5);
-//        admin.registerPlayer(iPlayer6);
+        admin.registerPlayer(iPlayer5);
+        admin.registerPlayer(iPlayer6);
         admin.registerPlayer(s7);
         admin.initPlayers();
         System.out.println(admin.play());
@@ -85,36 +85,3 @@ public class NetworkTest {
 }
 
 
-class ServerThread extends Thread {
-    ServerPlayer serverPlayer;
-    public ServerThread(ServerPlayer sp) {
-        this.serverPlayer = sp;
-    }
-
-    @Override
-    public void run(){
-        try {
-            this.serverPlayer.connect();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-}
-
-class ClientThread extends Thread {
-    ClientPlayer clientPlayer;
-
-    public ClientThread (ClientPlayer cp) {
-        this.clientPlayer = cp;
-    }
-
-    @Override
-    public void run() {
-        try {
-            this.clientPlayer.connect();
-            this.clientPlayer.processMessage();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-}

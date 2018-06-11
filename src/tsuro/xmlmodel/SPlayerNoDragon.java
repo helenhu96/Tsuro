@@ -41,15 +41,5 @@ public class SPlayerNoDragon extends XmlSplayer{
         this.setofTile.addSetofTile(t);
     }
 
-    public SPlayer backtoSPlayer(){
-        SPlayer player = new SPlayer(color);
-        Set<Tile> tiles = setofTile.backtoTiles();
 
-        for(Tile t: tiles){
-            player.receiveTile(t);
-        }
-        player.setDragon(false);
-
-        return player;
-    }
 }
